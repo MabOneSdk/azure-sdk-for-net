@@ -131,7 +131,7 @@ namespace Microsoft.Azure.Management.BackupServices
             }
             url = url + "/backup";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-09-01.1.0");
+            queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -179,7 +179,7 @@ namespace Microsoft.Azure.Management.BackupServices
                         TracingAdapter.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
+                    if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -193,7 +193,7 @@ namespace Microsoft.Azure.Management.BackupServices
                     // Create Result
                     OperationResponse result = null;
                     // Deserialize Response
-                    if (statusCode == HttpStatusCode.OK)
+                    if (statusCode == HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -204,17 +204,8 @@ namespace Microsoft.Azure.Management.BackupServices
                             responseDoc = JToken.Parse(responseContent);
                         }
                         
-                        JToken operationResponseValue = responseDoc["OperationResponse"];
-                        if (operationResponseValue != null && operationResponseValue.Type != JTokenType.Null)
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            OperationResponse operationResponseInstance = new OperationResponse();
-                            
-                            JToken operationIdValue = operationResponseValue["OperationId"];
-                            if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
-                            {
-                                Guid operationIdInstance = Guid.Parse(((string)operationIdValue));
-                                operationResponseInstance.OperationId = operationIdInstance;
-                            }
                         }
                         
                     }
