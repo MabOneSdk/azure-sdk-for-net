@@ -114,7 +114,7 @@ namespace Microsoft.Azure.Management.BackupServices
             List<string> queryParameters = new List<string>();
             if (queryFilterString != null)
             {
-                queryParameters.Add("api-version=2014-09-01.1.0" + Uri.EscapeDataString(queryFilterString));
+                queryParameters.Add("api-version=2014-09-01" + Uri.EscapeDataString(queryFilterString));
             }
             if (queryParameters.Count > 0)
             {
@@ -189,18 +189,15 @@ namespace Microsoft.Azure.Management.BackupServices
                             responseDoc = JToken.Parse(responseContent);
                         }
                         
-                        JToken listContainerResponseValue = responseDoc["ListContainerResponse"];
-                        if (listContainerResponseValue != null && listContainerResponseValue.Type != JTokenType.Null)
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            ListContainerResponse listContainerResponseInstance = new ListContainerResponse();
-                            
-                            JToken objectsArray = listContainerResponseValue["Objects"];
+                            JToken objectsArray = responseDoc["Objects"];
                             if (objectsArray != null && objectsArray.Type != JTokenType.Null)
                             {
                                 foreach (JToken objectsValue in ((JArray)objectsArray))
                                 {
                                     ContainerInfo containerInfoInstance = new ContainerInfo();
-                                    listContainerResponseInstance.Objects.Add(containerInfoInstance);
+                                    result.Objects.Add(containerInfoInstance);
                                     
                                     JToken friendlyNameValue = objectsValue["FriendlyName"];
                                     if (friendlyNameValue != null && friendlyNameValue.Type != JTokenType.Null)
@@ -281,18 +278,18 @@ namespace Microsoft.Azure.Management.BackupServices
                                 }
                             }
                             
-                            JToken resultCountValue = listContainerResponseValue["ResultCount"];
+                            JToken resultCountValue = responseDoc["ResultCount"];
                             if (resultCountValue != null && resultCountValue.Type != JTokenType.Null)
                             {
                                 int resultCountInstance = ((int)resultCountValue);
-                                listContainerResponseInstance.ResultCount = resultCountInstance;
+                                result.ResultCount = resultCountInstance;
                             }
                             
-                            JToken skiptokenValue = listContainerResponseValue["Skiptoken"];
+                            JToken skiptokenValue = responseDoc["Skiptoken"];
                             if (skiptokenValue != null && skiptokenValue.Type != JTokenType.Null)
                             {
                                 string skiptokenInstance = ((string)skiptokenValue);
-                                listContainerResponseInstance.Skiptoken = skiptokenInstance;
+                                result.Skiptoken = skiptokenInstance;
                             }
                         }
                         
@@ -370,7 +367,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + Uri.EscapeDataString(this.Client.ResourceName);
             url = url + "/containers/refresh";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-09-01.1.0");
+            queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -444,17 +441,8 @@ namespace Microsoft.Azure.Management.BackupServices
                             responseDoc = JToken.Parse(responseContent);
                         }
                         
-                        JToken operationResponseValue = responseDoc["OperationResponse"];
-                        if (operationResponseValue != null && operationResponseValue.Type != JTokenType.Null)
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            OperationResponse operationResponseInstance = new OperationResponse();
-                            
-                            JToken operationIdValue = operationResponseValue["OperationId"];
-                            if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
-                            {
-                                Guid operationIdInstance = Guid.Parse(((string)operationIdValue));
-                                operationResponseInstance.OperationId = operationIdInstance;
-                            }
                         }
                         
                     }
@@ -547,7 +535,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + Uri.EscapeDataString(this.Client.ResourceName);
             url = url + "/containers/register";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-09-01.1.0");
+            queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -647,17 +635,8 @@ namespace Microsoft.Azure.Management.BackupServices
                             responseDoc = JToken.Parse(responseContent);
                         }
                         
-                        JToken operationResponseValue = responseDoc["OperationResponse"];
-                        if (operationResponseValue != null && operationResponseValue.Type != JTokenType.Null)
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            OperationResponse operationResponseInstance = new OperationResponse();
-                            
-                            JToken operationIdValue = operationResponseValue["OperationId"];
-                            if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
-                            {
-                                Guid operationIdInstance = Guid.Parse(((string)operationIdValue));
-                                operationResponseInstance.OperationId = operationIdInstance;
-                            }
                         }
                         
                     }
@@ -754,7 +733,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + Uri.EscapeDataString(this.Client.ResourceName);
             url = url + "/containers";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-09-01.1.0");
+            queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -842,17 +821,8 @@ namespace Microsoft.Azure.Management.BackupServices
                             responseDoc = JToken.Parse(responseContent);
                         }
                         
-                        JToken operationResponseValue = responseDoc["OperationResponse"];
-                        if (operationResponseValue != null && operationResponseValue.Type != JTokenType.Null)
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            OperationResponse operationResponseInstance = new OperationResponse();
-                            
-                            JToken operationIdValue = operationResponseValue["OperationId"];
-                            if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
-                            {
-                                Guid operationIdInstance = Guid.Parse(((string)operationIdValue));
-                                operationResponseInstance.OperationId = operationIdInstance;
-                            }
                         }
                         
                     }
