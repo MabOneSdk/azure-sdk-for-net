@@ -524,6 +524,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/datasources";
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2014-09-01");
+<<<<<<< HEAD
             if (parameters != null && parameters.ProtectionStatus != null)
             {
                 queryParameters.Add("ProtectionStatus=" + Uri.EscapeDataString(parameters.ProtectionStatus));
@@ -535,6 +536,11 @@ namespace Microsoft.Azure.Management.BackupServices
             if (parameters != null && parameters.Type != null)
             {
                 queryParameters.Add("Type=" + Uri.EscapeDataString(parameters.Type));
+=======
+            if (parameters != null && parameters.ContainerName != null)
+            {
+                queryParameters.Add("ContainerName=" + Uri.EscapeDataString(parameters.ContainerName));
+>>>>>>> origin
             }
             if (queryParameters.Count > 0)
             {

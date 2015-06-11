@@ -114,10 +114,13 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 queryParameters.Add("Status=" + Uri.EscapeDataString(parameters.Status));
             }
+<<<<<<< HEAD
             if (parameters != null && parameters.Type != null)
             {
                 queryParameters.Add("Type=" + Uri.EscapeDataString(parameters.Type));
             }
+=======
+>>>>>>> origin
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
