@@ -43,6 +43,8 @@
     <Compile Include="Generated\Models\DataSourceListResponse.cs" />
     <Compile Include="Generated\Models\DataSourceQueryParameter.cs" />
     <Compile Include="Generated\Models\DataSourceResponse.cs" />
+    <Compile Include="Generated\Models\DisableProtectionResponse.cs" />
+    <Compile Include="Generated\Models\EnableProtectionResponse.cs" />
     <Compile Include="Generated\Models\Job.cs" />
     <Compile Include="Generated\Models\JobByIdResponse.cs" />
     <Compile Include="Generated\Models\JobListResponse.cs" />
@@ -63,13 +65,6 @@
     <Compile Include="Generated\Models\RawCertificateData.cs" />
     <Compile Include="Generated\Models\RecoveryPointInfo.cs" />
     <Compile Include="Generated\Models\RecoveryPointListResponse.cs" />
-    <Compile Include="Generated\Models\RegisterContainerRequest.cs" />
-    <Compile Include="Generated\Models\RemoveProtectionRequestInput.cs" />
-    <Compile Include="Generated\Models\ResourceCertificateAndACSDetails.cs" />
-    <Compile Include="Generated\Models\RetentionDurationType.cs" />
-    <Compile Include="Generated\Models\RetentionPolicy.cs" />
-    <Compile Include="Generated\Models\SetProtectionRequestInput.cs" />
-    <Compile Include="Generated\Models\UnregisterContainerRequest.cs" />
     <Compile Include="Generated\Models\RegisterContainerRequestInput.cs" />
     <Compile Include="Generated\Models\ResourceCertificateAndACSDetails.cs" />
     <Compile Include="Generated\Models\RetentionDurationType.cs" />
