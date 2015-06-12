@@ -14,7 +14,9 @@
     <Compile Include="ScenarioTests\AzureBackupItem\GetAzureBackupItemPOTest.cs" />
     <Compile Include="ScenarioTests\BackupServicesTestBase.cs" />
     <Compile Include="ScenarioTests\AzureBackupItem\GetAzureBackupItemsDSTest.cs" />
+    <Compile Include="ScenarioTests\BackUpTests.cs" />
     <Compile Include="ScenarioTests\ProtectionPolicyTests.cs" />
+    <Compile Include="ScenarioTests\RecoveryPointTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Configuration" />
@@ -40,7 +42,10 @@
     <None Include="SessionRecords\BackupServices.Tests.EnableAzureBackupProtectionTest\EnableAzureBackupProtection.json" />
     <None Include="SessionRecords\BackupServices.Tests.GetAzureBackupItemPOTest\ListAzureBackupItemPOTest.json" />
     <None Include="SessionRecords\BackupServices.Tests.GetAzureBackupItemsDSTest\ListAzureBackupItemDSTest.json" />
+    <None Include="app.config" />
+    <None Include="SessionRecords\BackupServices.Tests.BackUpTests\TriggerBackUpTest.json" />
     <None Include="SessionRecords\BackupServices.Tests.ProtectionPolicyTests\ListProtectionPolicyTest.json" />
+    <None Include="SessionRecords\BackupServices.Tests.RecoveryPointTests\ListRecoveryPointTest.json" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
