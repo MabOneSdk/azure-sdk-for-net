@@ -9,11 +9,17 @@
   <Import Project="..\..\..\..\tools\Library.Settings.targets" />
   <Import Project="$(LibraryToolsFolder)\Test.Dependencies.target" />
   <ItemGroup>
+    <Compile Include="ScenarioTests\AzureBackupItem\DisableAzureBakcupProtectionTest.cs" />
+    <Compile Include="ScenarioTests\AzureBackupItem\EnableAzureBackupProtectionTest.cs" />
+    <Compile Include="ScenarioTests\AzureBackupItem\GetAzureBackupItemPOTest.cs" />
     <Compile Include="ScenarioTests\BackupServicesTestBase.cs" />
+    <Compile Include="ScenarioTests\AzureBackupItem\GetAzureBackupItemsDSTest.cs" />
     <Compile Include="ScenarioTests\ProtectionPolicyTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +33,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SessionRecords\BackupServices.Tests.DisableAzureBackupProtectionTest\DisableAzureBackupProtection.json" />
+    <None Include="SessionRecords\BackupServices.Tests.EnableAzureBackupProtectionTest\EnableAzureBackupProtection.json" />
+    <None Include="SessionRecords\BackupServices.Tests.GetAzureBackupItemPOTest\ListAzureBackupItemPOTest.json" />
+    <None Include="SessionRecords\BackupServices.Tests.GetAzureBackupItemsDSTest\ListAzureBackupItemDSTest.json" />
     <None Include="SessionRecords\BackupServices.Tests.ProtectionPolicyTests\ListProtectionPolicyTest.json" />
   </ItemGroup>
   <ItemGroup>
