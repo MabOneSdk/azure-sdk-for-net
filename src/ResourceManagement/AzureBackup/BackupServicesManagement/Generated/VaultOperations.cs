@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Management.BackupServices
     /// <summary>
     /// Definition of Vault-related operations for the Azure Backup extension.
     /// </summary>
-    internal partial class VaultOperations : IServiceOperations<BackupServicesManagementClient>, IVaultOperations
+    internal partial class VaultOperations : IServiceOperations<BackupVaultServicesManagementClient>, IVaultOperations
     {
         /// <summary>
         /// Initializes a new instance of the VaultOperations class.
@@ -46,18 +46,18 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <param name='client'>
         /// Reference to the service client.
         /// </param>
-        internal VaultOperations(BackupServicesManagementClient client)
+        internal VaultOperations(BackupVaultServicesManagementClient client)
         {
             this._client = client;
         }
         
-        private BackupServicesManagementClient _client;
+        private BackupVaultServicesManagementClient _client;
         
         /// <summary>
         /// Gets a reference to the
-        /// Microsoft.Azure.Management.BackupServices.BackupServicesManagementClient.
+        /// Microsoft.Azure.Management.BackupServices.BackupVaultServicesManagementClient.
         /// </summary>
-        public BackupServicesManagementClient Client
+        public BackupVaultServicesManagementClient Client
         {
             get { return this._client; }
         }
@@ -131,7 +131,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
@@ -395,7 +395,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
@@ -543,7 +543,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
@@ -768,7 +768,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
@@ -947,7 +947,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resources";
             List<string> queryParameters = new List<string>();
             List<string> odataFilter = new List<string>();
-            odataFilter.Add("resourceType eq 'Microsoft.Backupseadev01/BackupVault'");
+            odataFilter.Add("resourceType eq 'Microsoft.Backup/BackupVault'");
             if (odataFilter.Count > 0)
             {
                 queryParameters.Add("$filter=" + string.Join(null, odataFilter));
@@ -1185,7 +1185,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resources";
             List<string> queryParameters = new List<string>();
             List<string> odataFilter = new List<string>();
-            odataFilter.Add("resourceType eq 'Microsoft.Backupseadev01/BackupVault'");
+            odataFilter.Add("resourceType eq 'Microsoft.Backup/BackupVault'");
             if (odataFilter.Count > 0)
             {
                 queryParameters.Add("$filter=" + string.Join(null, odataFilter));
@@ -1420,7 +1420,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
@@ -1610,7 +1610,7 @@ namespace Microsoft.Azure.Management.BackupServices
             url = url + "/resourceGroups/";
             url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";

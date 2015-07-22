@@ -14,26 +14,16 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.Azure.Management.BackupServices;
-using Microsoft.Azure.Management.BackupServices.Models;
-using Microsoft.Azure.Common.Internals;
-using Hyak.Common.TransientFaultHandling;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Xml;
-using Xunit;
-using Microsoft.Azure.Test;
-using Newtonsoft.Json;
-using Microsoft.Azure.Test.HttpRecorder;
 using System.Configuration;
-using Microsoft.Azure;
-using System.Reflection;
+using System.Net;
 using System.Net.Http;
 using System.Net.Security;
+using System.Reflection;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.BackupServices;
+using Microsoft.Azure.Management.BackupServices.Models;
+using Microsoft.Azure.Test;
+using Microsoft.Azure.Test.HttpRecorder;
 
 namespace BackupServices.Tests
 {
@@ -44,25 +34,23 @@ namespace BackupServices.Tests
             var factory = (TestEnvironmentFactory)new CSMTestEnvironmentFactory();
 
             var testEnvironment = factory.GetTestEnvironment();
-            //testEnvironment.BaseUri = new Uri("https://localhost:8443/RdfeProxy.svc/");
             ServicePointManager.ServerCertificateValidationCallback = IgnoreCertificateErrorHandler;
 
-            BackupServicesManagementClient client;
+            BackupVaultServicesManagementClient client;
 
             string resourceName = ConfigurationManager.AppSettings["ResourceName"];
             string resourceGroupName = ConfigurationManager.AppSettings["ResourceGroupName"];
             if (testEnvironment.UsesCustomUri())
             {
-                client = new BackupServicesManagementClient(
+                client = new BackupVaultServicesManagementClient(
                     resourceName,
                     resourceGroupName,
                     testEnvironment.Credentials as SubscriptionCloudCredentials,
                     testEnvironment.BaseUri);
             }
-
             else
             {
-                client = new BackupServicesManagementClient(
+                client = new BackupVaultServicesManagementClient(
                     resourceName,
                     resourceGroupName,
                     testEnvironment.Credentials as SubscriptionCloudCredentials);
@@ -72,7 +60,7 @@ namespace BackupServices.Tests
         }
 
 
-        public static T GetServiceClient<T>(TestEnvironmentFactory factory, BackupServicesManagementClient client) where T : class
+        public static T GetServiceClient<T>(TestEnvironmentFactory factory, BackupVaultServicesManagementClient client) where T : class
         {
             TestEnvironment testEnvironment = factory.GetTestEnvironment();
 
