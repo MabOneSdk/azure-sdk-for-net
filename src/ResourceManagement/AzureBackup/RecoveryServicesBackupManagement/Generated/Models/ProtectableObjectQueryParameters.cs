@@ -26,6 +26,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     public partial class ProtectableObjectQueryParameters
     {
+        private string _providerType;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public string ProviderType
+        {
+            get { return this._providerType; }
+            set { this._providerType = value; }
+        }
+        
         private string _status;
         
         /// <summary>

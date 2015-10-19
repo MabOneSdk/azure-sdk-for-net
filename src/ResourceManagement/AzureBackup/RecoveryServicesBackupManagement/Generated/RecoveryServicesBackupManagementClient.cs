@@ -90,6 +90,16 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             set { this._longRunningOperationRetryTimeout = value; }
         }
         
+        private IBackupOperations _backup;
+        
+        /// <summary>
+        /// Definition of Backup operations for the Azure Backup extension.
+        /// </summary>
+        public virtual IBackupOperations Backup
+        {
+            get { return this._backup; }
+        }
+        
         private IProtectableObjectOperations _protectableObject;
         
         /// <summary>
@@ -119,6 +129,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient()
             : base()
         {
+            this._backup = new BackupOperations(this);
             this._protectableObject = new ProtectableObjectOperations(this);
             this._protectionPolicy = new ProtectionPolicyOperations(this);
             this._apiVersion = "2013-03-01";
@@ -189,6 +200,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient(HttpClient httpClient)
             : base(httpClient)
         {
+            this._backup = new BackupOperations(this);
             this._protectableObject = new ProtectableObjectOperations(this);
             this._protectionPolicy = new ProtectionPolicyOperations(this);
             this._apiVersion = "2013-03-01";
