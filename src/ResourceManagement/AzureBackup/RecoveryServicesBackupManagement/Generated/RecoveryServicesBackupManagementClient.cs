@@ -122,6 +122,16 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             get { return this._protectionPolicy; }
         }
         
+        private IRestoreOperations _restore;
+        
+        /// <summary>
+        /// Definition of Restore operations for the Azure Backup extension.
+        /// </summary>
+        public virtual IRestoreOperations Restore
+        {
+            get { return this._restore; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the
         /// RecoveryServicesBackupManagementClient class.
@@ -132,6 +142,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             this._backup = new BackupOperations(this);
             this._protectableObject = new ProtectableObjectOperations(this);
             this._protectionPolicy = new ProtectionPolicyOperations(this);
+            this._restore = new RestoreOperations(this);
             this._apiVersion = "2013-03-01";
             this._longRunningOperationInitialTimeout = -1;
             this._longRunningOperationRetryTimeout = -1;
@@ -203,6 +214,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             this._backup = new BackupOperations(this);
             this._protectableObject = new ProtectableObjectOperations(this);
             this._protectionPolicy = new ProtectionPolicyOperations(this);
+            this._restore = new RestoreOperations(this);
             this._apiVersion = "2013-03-01";
             this._longRunningOperationInitialTimeout = -1;
             this._longRunningOperationRetryTimeout = -1;
