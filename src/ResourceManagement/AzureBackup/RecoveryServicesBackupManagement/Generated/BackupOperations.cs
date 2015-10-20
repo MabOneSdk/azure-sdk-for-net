@@ -85,9 +85,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The definition of a Backup Response.
+        /// The definition of a BaseRecoveryServicesJobResponse for Async
+        /// operations.
         /// </returns>
-        public async Task<ProtectedItemResponse> TriggerBackupAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, CancellationToken cancellationToken)
+        public async Task<BaseRecoveryServicesJobResponse> TriggerBackupAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, CancellationToken cancellationToken)
         {
             // Validate
             if (resourceGroupName == null)
@@ -212,13 +213,13 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                     }
                     
                     // Create Result
-                    ProtectedItemResponse result = null;
+                    BaseRecoveryServicesJobResponse result = null;
                     // Deserialize Response
                     if (statusCode == HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        result = new ProtectedItemResponse();
+                        result = new BaseRecoveryServicesJobResponse();
                         JToken responseDoc = null;
                         if (string.IsNullOrEmpty(responseContent) == false)
                         {
@@ -227,117 +228,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                         
                         if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            JToken itemValue = responseDoc["item"];
-                            if (itemValue != null && itemValue.Type != JTokenType.Null)
+                            JToken locationValue = responseDoc["location"];
+                            if (locationValue != null && locationValue.Type != JTokenType.Null)
                             {
-                                ProtectedItemResource itemInstance = new ProtectedItemResource();
-                                result.Item = itemInstance;
-                                
-                                JToken propertiesValue = itemValue["properties"];
-                                if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
-                                {
-                                    string typeName = ((string)propertiesValue["ObjectType"]);
-                                    if (typeName == "ProtectedItem")
-                                    {
-                                        ProtectedItem protectedItemInstance = new ProtectedItem();
-                                        
-                                        JToken friendlyNameValue = propertiesValue["friendlyName"];
-                                        if (friendlyNameValue != null && friendlyNameValue.Type != JTokenType.Null)
-                                        {
-                                            string friendlyNameInstance = ((string)friendlyNameValue);
-                                            protectedItemInstance.FriendlyName = friendlyNameInstance;
-                                        }
-                                        
-                                        JToken protectionStatusValue = propertiesValue["protectionStatus"];
-                                        if (protectionStatusValue != null && protectionStatusValue.Type != JTokenType.Null)
-                                        {
-                                            string protectionStatusInstance = ((string)protectionStatusValue);
-                                            protectedItemInstance.ProtectionStatus = protectionStatusInstance;
-                                        }
-                                        
-                                        JToken registrationStatusValue = propertiesValue["registrationStatus"];
-                                        if (registrationStatusValue != null && registrationStatusValue.Type != JTokenType.Null)
-                                        {
-                                            string registrationStatusInstance = ((string)registrationStatusValue);
-                                            protectedItemInstance.RegistrationStatus = registrationStatusInstance;
-                                        }
-                                        
-                                        JToken containerIdValue = propertiesValue["containerId"];
-                                        if (containerIdValue != null && containerIdValue.Type != JTokenType.Null)
-                                        {
-                                            string containerIdInstance = ((string)containerIdValue);
-                                            protectedItemInstance.ContainerId = containerIdInstance;
-                                        }
-                                        
-                                        JToken policyNameValue = propertiesValue["policyName"];
-                                        if (policyNameValue != null && policyNameValue.Type != JTokenType.Null)
-                                        {
-                                            string policyNameInstance = ((string)policyNameValue);
-                                            protectedItemInstance.PolicyName = policyNameInstance;
-                                        }
-                                        
-                                        JToken storageRedundancyValue = propertiesValue["storageRedundancy"];
-                                        if (storageRedundancyValue != null && storageRedundancyValue.Type != JTokenType.Null)
-                                        {
-                                            string storageRedundancyInstance = ((string)storageRedundancyValue);
-                                            protectedItemInstance.StorageRedundancy = storageRedundancyInstance;
-                                        }
-                                        itemInstance.Properties = protectedItemInstance;
-                                    }
-                                }
-                                
-                                JToken idValue = itemValue["id"];
-                                if (idValue != null && idValue.Type != JTokenType.Null)
-                                {
-                                    string idInstance = ((string)idValue);
-                                    itemInstance.Id = idInstance;
-                                }
-                                
-                                JToken nameValue = itemValue["name"];
-                                if (nameValue != null && nameValue.Type != JTokenType.Null)
-                                {
-                                    string nameInstance = ((string)nameValue);
-                                    itemInstance.Name = nameInstance;
-                                }
-                                
-                                JToken typeValue = itemValue["type"];
-                                if (typeValue != null && typeValue.Type != JTokenType.Null)
-                                {
-                                    string typeInstance = ((string)typeValue);
-                                    itemInstance.Type = typeInstance;
-                                }
-                                
-                                JToken locationValue = itemValue["location"];
-                                if (locationValue != null && locationValue.Type != JTokenType.Null)
-                                {
-                                    string locationInstance = ((string)locationValue);
-                                    itemInstance.Location = locationInstance;
-                                }
-                                
-                                JToken tagsSequenceElement = ((JToken)itemValue["tags"]);
-                                if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
-                                {
-                                    foreach (JProperty property in tagsSequenceElement)
-                                    {
-                                        string tagsKey = ((string)property.Name);
-                                        string tagsValue = ((string)property.Value);
-                                        itemInstance.Tags.Add(tagsKey, tagsValue);
-                                    }
-                                }
-                                
-                                JToken eTagValue = itemValue["eTag"];
-                                if (eTagValue != null && eTagValue.Type != JTokenType.Null)
-                                {
-                                    string eTagInstance = ((string)eTagValue);
-                                    itemInstance.ETag = eTagInstance;
-                                }
-                            }
-                            
-                            JToken locationValue2 = responseDoc["location"];
-                            if (locationValue2 != null && locationValue2.Type != JTokenType.Null)
-                            {
-                                string locationInstance2 = ((string)locationValue2);
-                                result.Location = locationInstance2;
+                                string locationInstance = ((string)locationValue);
+                                result.Location = locationInstance;
                             }
                             
                             JToken azureAsyncOperationValue = responseDoc["azureAsyncOperation"];

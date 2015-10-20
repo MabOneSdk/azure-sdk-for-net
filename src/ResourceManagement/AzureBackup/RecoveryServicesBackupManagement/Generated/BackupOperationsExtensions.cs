@@ -56,9 +56,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Protected item name for the backup item
         /// </param>
         /// <returns>
-        /// The definition of a Backup Response.
+        /// The definition of a BaseRecoveryServicesJobResponse for Async
+        /// operations.
         /// </returns>
-        public static ProtectedItemResponse TriggerBackup(this IBackupOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName)
+        public static BaseRecoveryServicesJobResponse TriggerBackup(this IBackupOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -93,9 +94,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Protected item name for the backup item
         /// </param>
         /// <returns>
-        /// The definition of a Backup Response.
+        /// The definition of a BaseRecoveryServicesJobResponse for Async
+        /// operations.
         /// </returns>
-        public static Task<ProtectedItemResponse> TriggerBackupAsync(this IBackupOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName)
+        public static Task<BaseRecoveryServicesJobResponse> TriggerBackupAsync(this IBackupOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName)
         {
             return operations.TriggerBackupAsync(resourceGroupName, resourceName, customRequestHeaders, fabricName, containerName, protectedItemName, CancellationToken.None);
         }

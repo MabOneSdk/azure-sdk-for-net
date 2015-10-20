@@ -59,9 +59,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Recovery point id for the backup item
         /// </param>
         /// <returns>
-        /// The definition of a RecoveryPointResponse object.
+        /// The definition of a BaseRecoveryServicesJobResponse for Async
+        /// operations.
         /// </returns>
-        public static RecoveryPointResponse TriggerRestore(this IRestoreOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, string recoveryPointId)
+        public static BaseRecoveryServicesJobResponse TriggerRestore(this IRestoreOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, string recoveryPointId)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -99,9 +100,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Recovery point id for the backup item
         /// </param>
         /// <returns>
-        /// The definition of a RecoveryPointResponse object.
+        /// The definition of a BaseRecoveryServicesJobResponse for Async
+        /// operations.
         /// </returns>
-        public static Task<RecoveryPointResponse> TriggerRestoreAsync(this IRestoreOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, string recoveryPointId)
+        public static Task<BaseRecoveryServicesJobResponse> TriggerRestoreAsync(this IRestoreOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, string containerName, string protectedItemName, string recoveryPointId)
         {
             return operations.TriggerRestoreAsync(resourceGroupName, resourceName, customRequestHeaders, fabricName, containerName, protectedItemName, recoveryPointId, CancellationToken.None);
         }
