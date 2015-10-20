@@ -100,6 +100,14 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         }
         
         /// <summary>
+        /// Definition of Backup operations for the Azure Backup extension.
+        /// </summary>
+        IRecoveryPointOperations RecoveryPoint
+        {
+            get; 
+        }
+        
+        /// <summary>
         /// Definition of Restore operations for the Azure Backup extension.
         /// </summary>
         IRestoreOperations Restore

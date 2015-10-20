@@ -62,13 +62,16 @@
     <Compile Include="Generated\IProtectionPolicyOperations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Generated\IRecoveryPointOperations.cs" />
     <Compile Include="Generated\IRecoveryServicesBackupManagementClient.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Generated\IRecoveryServicesBackupVaultManagementClient.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Generated\IRestoreOperations.cs" />
+    <Compile Include="Generated\IRestoreOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Generated\Models\BaseRecoveryServicesJobResponse.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,11 +153,24 @@
     <Compile Include="Generated\Models\ProtectionPolicyResponse.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Generated\Models\ProviderTypes.cs" />
-    <Compile Include="Generated\Models\RecoveryPoint.cs" />
-    <Compile Include="Generated\Models\RecoveryPointBase.cs" />
-    <Compile Include="Generated\Models\RecoveryPointResource.cs" />
-    <Compile Include="Generated\Models\RecoveryPointResponse.cs" />
+    <Compile Include="Generated\Models\ProviderTypes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generated\Models\RecoveryPoint.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generated\Models\RecoveryPointBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generated\Models\RecoveryPointListResponse.cs" />
+    <Compile Include="Generated\Models\RecoveryPointQueryParameters.cs" />
+    <Compile Include="Generated\Models\RecoveryPointResource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generated\Models\RecoveryPointResourceList.cs" />
+    <Compile Include="Generated\Models\RecoveryPointResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Generated\Models\Resource.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -206,6 +222,8 @@
     <Compile Include="Generated\ProtectionPolicyOperationsExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Generated\RecoveryPointOperations.cs" />
+    <Compile Include="Generated\RecoveryPointOperationsExtensions.cs" />
     <Compile Include="Generated\RecoveryServicesBackupManagementClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -218,8 +236,12 @@
     <Compile Include="Generated\RecoveryServicesBackupVaultManagementClientExtensions.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Generated\RestoreOperations.cs" />
-    <Compile Include="Generated\RestoreOperationsExtensions.cs" />
+    <Compile Include="Generated\RestoreOperations.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generated\RestoreOperationsExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" Condition=" '$(LibraryFxTarget)' == 'portable' " />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition=" '$(LibraryFxTarget)' != 'portable' " />
