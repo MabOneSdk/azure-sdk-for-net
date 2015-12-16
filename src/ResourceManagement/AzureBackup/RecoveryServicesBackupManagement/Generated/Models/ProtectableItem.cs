@@ -26,9 +26,9 @@ using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// The definition of a IaaSVMProtectableObject object.
+    /// The definition of a ProtectableItem object.
     /// </summary>
-    public partial class ProtectableObject : ProtectableObjectBase
+    public partial class ProtectableItem : ProtectableObjectBase
     {
         private string _friendlyName;
         
@@ -64,9 +64,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
         }
         
         /// <summary>
-        /// Initializes a new instance of the ProtectableObject class.
+        /// Initializes a new instance of the ProtectableItem class.
         /// </summary>
-        public ProtectableObject()
+        public ProtectableItem()
         {
         }
     }

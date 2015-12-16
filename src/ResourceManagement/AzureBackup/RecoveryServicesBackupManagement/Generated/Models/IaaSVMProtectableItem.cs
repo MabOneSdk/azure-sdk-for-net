@@ -26,9 +26,9 @@ using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// The definition of a IaasVM ProtectableObject object.
+    /// The definition of a IaasVM ProtectableItem object.
     /// </summary>
-    public partial class IaaSVMProtectableObject : ProtectableObject
+    public partial class IaaSVMProtectableItem : ProtectableItem
     {
         private string _containerUri;
         
@@ -64,9 +64,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
         }
         
         /// <summary>
-        /// Initializes a new instance of the IaaSVMProtectableObject class.
+        /// Initializes a new instance of the IaaSVMProtectableItem class.
         /// </summary>
-        public IaaSVMProtectableObject()
+        public IaaSVMProtectableItem()
         {
         }
     }
