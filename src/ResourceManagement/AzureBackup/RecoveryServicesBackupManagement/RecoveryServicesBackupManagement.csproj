@@ -62,6 +62,8 @@
     <Compile Include="Generated\IRestoreOperations.cs" />
     <Compile Include="Generated\JobOperations.cs" />
     <Compile Include="Generated\JobOperationsExtensions.cs" />
+    <Compile Include="Generated\Models\BackUpOperationStatus.cs" />
+    <Compile Include="Generated\Models\BackUpOperationStatusResponse.cs" />
     <Compile Include="Generated\Models\BaseRecoveryServicesJobResponse.cs" />
     <Compile Include="Generated\Models\CommonJobQueryFilters.cs" />
     <Compile Include="Generated\Models\CustomRequestHeaders.cs" />
@@ -69,6 +71,9 @@
     <Compile Include="Generated\Models\DailyRetentionSchedule.cs" />
     <Compile Include="Generated\Models\Day.cs" />
     <Compile Include="Generated\Models\ErrorInfo.cs" />
+    <Compile Include="Generated\Models\ExportJobsOperationResultInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Generated\Models\GetOperationResultResponse.cs" />
     <Compile Include="Generated\Models\GetOperationStatus.cs" />
     <Compile Include="Generated\Models\GetOperationStatusResponse.cs" />
@@ -76,6 +81,9 @@
     <Compile Include="Generated\Models\IaaSVMJob.cs" />
     <Compile Include="Generated\Models\IaaSVMJobExtendedInfo.cs" />
     <Compile Include="Generated\Models\IaaSVMJobTaskDetails.cs" />
+    <Compile Include="Generated\Models\IaaSVMProtectableItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Generated\Models\IaaSVMProtectableObject.cs" />
     <Compile Include="Generated\Models\IaaSVMProtectedItem.cs" />
     <Compile Include="Generated\Models\IaasVmProtectedItemExtendedInfo.cs" />
@@ -105,6 +113,9 @@
     <Compile Include="Generated\Models\OperationStatusValues.cs" />
     <Compile Include="Generated\Models\PaginationRequest.cs" />
     <Compile Include="Generated\Models\PotectedItemRequestObject.cs" />
+    <Compile Include="Generated\Models\ProtectableItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Generated\Models\ProtectableObject.cs" />
     <Compile Include="Generated\Models\ProtectableObjectBase.cs" />
     <Compile Include="Generated\Models\ProtectableObjectListQueryParameters.cs" />
