@@ -26,47 +26,25 @@ using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// The definition of a IaasVM ProtectableItem object.
+    /// The definition of a MabFileFolder ProtectedItem object.
     /// </summary>
-    public partial class IaaSVMProtectableItem : ProtectableItem
+    public partial class MabFileFolderProtectedItem : ProtectedItem
     {
-        private string _resourceGroup;
+        private string _computerName;
         
         /// <summary>
-        /// Optional. Resource Group
+        /// Optional. computerName
         /// </summary>
-        public string ResourceGroup
+        public string ComputerName
         {
-            get { return this._resourceGroup; }
-            set { this._resourceGroup = value; }
-        }
-        
-        private string _virtualMachineId;
-        
-        /// <summary>
-        /// Optional. VirtualMachine Id
-        /// </summary>
-        public string VirtualMachineId
-        {
-            get { return this._virtualMachineId; }
-            set { this._virtualMachineId = value; }
-        }
-        
-        private string _virtualMachineVersion;
-        
-        /// <summary>
-        /// Optional. Classic or Classic VM
-        /// </summary>
-        public string VirtualMachineVersion
-        {
-            get { return this._virtualMachineVersion; }
-            set { this._virtualMachineVersion = value; }
+            get { return this._computerName; }
+            set { this._computerName = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the IaaSVMProtectableItem class.
+        /// Initializes a new instance of the MabFileFolderProtectedItem class.
         /// </summary>
-        public IaaSVMProtectableItem()
+        public MabFileFolderProtectedItem()
         {
         }
     }

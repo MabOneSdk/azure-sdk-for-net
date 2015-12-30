@@ -29,17 +29,6 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
     /// </summary>
     public partial class ProtectableObjectBase
     {
-        private string _providerType;
-        
-        /// <summary>
-        /// Optional. Provider Type
-        /// </summary>
-        public string ProviderType
-        {
-            get { return this._providerType; }
-            set { this._providerType = value; }
-        }
-        
         /// <summary>
         /// Initializes a new instance of the ProtectableObjectBase class.
         /// </summary>

@@ -26,47 +26,36 @@ using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// The definition of a IaasVM ProtectableItem object.
+    /// The definition of a ProtectionPolicy object.
     /// </summary>
-    public partial class IaaSVMProtectableItem : ProtectableItem
+    public partial class AzureIaaSVMProtectionPolicy : ProtectionPolicyBase
     {
-        private string _resourceGroup;
+        private RetentionPolicy _retentionPolicy;
         
         /// <summary>
-        /// Optional. Resource Group
+        /// Optional. Retention Policy
         /// </summary>
-        public string ResourceGroup
+        public RetentionPolicy RetentionPolicy
         {
-            get { return this._resourceGroup; }
-            set { this._resourceGroup = value; }
+            get { return this._retentionPolicy; }
+            set { this._retentionPolicy = value; }
         }
         
-        private string _virtualMachineId;
+        private SchedulePolicy _schedulePolicy;
         
         /// <summary>
-        /// Optional. VirtualMachine Id
+        /// Optional. Backup Schedule of ProtectionPolicy.
         /// </summary>
-        public string VirtualMachineId
+        public SchedulePolicy SchedulePolicy
         {
-            get { return this._virtualMachineId; }
-            set { this._virtualMachineId = value; }
-        }
-        
-        private string _virtualMachineVersion;
-        
-        /// <summary>
-        /// Optional. Classic or Classic VM
-        /// </summary>
-        public string VirtualMachineVersion
-        {
-            get { return this._virtualMachineVersion; }
-            set { this._virtualMachineVersion = value; }
+            get { return this._schedulePolicy; }
+            set { this._schedulePolicy = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the IaaSVMProtectableItem class.
+        /// Initializes a new instance of the AzureIaaSVMProtectionPolicy class.
         /// </summary>
-        public IaaSVMProtectableItem()
+        public AzureIaaSVMProtectionPolicy()
         {
         }
     }

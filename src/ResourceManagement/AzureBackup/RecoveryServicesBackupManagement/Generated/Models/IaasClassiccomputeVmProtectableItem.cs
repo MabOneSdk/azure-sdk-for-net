@@ -21,27 +21,21 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// Retention Schedule Format.
+    /// The definition of a classic compute vm object.
     /// </summary>
-    public static partial class RetentionScheduleFormat
+    public partial class IaasClassiccomputeVmProtectableItem : IaaSVMProtectableItem
     {
         /// <summary>
-        /// Invalid Retention Schedule Format.
+        /// Initializes a new instance of the
+        /// IaasClassiccomputeVmProtectableItem class.
         /// </summary>
-        public const string Invalid = "Invalid";
-        
-        /// <summary>
-        /// Daily Retention Schedule Format.
-        /// </summary>
-        public const string Daily = "Daily";
-        
-        /// <summary>
-        /// Weekly Retention Schedule Format.
-        /// </summary>
-        public const string Weekly = "Weekly";
+        public IaasClassiccomputeVmProtectableItem()
+        {
+        }
     }
 }
