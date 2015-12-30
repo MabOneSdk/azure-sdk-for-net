@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Search.Models
             get { return this._facets; }
             set { this._facets = value; }
         }
-        
+
         /// <summary>
         /// Converts the SearchParameters instance to a URL query string.
         /// </summary>
@@ -43,6 +43,29 @@ namespace Microsoft.Azure.Search.Models
         public override string ToString()
         {
             return String.Join("&", GetAllOptions());
+        }
+
+        internal SearchParametersPayload ToPayload(string searchText)
+        {
+            return new SearchParametersPayload()
+            {
+                Count = IncludeTotalResultCount,
+                Facets = Facets,
+                Filter = Filter,
+                Highlight = HighlightFields.ToCommaSeparatedString(),
+                HighlightPostTag = HighlightPostTag,
+                HighlightPreTag = HighlightPreTag,
+                MinimumCoverage = MinimumCoverage,
+                OrderBy = OrderBy.ToCommaSeparatedString(),
+                ScoringParameters = ScoringParameters,
+                ScoringProfile = ScoringProfile,
+                Search = searchText,
+                SearchFields = SearchFields.ToCommaSeparatedString(),
+                SearchMode = SearchMode,
+                Select = Select.ToCommaSeparatedString(),
+                Skip = Skip,
+                Top = Top
+            };
         }
 
         private IEnumerable<QueryOption> GetAllOptions()
@@ -72,6 +95,11 @@ namespace Microsoft.Azure.Search.Models
             if (HighlightPostTag != null)
             {
                 yield return new QueryOption("highlightPostTag", Uri.EscapeDataString(HighlightPostTag));
+            }
+
+            if (MinimumCoverage != null)
+            {
+                yield return new QueryOption("minimumCoverage", MinimumCoverage.ToString());
             }
 
             if (OrderBy.Any())

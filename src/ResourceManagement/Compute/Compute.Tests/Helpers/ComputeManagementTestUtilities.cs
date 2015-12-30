@@ -20,16 +20,24 @@ using Microsoft.Azure.Management.Storage;
 using Microsoft.Azure.Test;
 using Microsoft.Azure.Test.HttpRecorder;
 using System;
+using System.Net;
 
 namespace Compute.Tests
 {
     public static class ComputeManagementTestUtilities
     {
-        public static string DefaultLocation = "EastAsia";
+        public static string DefaultLocation = "SoutheastAsia";
 
-        public static ComputeManagementClient GetComputeManagementClient(RecordedDelegatingHandler handler)
+        public static ComputeManagementClient GetComputeManagementClient(RecordedDelegatingHandler handler = null)
         {
-            return GetComputeManagementClient(new CSMTestEnvironmentFactory(), handler);
+            return GetComputeManagementClient(new CSMTestEnvironmentFactory(), 
+                handler ?? new RecordedDelegatingHandler { StatusCodeToReturn = HttpStatusCode.OK });
+        }
+
+        public static ComputeManagementClient GetComputeManagementClientWithSpn(RecordedDelegatingHandler handler = null)
+        {
+            return GetComputeManagementClient(new ServicePrincipalNameFactory(),
+                handler ?? new RecordedDelegatingHandler { StatusCodeToReturn = HttpStatusCode.OK });
         }
 
         public static ComputeManagementClient GetComputeManagementClient(TestEnvironmentFactory factory, RecordedDelegatingHandler handler)
@@ -40,22 +48,51 @@ namespace Compute.Tests
 
         public static ResourceManagementClient GetResourceManagementClient(RecordedDelegatingHandler handler)
         {
+            return GetResourceManagementClient(new CSMTestEnvironmentFactory(), handler);
+        }
+
+        public static ResourceManagementClient GetResourceManagementClientWithSpn(RecordedDelegatingHandler handler)
+        {
+            return GetResourceManagementClient(new ServicePrincipalNameFactory(), handler);
+        }
+
+        public static ResourceManagementClient GetResourceManagementClient(TestEnvironmentFactory factory, RecordedDelegatingHandler handler)
+        {
             handler.IsPassThrough = true;
-            return TestBase.GetServiceClient<ResourceManagementClient>(new CSMTestEnvironmentFactory()).WithHandler(handler);
+            return TestBase.GetServiceClient<ResourceManagementClient>(factory).WithHandler(handler);
         }
 
         public static NetworkResourceProviderClient GetNetworkResourceProviderClient(RecordedDelegatingHandler handler)
         {
+            return GetNetworkResourceProviderClient(new CSMTestEnvironmentFactory(), handler);
+        }
+
+        public static NetworkResourceProviderClient GetNetworkResourceProviderClientSpn(RecordedDelegatingHandler handler)
+        {
+            return GetNetworkResourceProviderClient(new ServicePrincipalNameFactory(), handler);
+        }
+
+        public static NetworkResourceProviderClient GetNetworkResourceProviderClient(TestEnvironmentFactory factory, RecordedDelegatingHandler handler)
+        {
             handler.IsPassThrough = true;
-            return TestBase.GetServiceClient<NetworkResourceProviderClient>(new CSMTestEnvironmentFactory()).WithHandler(handler);
+            return TestBase.GetServiceClient<NetworkResourceProviderClient>(factory).WithHandler(handler);
         }
 
         public static StorageManagementClient GetStorageManagementClient(RecordedDelegatingHandler handler)
         {
-            handler.IsPassThrough = true;
-            return TestBase.GetServiceClient<StorageManagementClient>(new CSMTestEnvironmentFactory()).WithHandler(handler);
+            return GetStorageManagementClient(new CSMTestEnvironmentFactory(), handler);
         }
 
+        public static StorageManagementClient GetStorageManagementClientSpn(RecordedDelegatingHandler handler)
+        {
+            return GetStorageManagementClient(new ServicePrincipalNameFactory(), handler);
+        }
+
+        public static StorageManagementClient GetStorageManagementClient(TestEnvironmentFactory factory, RecordedDelegatingHandler handler)
+        {
+            handler.IsPassThrough = true;
+            return TestBase.GetServiceClient<StorageManagementClient>(factory).WithHandler(handler);
+        }
         public static void WaitSeconds(double seconds)
         {
             if (HttpMockServer.Mode != HttpRecorderMode.Playback)

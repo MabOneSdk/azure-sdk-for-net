@@ -63,6 +63,12 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <summary>
         /// Get the Operation Status.
         /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
         /// <param name='operationId'>
         /// Required. OperationId.
         /// </param>
@@ -73,11 +79,19 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The definition of a BMSOperationStatusResponse.
+        /// The definition of a CSMOperationResult.
         /// </returns>
-        public async Task<OperationResultResponse> GetAsync(string operationId, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
+        public async Task<CSMOperationResult> CSMGetAsync(string resourceGroupName, string resourceName, string operationId, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
         {
             // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
             if (operationId == null)
             {
                 throw new ArgumentNullException("operationId");
@@ -90,27 +104,29 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
                 tracingParameters.Add("operationId", operationId);
                 tracingParameters.Add("customRequestHeaders", customRequestHeaders);
-                TracingAdapter.Enter(invocationId, this, "GetAsync", tracingParameters);
+                TracingAdapter.Enter(invocationId, this, "CSMGetAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/Subscriptions/";
+            url = url + "/subscriptions/";
             if (this.Client.Credentials.SubscriptionId != null)
             {
                 url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
             }
             url = url + "/resourceGroups/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
+            url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceName);
-            url = url + "/operations/";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/operationResults/";
             url = url + Uri.EscapeDataString(operationId);
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2014-09-01");
@@ -141,6 +157,7 @@ namespace Microsoft.Azure.Management.BackupServices
                 
                 // Set Headers
                 httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -173,13 +190,13 @@ namespace Microsoft.Azure.Management.BackupServices
                     }
                     
                     // Create Result
-                    OperationResultResponse result = null;
+                    CSMOperationResult result = null;
                     // Deserialize Response
                     if (statusCode == HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        result = new OperationResultResponse();
+                        result = new CSMOperationResult();
                         JToken responseDoc = null;
                         if (string.IsNullOrEmpty(responseContent) == false)
                         {
@@ -188,50 +205,46 @@ namespace Microsoft.Azure.Management.BackupServices
                         
                         if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            JToken operationStatusValue = responseDoc["OperationStatus"];
-                            if (operationStatusValue != null && operationStatusValue.Type != JTokenType.Null)
+                            JToken statusValue = responseDoc["status"];
+                            if (statusValue != null && statusValue.Type != JTokenType.Null)
                             {
-                                string operationStatusInstance = ((string)operationStatusValue);
-                                result.OperationStatus = operationStatusInstance;
+                                string statusInstance = ((string)statusValue);
+                                result.Status = statusInstance;
                             }
                             
-                            JToken operationResultValue = responseDoc["OperationResult"];
-                            if (operationResultValue != null && operationResultValue.Type != JTokenType.Null)
+                            JToken errorValue = responseDoc["error"];
+                            if (errorValue != null && errorValue.Type != JTokenType.Null)
                             {
-                                string operationResultInstance = ((string)operationResultValue);
-                                result.OperationResult = operationResultInstance;
-                            }
-                            
-                            JToken messageValue = responseDoc["Message"];
-                            if (messageValue != null && messageValue.Type != JTokenType.Null)
-                            {
-                                string messageInstance = ((string)messageValue);
-                                result.Message = messageInstance;
-                            }
-                            
-                            JToken errorCodeValue = responseDoc["ErrorCode"];
-                            if (errorCodeValue != null && errorCodeValue.Type != JTokenType.Null)
-                            {
-                                string errorCodeInstance = ((string)errorCodeValue);
-                                result.ErrorCode = errorCodeInstance;
-                            }
-                            
-                            JToken jobsArray = responseDoc["Jobs"];
-                            if (jobsArray != null && jobsArray.Type != JTokenType.Null)
-                            {
-                                foreach (JToken jobsValue in ((JArray)jobsArray))
+                                CSMOperationErrorInfo errorInstance = new CSMOperationErrorInfo();
+                                result.Error = errorInstance;
+                                
+                                JToken codeValue = errorValue["code"];
+                                if (codeValue != null && codeValue.Type != JTokenType.Null)
                                 {
-                                    result.Jobs.Add(((string)jobsValue));
+                                    string codeInstance = ((string)codeValue);
+                                    errorInstance.Code = codeInstance;
+                                }
+                                
+                                JToken messageValue = errorValue["message"];
+                                if (messageValue != null && messageValue.Type != JTokenType.Null)
+                                {
+                                    string messageInstance = ((string)messageValue);
+                                    errorInstance.Message = messageInstance;
+                                }
+                            }
+                            
+                            JToken jobListArray = responseDoc["jobList"];
+                            if (jobListArray != null && jobListArray.Type != JTokenType.Null)
+                            {
+                                foreach (JToken jobListValue in ((JArray)jobListArray))
+                                {
+                                    result.JobList.Add(((string)jobListValue));
                                 }
                             }
                         }
                         
                     }
                     result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-client-request-id"))
-                    {
-                        customRequestHeaders.ClientRequestId = httpResponse.Headers.GetValues("x-ms-client-request-id").FirstOrDefault();
-                    }
                     
                     if (shouldTrace)
                     {

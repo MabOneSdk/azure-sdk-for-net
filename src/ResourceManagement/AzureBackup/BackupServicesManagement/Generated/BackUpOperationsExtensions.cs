@@ -37,26 +37,29 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Reference to the
         /// Microsoft.Azure.Management.BackupServices.IBackUpOperations.
         /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
         /// </param>
         /// <param name='containerName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceType'>
-        /// Optional.
-        /// </param>
-        /// <param name='dataSourceId'>
+        /// <param name='itemName'>
         /// Optional.
         /// </param>
         /// <returns>
         /// The definition of a Operation Response.
         /// </returns>
-        public static OperationResponse TriggerBackUp(this IBackUpOperations operations, CustomRequestHeaders customRequestHeaders, string containerName, string dataSourceType, string dataSourceId)
+        public static OperationResponse TriggerBackUp(this IBackUpOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IBackUpOperations)s).TriggerBackUpAsync(customRequestHeaders, containerName, dataSourceType, dataSourceId);
+                return ((IBackUpOperations)s).TriggerBackUpAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -68,24 +71,27 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Reference to the
         /// Microsoft.Azure.Management.BackupServices.IBackUpOperations.
         /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
         /// </param>
         /// <param name='containerName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceType'>
-        /// Optional.
-        /// </param>
-        /// <param name='dataSourceId'>
+        /// <param name='itemName'>
         /// Optional.
         /// </param>
         /// <returns>
         /// The definition of a Operation Response.
         /// </returns>
-        public static Task<OperationResponse> TriggerBackUpAsync(this IBackUpOperations operations, CustomRequestHeaders customRequestHeaders, string containerName, string dataSourceType, string dataSourceId)
+        public static Task<OperationResponse> TriggerBackUpAsync(this IBackUpOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName)
         {
-            return operations.TriggerBackUpAsync(customRequestHeaders, containerName, dataSourceType, dataSourceId, CancellationToken.None);
+            return operations.TriggerBackUpAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName, CancellationToken.None);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Microsoft.Azure.Search
                 key,
                 selectedFields,
                 cancellationToken,
-                s => JsonConvert.DeserializeObject<Document>(s, JsonUtility.DocumentDeserializerSettings));
+                s => JsonUtility.DeserializeObject<Document>(s, JsonUtility.DocumentDeserializerSettings));
         }
 
         public Task<DocumentGetResponse<T>> GetAsync<T>(
@@ -52,7 +52,7 @@ namespace Microsoft.Azure.Search
                 key,
                 selectedFields,
                 cancellationToken,
-                s => JsonConvert.DeserializeObject<T>(s, jsonSettings));
+                s => JsonUtility.DeserializeObject<T>(s, jsonSettings));
         }
 
         private async Task<TResponse> DoGetAsync<TResponse, TDoc>(
@@ -94,7 +94,7 @@ namespace Microsoft.Azure.Search
 
             string selectClause = String.Join(",", selectedFields);
             string url = 
-                String.Format("docs/{0}?$select={1}&api-version=2015-02-28", key, Uri.EscapeDataString(selectClause));
+                String.Format("docs('{0}')?$select={1}&api-version=2015-02-28", key, Uri.EscapeDataString(selectClause));
             string baseUrl = this.Client.BaseUri.AbsoluteUri;
 
             // Trim '/' character from the end of baseUrl and beginning of url.

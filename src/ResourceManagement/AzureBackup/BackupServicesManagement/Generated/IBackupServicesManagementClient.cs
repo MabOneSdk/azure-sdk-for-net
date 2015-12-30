@@ -70,16 +70,6 @@ namespace Microsoft.Azure.Management.BackupServices
             get; set; 
         }
         
-        string ResourceGroupName
-        {
-            get; set; 
-        }
-        
-        string ResourceName
-        {
-            get; set; 
-        }
-        
         /// <summary>
         /// Definition of BackUp operations for the Azure Backup extension.
         /// </summary>
@@ -91,7 +81,16 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <summary>
         /// Definition of Container operations for the Azure Backup extension.
         /// </summary>
-        IContainerOperation Container
+        IContainerOperations Container
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// Definition of Protection Policy operations for the Azure Backup
+        /// extension.
+        /// </summary>
+        ICSMProtectionPolicyOperations CSMProtectionPolicy
         {
             get; 
         }
@@ -130,15 +129,6 @@ namespace Microsoft.Azure.Management.BackupServices
         }
         
         /// <summary>
-        /// Definition of Protection Policy operations for the Azure Backup
-        /// extension.
-        /// </summary>
-        IProtectionPolicyOperations ProtectionPolicy
-        {
-            get; 
-        }
-        
-        /// <summary>
         /// Definition of Recovery Point operations for the Azure Backup
         /// extension.
         /// </summary>
@@ -148,10 +138,9 @@ namespace Microsoft.Azure.Management.BackupServices
         }
         
         /// <summary>
-        /// Definition of Vault-related operations for the Azure Backup
-        /// extension.
+        /// Definition of Restore operations for the Azure Backup extension.
         /// </summary>
-        IVaultOperations Vault
+        IRestoreOperations Restore
         {
             get; 
         }

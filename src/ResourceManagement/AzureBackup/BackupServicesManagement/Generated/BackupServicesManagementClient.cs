@@ -84,22 +84,6 @@ namespace Microsoft.Azure.Management.BackupServices
             set { this._longRunningOperationRetryTimeout = value; }
         }
         
-        private string _resourceGroupName;
-        
-        public string ResourceGroupName
-        {
-            get { return this._resourceGroupName; }
-            set { this._resourceGroupName = value; }
-        }
-        
-        private string _resourceName;
-        
-        public string ResourceName
-        {
-            get { return this._resourceName; }
-            set { this._resourceName = value; }
-        }
-        
         private IBackUpOperations _backUp;
         
         /// <summary>
@@ -110,14 +94,25 @@ namespace Microsoft.Azure.Management.BackupServices
             get { return this._backUp; }
         }
         
-        private IContainerOperation _container;
+        private IContainerOperations _container;
         
         /// <summary>
         /// Definition of Container operations for the Azure Backup extension.
         /// </summary>
-        public virtual IContainerOperation Container
+        public virtual IContainerOperations Container
         {
             get { return this._container; }
+        }
+        
+        private ICSMProtectionPolicyOperations _cSMProtectionPolicy;
+        
+        /// <summary>
+        /// Definition of Protection Policy operations for the Azure Backup
+        /// extension.
+        /// </summary>
+        public virtual ICSMProtectionPolicyOperations CSMProtectionPolicy
+        {
+            get { return this._cSMProtectionPolicy; }
         }
         
         private IDataSourceOperations _dataSource;
@@ -161,17 +156,6 @@ namespace Microsoft.Azure.Management.BackupServices
             get { return this._protectableObject; }
         }
         
-        private IProtectionPolicyOperations _protectionPolicy;
-        
-        /// <summary>
-        /// Definition of Protection Policy operations for the Azure Backup
-        /// extension.
-        /// </summary>
-        public virtual IProtectionPolicyOperations ProtectionPolicy
-        {
-            get { return this._protectionPolicy; }
-        }
-        
         private IRecoveryPointOperations _recoveryPoint;
         
         /// <summary>
@@ -183,15 +167,14 @@ namespace Microsoft.Azure.Management.BackupServices
             get { return this._recoveryPoint; }
         }
         
-        private IVaultOperations _vault;
+        private IRestoreOperations _restore;
         
         /// <summary>
-        /// Definition of Vault-related operations for the Azure Backup
-        /// extension.
+        /// Definition of Restore operations for the Azure Backup extension.
         /// </summary>
-        public virtual IVaultOperations Vault
+        public virtual IRestoreOperations Restore
         {
-            get { return this._vault; }
+            get { return this._restore; }
         }
         
         /// <summary>
@@ -202,14 +185,14 @@ namespace Microsoft.Azure.Management.BackupServices
             : base()
         {
             this._backUp = new BackUpOperations(this);
-            this._container = new ContainerOperation(this);
+            this._container = new ContainerOperations(this);
+            this._cSMProtectionPolicy = new CSMProtectionPolicyOperations(this);
             this._dataSource = new DataSourceOperations(this);
             this._job = new JobOperations(this);
             this._operationStatus = new OperationStatus(this);
             this._protectableObject = new ProtectableObjectOperations(this);
-            this._protectionPolicy = new ProtectionPolicyOperations(this);
             this._recoveryPoint = new RecoveryPointOperations(this);
-            this._vault = new VaultOperations(this);
+            this._restore = new RestoreOperations(this);
             this._apiVersion = "2013-03-01";
             this._longRunningOperationInitialTimeout = -1;
             this._longRunningOperationRetryTimeout = -1;
@@ -220,12 +203,6 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Initializes a new instance of the BackupServicesManagementClient
         /// class.
         /// </summary>
-        /// <param name='resourceName'>
-        /// Required.
-        /// </param>
-        /// <param name='resourceGroupName'>
-        /// Required.
-        /// </param>
         /// <param name='credentials'>
         /// Required. Gets subscription credentials which uniquely identify
         /// Microsoft Azure subscription. The subscription ID forms part of
@@ -235,17 +212,9 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Optional. Gets the URI used as the base for all cloud service
         /// requests.
         /// </param>
-        public BackupServicesManagementClient(string resourceName, string resourceGroupName, SubscriptionCloudCredentials credentials, Uri baseUri)
+        public BackupServicesManagementClient(SubscriptionCloudCredentials credentials, Uri baseUri)
             : this()
         {
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException("resourceGroupName");
-            }
             if (credentials == null)
             {
                 throw new ArgumentNullException("credentials");
@@ -254,8 +223,6 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 throw new ArgumentNullException("baseUri");
             }
-            this._resourceName = resourceName;
-            this._resourceGroupName = resourceGroupName;
             this._credentials = credentials;
             this._baseUri = baseUri;
             
@@ -266,34 +233,18 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Initializes a new instance of the BackupServicesManagementClient
         /// class.
         /// </summary>
-        /// <param name='resourceName'>
-        /// Required.
-        /// </param>
-        /// <param name='resourceGroupName'>
-        /// Required.
-        /// </param>
         /// <param name='credentials'>
         /// Required. Gets subscription credentials which uniquely identify
         /// Microsoft Azure subscription. The subscription ID forms part of
         /// the URI for every service call.
         /// </param>
-        public BackupServicesManagementClient(string resourceName, string resourceGroupName, SubscriptionCloudCredentials credentials)
+        public BackupServicesManagementClient(SubscriptionCloudCredentials credentials)
             : this()
         {
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException("resourceGroupName");
-            }
             if (credentials == null)
             {
                 throw new ArgumentNullException("credentials");
             }
-            this._resourceName = resourceName;
-            this._resourceGroupName = resourceGroupName;
             this._credentials = credentials;
             this._baseUri = new Uri("https://management.core.windows.net");
             
@@ -311,14 +262,14 @@ namespace Microsoft.Azure.Management.BackupServices
             : base(httpClient)
         {
             this._backUp = new BackUpOperations(this);
-            this._container = new ContainerOperation(this);
+            this._container = new ContainerOperations(this);
+            this._cSMProtectionPolicy = new CSMProtectionPolicyOperations(this);
             this._dataSource = new DataSourceOperations(this);
             this._job = new JobOperations(this);
             this._operationStatus = new OperationStatus(this);
             this._protectableObject = new ProtectableObjectOperations(this);
-            this._protectionPolicy = new ProtectionPolicyOperations(this);
             this._recoveryPoint = new RecoveryPointOperations(this);
-            this._vault = new VaultOperations(this);
+            this._restore = new RestoreOperations(this);
             this._apiVersion = "2013-03-01";
             this._longRunningOperationInitialTimeout = -1;
             this._longRunningOperationRetryTimeout = -1;
@@ -329,12 +280,6 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Initializes a new instance of the BackupServicesManagementClient
         /// class.
         /// </summary>
-        /// <param name='resourceName'>
-        /// Required.
-        /// </param>
-        /// <param name='resourceGroupName'>
-        /// Required.
-        /// </param>
         /// <param name='credentials'>
         /// Required. Gets subscription credentials which uniquely identify
         /// Microsoft Azure subscription. The subscription ID forms part of
@@ -347,17 +292,9 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <param name='httpClient'>
         /// The Http client
         /// </param>
-        public BackupServicesManagementClient(string resourceName, string resourceGroupName, SubscriptionCloudCredentials credentials, Uri baseUri, HttpClient httpClient)
+        public BackupServicesManagementClient(SubscriptionCloudCredentials credentials, Uri baseUri, HttpClient httpClient)
             : this(httpClient)
         {
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException("resourceGroupName");
-            }
             if (credentials == null)
             {
                 throw new ArgumentNullException("credentials");
@@ -366,8 +303,6 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 throw new ArgumentNullException("baseUri");
             }
-            this._resourceName = resourceName;
-            this._resourceGroupName = resourceGroupName;
             this._credentials = credentials;
             this._baseUri = baseUri;
             
@@ -378,12 +313,6 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Initializes a new instance of the BackupServicesManagementClient
         /// class.
         /// </summary>
-        /// <param name='resourceName'>
-        /// Required.
-        /// </param>
-        /// <param name='resourceGroupName'>
-        /// Required.
-        /// </param>
         /// <param name='credentials'>
         /// Required. Gets subscription credentials which uniquely identify
         /// Microsoft Azure subscription. The subscription ID forms part of
@@ -392,23 +321,13 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <param name='httpClient'>
         /// The Http client
         /// </param>
-        public BackupServicesManagementClient(string resourceName, string resourceGroupName, SubscriptionCloudCredentials credentials, HttpClient httpClient)
+        public BackupServicesManagementClient(SubscriptionCloudCredentials credentials, HttpClient httpClient)
             : this(httpClient)
         {
-            if (resourceName == null)
-            {
-                throw new ArgumentNullException("resourceName");
-            }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException("resourceGroupName");
-            }
             if (credentials == null)
             {
                 throw new ArgumentNullException("credentials");
             }
-            this._resourceName = resourceName;
-            this._resourceGroupName = resourceGroupName;
             this._credentials = credentials;
             this._baseUri = new Uri("https://management.core.windows.net");
             
@@ -430,8 +349,6 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 BackupServicesManagementClient clonedClient = ((BackupServicesManagementClient)client);
                 
-                clonedClient._resourceName = this._resourceName;
-                clonedClient._resourceGroupName = this._resourceGroupName;
                 clonedClient._credentials = this._credentials;
                 clonedClient._baseUri = this._baseUri;
                 clonedClient._apiVersion = this._apiVersion;

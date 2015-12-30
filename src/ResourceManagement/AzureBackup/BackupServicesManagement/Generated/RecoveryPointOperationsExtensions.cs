@@ -31,11 +31,17 @@ namespace Microsoft.Azure.Management.BackupServices
     public static partial class RecoveryPointOperationsExtensions
     {
         /// <summary>
-        /// Get the list of all Recovery Points.
+        /// Get the recovery point.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.Azure.Management.BackupServices.IRecoveryPointOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
         /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
@@ -43,30 +49,36 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <param name='containerName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceType'>
+        /// <param name='itemName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceId'>
+        /// <param name='recoveryPointName'>
         /// Optional.
         /// </param>
         /// <returns>
-        /// The response model for the list RecoveryPoints operation.
+        /// The definition of a CSMRecoveryPointGetOperationResponse.
         /// </returns>
-        public static RecoveryPointListResponse List(this IRecoveryPointOperations operations, CustomRequestHeaders customRequestHeaders, string containerName, string dataSourceType, string dataSourceId)
+        public static CSMRecoveryPointGetOperationResponse Get(this IRecoveryPointOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName, string recoveryPointName)
         {
             return Task.Factory.StartNew((object s) => 
             {
-                return ((IRecoveryPointOperations)s).ListAsync(customRequestHeaders, containerName, dataSourceType, dataSourceId);
+                return ((IRecoveryPointOperations)s).GetAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName, recoveryPointName);
             }
             , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
         
         /// <summary>
-        /// Get the list of all Recovery Points.
+        /// Get the recovery point.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
         /// Microsoft.Azure.Management.BackupServices.IRecoveryPointOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
         /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
@@ -74,18 +86,82 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <param name='containerName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceType'>
+        /// <param name='itemName'>
         /// Optional.
         /// </param>
-        /// <param name='dataSourceId'>
+        /// <param name='recoveryPointName'>
         /// Optional.
         /// </param>
         /// <returns>
-        /// The response model for the list RecoveryPoints operation.
+        /// The definition of a CSMRecoveryPointGetOperationResponse.
         /// </returns>
-        public static Task<RecoveryPointListResponse> ListAsync(this IRecoveryPointOperations operations, CustomRequestHeaders customRequestHeaders, string containerName, string dataSourceType, string dataSourceId)
+        public static Task<CSMRecoveryPointGetOperationResponse> GetAsync(this IRecoveryPointOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName, string recoveryPointName)
         {
-            return operations.ListAsync(customRequestHeaders, containerName, dataSourceType, dataSourceId, CancellationToken.None);
+            return operations.GetAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName, recoveryPointName, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Get the list of all recovery points.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.BackupServices.IRecoveryPointOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='containerName'>
+        /// Optional.
+        /// </param>
+        /// <param name='itemName'>
+        /// Optional.
+        /// </param>
+        /// <returns>
+        /// The definition of a CSMRecoveryPointListOperationResponse.
+        /// </returns>
+        public static CSMRecoveryPointListOperationResponse List(this IRecoveryPointOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IRecoveryPointOperations)s).ListAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Get the list of all recovery points.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.BackupServices.IRecoveryPointOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='containerName'>
+        /// Optional.
+        /// </param>
+        /// <param name='itemName'>
+        /// Optional.
+        /// </param>
+        /// <returns>
+        /// The definition of a CSMRecoveryPointListOperationResponse.
+        /// </returns>
+        public static Task<CSMRecoveryPointListOperationResponse> ListAsync(this IRecoveryPointOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName)
+        {
+            return operations.ListAsync(resourceGroupName, resourceName, customRequestHeaders, containerName, itemName, CancellationToken.None);
         }
     }
 }

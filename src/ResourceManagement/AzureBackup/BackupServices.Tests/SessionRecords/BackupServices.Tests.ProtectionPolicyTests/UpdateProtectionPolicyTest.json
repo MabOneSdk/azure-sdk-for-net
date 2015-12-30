@@ -1,28 +1,28 @@
 {
   "Entries": [
     {
-      "RequestUri": "/Subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/backuprg/providers/Microsoft.Backupseadev01/BackupVault/backuprn/protectionpolicies/f9e9691b-e05e-45ee-a273-e39e40216a04?api-version=2014-09-01",
-      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvZjUzMDNhMGItZmFlNC00Y2RiLWI0NGQtMGU0YzAzMmRkZTI2L3Jlc291cmNlR3JvdXBzL2JhY2t1cHJnL3Byb3ZpZGVycy9NaWNyb3NvZnQuQmFja3Vwc2VhZGV2MDEvQmFja3VwVmF1bHQvYmFja3Vwcm4vcHJvdGVjdGlvbnBvbGljaWVzL2Y5ZTk2OTFiLWUwNWUtNDVlZS1hMjczLWUzOWU0MDIxNmEwND9hcGktdmVyc2lvbj0yMDE0LTA5LTAx",
-      "RequestMethod": "PUT",
-      "RequestBody": "{\r\n  \"policyname\": \"ProtPolicy01_updated\",\r\n  \"schedule\": {\r\n    \"BackupType\": \"Full\",\r\n    \"ScheduleRun\": \"Daily\",\r\n    \"ScheduleStartTime\": \"0001-01-01T00:00:00\",\r\n    \"ScheduleRunDays\": [],\r\n    \"ScheduleRunTimes\": [\r\n      \"2015-12-06T19:30:00\"\r\n    ],\r\n    \"RetentionPolicy\": {\r\n      \"RetentionType\": \"Days\",\r\n      \"RetentionDuration\": 30\r\n    }\r\n  }\r\n}",
+      "RequestUri": "/Subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/backuprg/providers/Microsoft.Backup/BackupVault/backuprn/protectionPolicies/ProtPolicy01?api-version=2014-09-01",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvZjUzMDNhMGItZmFlNC00Y2RiLWI0NGQtMGU0YzAzMmRkZTI2L3Jlc291cmNlR3JvdXBzL2JhY2t1cHJnL3Byb3ZpZGVycy9NaWNyb3NvZnQuQmFja3VwL0JhY2t1cFZhdWx0L2JhY2t1cHJuL3Byb3RlY3Rpb25Qb2xpY2llcy9Qcm90UG9saWN5MDE/YXBpLXZlcnNpb249MjAxNC0wOS0wMQ==",
+      "RequestMethod": "PATCH",
+      "RequestBody": "{\r\n  \"properties\": {\r\n    \"policyName\": \"ProtPolicy01_updated\",\r\n    \"backupSchedule\": {\r\n      \"backupType\": \"Full\",\r\n      \"scheduleRun\": \"Daily\",\r\n      \"scheduleRunDays\": [],\r\n      \"scheduleRunTimes\": [\r\n        \"2015-12-06T19:30:00\"\r\n      ]\r\n    },\r\n    \"ltrRetentionPolicy\": {\r\n      \"DailySchedule\": {\r\n        \"RetentionTimes\": [\r\n          \"2015-12-06T19:30:00\"\r\n        ],\r\n        \"CSMRetentionDuration\": {\r\n          \"Count\": 20,\r\n          \"DurationType\": \"Days\"\r\n        }\r\n      },\r\n      \"WeeklySchedule\": {\r\n        \"DaysOfTheWeek\": [\r\n          \"Monday\"\r\n        ],\r\n        \"RetentionTimes\": [\r\n          \"2015-12-06T19:30:00\"\r\n        ],\r\n        \"CSMRetentionDuration\": {\r\n          \"Count\": 4,\r\n          \"DurationType\": \"Weeks\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
       "RequestHeaders": {
         "Content-Type": [
           "application/json"
         ],
         "Content-Length": [
-          "360"
+          "787"
         ],
         "Accept-Language": [
           "en-us"
         ],
         "x-ms-client-request-id": [
-          "79f6c7d5-3113-4fb9-a534-db1b92a0e035"
+          "55599f1a-c3b7-4cb6-8d69-9a3fdd0a80e8"
         ],
         "User-Agent": [
           "Microsoft.Azure.Management.BackupServices.BackupServicesManagementClient/0.0.0.0"
         ]
       },
-      "ResponseBody": "\"a9c1bdeb-069f-43ab-be0f-251154125c3e\"",
+      "ResponseBody": "\"00000000-0000-0000-0000-000000000000\"",
       "ResponseHeaders": {
         "Content-Length": [
           "38"
@@ -37,29 +37,29 @@
           "no-cache"
         ],
         "x-ms-request-id": [
-          "aad9c479-ace7-400e-8d86-3e504a7ed5b2"
+          "5b63903b-9664-4178-800c-80a982d7a68e"
         ],
         "x-ms-client-request-id": [
-          "79f6c7d5-3113-4fb9-a534-db1b92a0e035",
-          "79f6c7d5-3113-4fb9-a534-db1b92a0e035"
+          "55599f1a-c3b7-4cb6-8d69-9a3fdd0a80e8",
+          "55599f1a-c3b7-4cb6-8d69-9a3fdd0a80e8"
         ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
-          "1198"
+          "1197"
         ],
         "x-ms-correlation-request-id": [
-          "aad9c479-ace7-400e-8d86-3e504a7ed5b2"
+          "5b63903b-9664-4178-800c-80a982d7a68e"
         ],
         "x-ms-routing-request-id": [
-          "CENTRALUS:20150616T105527Z:aad9c479-ace7-400e-8d86-3e504a7ed5b2"
+          "CENTRALUS:20150813T150017Z:5b63903b-9664-4178-800c-80a982d7a68e"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 16 Jun 2015 10:55:27 GMT"
+          "Thu, 13 Aug 2015 15:00:17 GMT"
         ],
         "Server": [
           "Microsoft-IIS/8.0"
@@ -68,7 +68,7 @@
           "ASP.NET"
         ]
       },
-      "StatusCode": 202
+      "StatusCode": 200
     }
   ],
   "Names": {},

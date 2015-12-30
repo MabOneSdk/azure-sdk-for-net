@@ -97,6 +97,61 @@ namespace Microsoft.Azure.Management.Network
             set { this._longRunningOperationRetryTimeout = value; }
         }
         
+        private IApplicationGatewayOperations _applicationGateways;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations managing the
+        /// application gateways for your subscription.
+        /// </summary>
+        public virtual IApplicationGatewayOperations ApplicationGateways
+        {
+            get { return this._applicationGateways; }
+        }
+        
+        private IExpressRouteCircuitAuthorizationOperations _expressRouteCircuitAuthorizations;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the Authorizations for your subscription.
+        /// </summary>
+        public virtual IExpressRouteCircuitAuthorizationOperations ExpressRouteCircuitAuthorizations
+        {
+            get { return this._expressRouteCircuitAuthorizations; }
+        }
+        
+        private IExpressRouteCircuitOperations _expressRouteCircuits;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the ExpressRouteCircuits for your subscription.
+        /// </summary>
+        public virtual IExpressRouteCircuitOperations ExpressRouteCircuits
+        {
+            get { return this._expressRouteCircuits; }
+        }
+        
+        private IExpressRouteCircuitPeeringOperations _expressRouteCircuitPeerings;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the Peerings for your subscription.
+        /// </summary>
+        public virtual IExpressRouteCircuitPeeringOperations ExpressRouteCircuitPeerings
+        {
+            get { return this._expressRouteCircuitPeerings; }
+        }
+        
+        private IExpressRouteServiceProviderOperations _expressRouteServiceProviders;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the ExpressRouteServiceProviders for your subscription.
+        /// </summary>
+        public virtual IExpressRouteServiceProviderOperations ExpressRouteServiceProviders
+        {
+            get { return this._expressRouteServiceProviders; }
+        }
+        
         private ILoadBalancerOperations _loadBalancers;
         
         /// <summary>
@@ -150,6 +205,28 @@ namespace Microsoft.Azure.Management.Network
         public virtual IPublicIpAddressOperations PublicIpAddresses
         {
             get { return this._publicIpAddresses; }
+        }
+        
+        private IRouteOperations _routes;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the Routes for your subscription.
+        /// </summary>
+        public virtual IRouteOperations Routes
+        {
+            get { return this._routes; }
+        }
+        
+        private IRouteTableOperations _routeTables;
+        
+        /// <summary>
+        /// The Network Resource Provider API includes operations for managing
+        /// the RouteTables for your subscription.
+        /// </summary>
+        public virtual IRouteTableOperations RouteTables
+        {
+            get { return this._routeTables; }
         }
         
         private ISecurityRuleOperations _securityRules;
@@ -224,11 +301,18 @@ namespace Microsoft.Azure.Management.Network
         public NetworkResourceProviderClient()
             : base()
         {
+            this._applicationGateways = new ApplicationGatewayOperations(this);
+            this._expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationOperations(this);
+            this._expressRouteCircuits = new ExpressRouteCircuitOperations(this);
+            this._expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringOperations(this);
+            this._expressRouteServiceProviders = new ExpressRouteServiceProviderOperations(this);
             this._loadBalancers = new LoadBalancerOperations(this);
             this._localNetworkGateways = new LocalNetworkGatewayOperations(this);
             this._networkInterfaces = new NetworkInterfaceOperations(this);
             this._networkSecurityGroups = new NetworkSecurityGroupOperations(this);
             this._publicIpAddresses = new PublicIpAddressOperations(this);
+            this._routes = new RouteOperations(this);
+            this._routeTables = new RouteTableOperations(this);
             this._securityRules = new SecurityRuleOperations(this);
             this._subnets = new SubnetOperations(this);
             this._usages = new UsageOperations(this);
@@ -303,11 +387,18 @@ namespace Microsoft.Azure.Management.Network
         public NetworkResourceProviderClient(HttpClient httpClient)
             : base(httpClient)
         {
+            this._applicationGateways = new ApplicationGatewayOperations(this);
+            this._expressRouteCircuitAuthorizations = new ExpressRouteCircuitAuthorizationOperations(this);
+            this._expressRouteCircuits = new ExpressRouteCircuitOperations(this);
+            this._expressRouteCircuitPeerings = new ExpressRouteCircuitPeeringOperations(this);
+            this._expressRouteServiceProviders = new ExpressRouteServiceProviderOperations(this);
             this._loadBalancers = new LoadBalancerOperations(this);
             this._localNetworkGateways = new LocalNetworkGatewayOperations(this);
             this._networkInterfaces = new NetworkInterfaceOperations(this);
             this._networkSecurityGroups = new NetworkSecurityGroupOperations(this);
             this._publicIpAddresses = new PublicIpAddressOperations(this);
+            this._routes = new RouteOperations(this);
+            this._routeTables = new RouteTableOperations(this);
             this._securityRules = new SecurityRuleOperations(this);
             this._subnets = new SubnetOperations(this);
             this._usages = new UsageOperations(this);

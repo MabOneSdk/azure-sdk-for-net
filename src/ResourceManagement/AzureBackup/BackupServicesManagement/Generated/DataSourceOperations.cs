@@ -29,7 +29,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Hyak.Common;
-using Hyak.Common.Internals;
 using Microsoft.Azure.Management.BackupServices;
 using Microsoft.Azure.Management.BackupServices.Models;
 using Newtonsoft.Json.Linq;
@@ -66,20 +65,20 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <summary>
         /// Disable protection for given item
         /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
         /// </param>
         /// <param name='containerName'>
-        /// Optional.
+        /// Required. containerName.
         /// </param>
-        /// <param name='dataSourceType'>
-        /// Optional.
-        /// </param>
-        /// <param name='dataSourceId'>
-        /// Optional.
-        /// </param>
-        /// <param name='parameters'>
-        /// Required. Disable protection input.
+        /// <param name='itemName'>
+        /// Required. itemName.
         /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
@@ -87,16 +86,24 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <returns>
         /// The definition of a Operation Response.
         /// </returns>
-        public async Task<OperationResponse> DisableProtectionAsync(CustomRequestHeaders customRequestHeaders, string containerName, string dataSourceType, string dataSourceId, RemoveProtectionRequestInput parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> DisableProtectionCSMAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName, CancellationToken cancellationToken)
         {
             // Validate
-            if (parameters == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException("resourceGroupName");
             }
-            if (parameters.RemoveProtectionOption == null)
+            if (resourceName == null)
             {
-                throw new ArgumentNullException("parameters.RemoveProtectionOption");
+                throw new ArgumentNullException("resourceName");
+            }
+            if (containerName == null)
+            {
+                throw new ArgumentNullException("containerName");
+            }
+            if (itemName == null)
+            {
+                throw new ArgumentNullException("itemName");
             }
             
             // Tracing
@@ -106,45 +113,33 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
                 tracingParameters.Add("customRequestHeaders", customRequestHeaders);
                 tracingParameters.Add("containerName", containerName);
-                tracingParameters.Add("dataSourceType", dataSourceType);
-                tracingParameters.Add("dataSourceId", dataSourceId);
-                tracingParameters.Add("parameters", parameters);
-                TracingAdapter.Enter(invocationId, this, "DisableProtectionAsync", tracingParameters);
+                tracingParameters.Add("itemName", itemName);
+                TracingAdapter.Enter(invocationId, this, "DisableProtectionCSMAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/Subscriptions/";
+            url = url + "/subscriptions/";
             if (this.Client.Credentials.SubscriptionId != null)
             {
                 url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
             }
             url = url + "/resourceGroups/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
+            url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceName);
-            url = url + "/containers/";
-            if (containerName != null)
-            {
-                url = url + Uri.EscapeDataString(containerName);
-            }
-            url = url + "/datasources/";
-            if (dataSourceType != null)
-            {
-                url = url + Uri.EscapeDataString(dataSourceType);
-            }
-            url = url + "/";
-            if (dataSourceId != null)
-            {
-                url = url + Uri.EscapeDataString(dataSourceId);
-            }
-            url = url + "/unprotect";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/registeredContainers/";
+            url = url + Uri.EscapeDataString(containerName);
+            url = url + "/protectedItems/";
+            url = url + Uri.EscapeDataString(itemName);
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
@@ -169,38 +164,16 @@ namespace Microsoft.Azure.Management.BackupServices
             try
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
+                httpRequest.Method = HttpMethod.Delete;
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
                 httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
                 await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Serialize Request
-                string requestContent = null;
-                JToken requestDoc = null;
-                
-                JObject removeProtectionRequestInputValue = new JObject();
-                requestDoc = removeProtectionRequestInputValue;
-                
-                removeProtectionRequestInputValue["RemoveProtectionOption"] = parameters.RemoveProtectionOption;
-                
-                if (parameters.Reason != null)
-                {
-                    removeProtectionRequestInputValue["Reason"] = parameters.Reason;
-                }
-                
-                if (parameters.Comments != null)
-                {
-                    removeProtectionRequestInputValue["Comments"] = parameters.Comments;
-                }
-                
-                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
-                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
-                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                 
                 // Send Request
                 HttpResponseMessage httpResponse = null;
@@ -220,7 +193,7 @@ namespace Microsoft.Azure.Management.BackupServices
                     if (statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             TracingAdapter.Error(invocationId, ex);
@@ -250,10 +223,6 @@ namespace Microsoft.Azure.Management.BackupServices
                         
                     }
                     result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-client-request-id"))
-                    {
-                        customRequestHeaders.ClientRequestId = httpResponse.Headers.GetValues("x-ms-client-request-id").FirstOrDefault();
-                    }
                     
                     if (shouldTrace)
                     {
@@ -281,10 +250,22 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <summary>
         /// Enable protection for given item.
         /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
         /// <param name='customRequestHeaders'>
         /// Optional. Request header parameters.
         /// </param>
-        /// <param name='parameters'>
+        /// <param name='containerName'>
+        /// Required. containerName.
+        /// </param>
+        /// <param name='itemName'>
+        /// Required. itemName.
+        /// </param>
+        /// <param name='csmparameters'>
         /// Required. Set protection request input.
         /// </param>
         /// <param name='cancellationToken'>
@@ -293,24 +274,36 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <returns>
         /// The definition of a Operation Response.
         /// </returns>
-        public async Task<OperationResponse> EnableProtectionAsync(CustomRequestHeaders customRequestHeaders, SetProtectionRequestInput parameters, CancellationToken cancellationToken)
+        public async Task<OperationResponse> EnableProtectionCSMAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName, CSMSetProtectionRequest csmparameters, CancellationToken cancellationToken)
         {
             // Validate
-            if (parameters == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException("resourceGroupName");
             }
-            if (parameters.PolicyId == null)
+            if (resourceName == null)
             {
-                throw new ArgumentNullException("parameters.PolicyId");
+                throw new ArgumentNullException("resourceName");
             }
-            if (parameters.ProtectableObjects == null)
+            if (containerName == null)
             {
-                throw new ArgumentNullException("parameters.ProtectableObjects");
+                throw new ArgumentNullException("containerName");
             }
-            if (parameters.ProtectableObjectType == null)
+            if (itemName == null)
             {
-                throw new ArgumentNullException("parameters.ProtectableObjectType");
+                throw new ArgumentNullException("itemName");
+            }
+            if (csmparameters == null)
+            {
+                throw new ArgumentNullException("csmparameters");
+            }
+            if (csmparameters.Properties == null)
+            {
+                throw new ArgumentNullException("csmparameters.Properties");
+            }
+            if (csmparameters.Properties.PolicyId == null)
+            {
+                throw new ArgumentNullException("csmparameters.Properties.PolicyId");
             }
             
             // Tracing
@@ -320,27 +313,34 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
                 tracingParameters.Add("customRequestHeaders", customRequestHeaders);
-                tracingParameters.Add("parameters", parameters);
-                TracingAdapter.Enter(invocationId, this, "EnableProtectionAsync", tracingParameters);
+                tracingParameters.Add("containerName", containerName);
+                tracingParameters.Add("itemName", itemName);
+                tracingParameters.Add("csmparameters", csmparameters);
+                TracingAdapter.Enter(invocationId, this, "EnableProtectionCSMAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/Subscriptions/";
+            url = url + "/subscriptions/";
             if (this.Client.Credentials.SubscriptionId != null)
             {
                 url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
             }
             url = url + "/resourceGroups/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
+            url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceName);
-            url = url + "/protectableobjects/protect";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/registeredContainers/";
+            url = url + Uri.EscapeDataString(containerName);
+            url = url + "/protectedItems/";
+            url = url + Uri.EscapeDataString(itemName);
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2014-09-01");
             if (queryParameters.Count > 0)
@@ -365,11 +365,12 @@ namespace Microsoft.Azure.Management.BackupServices
             try
             {
                 httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Post;
+                httpRequest.Method = HttpMethod.Put;
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
                 httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -379,25 +380,13 @@ namespace Microsoft.Azure.Management.BackupServices
                 string requestContent = null;
                 JToken requestDoc = null;
                 
-                JObject setProtectionRequestInputValue = new JObject();
-                requestDoc = setProtectionRequestInputValue;
+                JObject cSMSetProtectionRequestValue = new JObject();
+                requestDoc = cSMSetProtectionRequestValue;
                 
-                if (parameters.ProtectableObjects != null)
-                {
-                    if (parameters.ProtectableObjects is ILazyCollection == false || ((ILazyCollection)parameters.ProtectableObjects).IsInitialized)
-                    {
-                        JArray protectableObjectsArray = new JArray();
-                        foreach (string protectableObjectsItem in parameters.ProtectableObjects)
-                        {
-                            protectableObjectsArray.Add(protectableObjectsItem);
-                        }
-                        setProtectionRequestInputValue["ProtectableObjects"] = protectableObjectsArray;
-                    }
-                }
+                JObject propertiesValue = new JObject();
+                cSMSetProtectionRequestValue["properties"] = propertiesValue;
                 
-                setProtectionRequestInputValue["ProtectableObjectType"] = parameters.ProtectableObjectType;
-                
-                setProtectionRequestInputValue["PolicyId"] = parameters.PolicyId;
+                propertiesValue["policyId"] = csmparameters.Properties.PolicyId;
                 
                 requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -451,10 +440,6 @@ namespace Microsoft.Azure.Management.BackupServices
                         
                     }
                     result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-client-request-id"))
-                    {
-                        customRequestHeaders.ClientRequestId = httpResponse.Headers.GetValues("x-ms-client-request-id").FirstOrDefault();
-                    }
                     
                     if (shouldTrace)
                     {
@@ -482,7 +467,13 @@ namespace Microsoft.Azure.Management.BackupServices
         /// <summary>
         /// Get the list of all Datasources.
         /// </summary>
-        /// <param name='parameters'>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='csmparameters'>
         /// Optional. DataSource query parameter.
         /// </param>
         /// <param name='customRequestHeaders'>
@@ -492,11 +483,19 @@ namespace Microsoft.Azure.Management.BackupServices
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// The response model for the list DataSource operation.
+        /// The definition of a CSMProtectedItemListOperationResponse.
         /// </returns>
-        public async Task<DataSourceListResponse> ListAsync(DataSourceQueryParameter parameters, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
+        public async Task<CSMProtectedItemListOperationResponse> ListCSMAsync(string resourceGroupName, string resourceName, CSMProtectedItemQueryObject csmparameters, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
         {
             // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
             
             // Tracing
             bool shouldTrace = TracingAdapter.IsEnabled;
@@ -505,40 +504,47 @@ namespace Microsoft.Azure.Management.BackupServices
             {
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("parameters", parameters);
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
+                tracingParameters.Add("csmparameters", csmparameters);
                 tracingParameters.Add("customRequestHeaders", customRequestHeaders);
-                TracingAdapter.Enter(invocationId, this, "ListAsync", tracingParameters);
+                TracingAdapter.Enter(invocationId, this, "ListCSMAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/Subscriptions/";
+            url = url + "/subscriptions/";
             if (this.Client.Credentials.SubscriptionId != null)
             {
                 url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
             }
             url = url + "/resourceGroups/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceGroupName);
+            url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/";
-            url = url + "Microsoft.Backupseadev01";
+            url = url + "Microsoft.Backup";
             url = url + "/";
             url = url + "BackupVault";
             url = url + "/";
-            url = url + Uri.EscapeDataString(this.Client.ResourceName);
-            url = url + "/datasources";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/protectedItems";
             List<string> queryParameters = new List<string>();
             queryParameters.Add("api-version=2014-09-01");
-            if (parameters != null && parameters.ProtectionStatus != null)
+            List<string> odataFilter = new List<string>();
+            if (csmparameters != null && csmparameters.ProtectionStatus != null)
             {
-                queryParameters.Add("ProtectionStatus=" + Uri.EscapeDataString(parameters.ProtectionStatus));
+                odataFilter.Add("protectionStatus eq '" + Uri.EscapeDataString(csmparameters.ProtectionStatus) + "'");
             }
-            if (parameters != null && parameters.Status != null)
+            if (csmparameters != null && csmparameters.Status != null)
             {
-                queryParameters.Add("Status=" + Uri.EscapeDataString(parameters.Status));
+                odataFilter.Add("status eq '" + Uri.EscapeDataString(csmparameters.Status) + "'");
             }
-            if (parameters != null && parameters.Type != null)
+            if (csmparameters != null && csmparameters.Type != null)
             {
-                queryParameters.Add("Type=" + Uri.EscapeDataString(parameters.Type));
+                odataFilter.Add("itemType eq '" + Uri.EscapeDataString(csmparameters.Type) + "'");
+            }
+            if (odataFilter.Count > 0)
+            {
+                queryParameters.Add("$filter=" + string.Join(" and ", odataFilter));
             }
             if (queryParameters.Count > 0)
             {
@@ -567,6 +573,7 @@ namespace Microsoft.Azure.Management.BackupServices
                 
                 // Set Headers
                 httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -599,13 +606,13 @@ namespace Microsoft.Azure.Management.BackupServices
                     }
                     
                     // Create Result
-                    DataSourceListResponse result = null;
+                    CSMProtectedItemListOperationResponse result = null;
                     // Deserialize Response
                     if (statusCode == HttpStatusCode.OK)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        result = new DataSourceListResponse();
+                        result = new CSMProtectedItemListOperationResponse();
                         JToken responseDoc = null;
                         if (string.IsNullOrEmpty(responseContent) == false)
                         {
@@ -614,166 +621,379 @@ namespace Microsoft.Azure.Management.BackupServices
                         
                         if (responseDoc != null && responseDoc.Type != JTokenType.Null)
                         {
-                            DataSourceResponse dataSourcesInstance = new DataSourceResponse();
-                            result.DataSources = dataSourcesInstance;
+                            CSMProtectedItemListResponse cSMProtectedItemListResponseInstance = new CSMProtectedItemListResponse();
+                            result.CSMProtectedItemListResponse = cSMProtectedItemListResponseInstance;
                             
-                            JToken objectsArray = responseDoc["Objects"];
-                            if (objectsArray != null && objectsArray.Type != JTokenType.Null)
+                            JToken valueArray = responseDoc["value"];
+                            if (valueArray != null && valueArray.Type != JTokenType.Null)
                             {
-                                foreach (JToken objectsValue in ((JArray)objectsArray))
+                                foreach (JToken valueValue in ((JArray)valueArray))
                                 {
-                                    DataSourceInfo dataSourceInfoInstance = new DataSourceInfo();
-                                    dataSourcesInstance.Objects.Add(dataSourceInfoInstance);
+                                    CSMProtectedItemResponse cSMProtectedItemResponseInstance = new CSMProtectedItemResponse();
+                                    cSMProtectedItemListResponseInstance.Value.Add(cSMProtectedItemResponseInstance);
                                     
-                                    JToken friendlyNameValue = objectsValue["FriendlyName"];
-                                    if (friendlyNameValue != null && friendlyNameValue.Type != JTokenType.Null)
+                                    JToken propertiesValue = valueValue["properties"];
+                                    if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
                                     {
-                                        string friendlyNameInstance = ((string)friendlyNameValue);
-                                        dataSourceInfoInstance.FriendlyName = friendlyNameInstance;
+                                        CSMProtectedItemProperties propertiesInstance = new CSMProtectedItemProperties();
+                                        cSMProtectedItemResponseInstance.Properties = propertiesInstance;
+                                        
+                                        JToken protectionStatusValue = propertiesValue["protectionStatus"];
+                                        if (protectionStatusValue != null && protectionStatusValue.Type != JTokenType.Null)
+                                        {
+                                            string protectionStatusInstance = ((string)protectionStatusValue);
+                                            propertiesInstance.ProtectionStatus = protectionStatusInstance;
+                                        }
+                                        
+                                        JToken protectionPolicyIdValue = propertiesValue["protectionPolicyId"];
+                                        if (protectionPolicyIdValue != null && protectionPolicyIdValue.Type != JTokenType.Null)
+                                        {
+                                            string protectionPolicyIdInstance = ((string)protectionPolicyIdValue);
+                                            propertiesInstance.ProtectionPolicyId = protectionPolicyIdInstance;
+                                        }
+                                        
+                                        JToken policyInconsistentValue = propertiesValue["policyInconsistent"];
+                                        if (policyInconsistentValue != null && policyInconsistentValue.Type != JTokenType.Null)
+                                        {
+                                            bool policyInconsistentInstance = ((bool)policyInconsistentValue);
+                                            propertiesInstance.PolicyInconsistent = policyInconsistentInstance;
+                                        }
+                                        
+                                        JToken recoveryPointsCountValue = propertiesValue["recoveryPointsCount"];
+                                        if (recoveryPointsCountValue != null && recoveryPointsCountValue.Type != JTokenType.Null)
+                                        {
+                                            int recoveryPointsCountInstance = ((int)recoveryPointsCountValue);
+                                            propertiesInstance.RecoveryPointsCount = recoveryPointsCountInstance;
+                                        }
+                                        
+                                        JToken lastRecoveryPointValue = propertiesValue["lastRecoveryPoint"];
+                                        if (lastRecoveryPointValue != null && lastRecoveryPointValue.Type != JTokenType.Null)
+                                        {
+                                            DateTime lastRecoveryPointInstance = ((DateTime)lastRecoveryPointValue);
+                                            propertiesInstance.LastRecoveryPoint = lastRecoveryPointInstance;
+                                        }
+                                        
+                                        JToken lastBackupTimeValue = propertiesValue["lastBackupTime"];
+                                        if (lastBackupTimeValue != null && lastBackupTimeValue.Type != JTokenType.Null)
+                                        {
+                                            DateTime lastBackupTimeInstance = ((DateTime)lastBackupTimeValue);
+                                            propertiesInstance.LastBackupTime = lastBackupTimeInstance;
+                                        }
+                                        
+                                        JToken lastBackupStatusValue = propertiesValue["lastBackupStatus"];
+                                        if (lastBackupStatusValue != null && lastBackupStatusValue.Type != JTokenType.Null)
+                                        {
+                                            string lastBackupStatusInstance = ((string)lastBackupStatusValue);
+                                            propertiesInstance.LastBackupStatus = lastBackupStatusInstance;
+                                        }
+                                        
+                                        JToken lastBackupJobIdValue = propertiesValue["lastBackupJobId"];
+                                        if (lastBackupJobIdValue != null && lastBackupJobIdValue.Type != JTokenType.Null)
+                                        {
+                                            string lastBackupJobIdInstance = ((string)lastBackupJobIdValue);
+                                            propertiesInstance.LastBackupJobId = lastBackupJobIdInstance;
+                                        }
+                                        
+                                        JToken friendlyNameValue = propertiesValue["friendlyName"];
+                                        if (friendlyNameValue != null && friendlyNameValue.Type != JTokenType.Null)
+                                        {
+                                            string friendlyNameInstance = ((string)friendlyNameValue);
+                                            propertiesInstance.FriendlyName = friendlyNameInstance;
+                                        }
+                                        
+                                        JToken itemTypeValue = propertiesValue["itemType"];
+                                        if (itemTypeValue != null && itemTypeValue.Type != JTokenType.Null)
+                                        {
+                                            string itemTypeInstance = ((string)itemTypeValue);
+                                            propertiesInstance.ItemType = itemTypeInstance;
+                                        }
+                                        
+                                        JToken statusValue = propertiesValue["status"];
+                                        if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                        {
+                                            string statusInstance = ((string)statusValue);
+                                            propertiesInstance.Status = statusInstance;
+                                        }
+                                        
+                                        JToken containerIdValue = propertiesValue["containerId"];
+                                        if (containerIdValue != null && containerIdValue.Type != JTokenType.Null)
+                                        {
+                                            string containerIdInstance = ((string)containerIdValue);
+                                            propertiesInstance.ContainerId = containerIdInstance;
+                                        }
                                     }
                                     
-                                    JToken containerNameValue = objectsValue["ContainerName"];
-                                    if (containerNameValue != null && containerNameValue.Type != JTokenType.Null)
+                                    JToken idValue = valueValue["id"];
+                                    if (idValue != null && idValue.Type != JTokenType.Null)
                                     {
-                                        string containerNameInstance = ((string)containerNameValue);
-                                        dataSourceInfoInstance.ContainerName = containerNameInstance;
+                                        string idInstance = ((string)idValue);
+                                        cSMProtectedItemResponseInstance.Id = idInstance;
                                     }
                                     
-                                    JToken containerTypeValue = objectsValue["ContainerType"];
-                                    if (containerTypeValue != null && containerTypeValue.Type != JTokenType.Null)
-                                    {
-                                        string containerTypeInstance = ((string)containerTypeValue);
-                                        dataSourceInfoInstance.ContainerType = containerTypeInstance;
-                                    }
-                                    
-                                    JToken typeValue = objectsValue["Type"];
-                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
-                                    {
-                                        string typeInstance = ((string)typeValue);
-                                        dataSourceInfoInstance.Type = typeInstance;
-                                    }
-                                    
-                                    JToken statusValue = objectsValue["Status"];
-                                    if (statusValue != null && statusValue.Type != JTokenType.Null)
-                                    {
-                                        string statusInstance = ((string)statusValue);
-                                        dataSourceInfoInstance.Status = statusInstance;
-                                    }
-                                    
-                                    JToken protectionStatusValue = objectsValue["ProtectionStatus"];
-                                    if (protectionStatusValue != null && protectionStatusValue.Type != JTokenType.Null)
-                                    {
-                                        string protectionStatusInstance = ((string)protectionStatusValue);
-                                        dataSourceInfoInstance.ProtectionStatus = protectionStatusInstance;
-                                    }
-                                    
-                                    JToken protectableObjectNameValue = objectsValue["ProtectableObjectName"];
-                                    if (protectableObjectNameValue != null && protectableObjectNameValue.Type != JTokenType.Null)
-                                    {
-                                        string protectableObjectNameInstance = ((string)protectableObjectNameValue);
-                                        dataSourceInfoInstance.ProtectableObjectName = protectableObjectNameInstance;
-                                    }
-                                    
-                                    JToken protectionPolicyNameValue = objectsValue["ProtectionPolicyName"];
-                                    if (protectionPolicyNameValue != null && protectionPolicyNameValue.Type != JTokenType.Null)
-                                    {
-                                        string protectionPolicyNameInstance = ((string)protectionPolicyNameValue);
-                                        dataSourceInfoInstance.ProtectionPolicyName = protectionPolicyNameInstance;
-                                    }
-                                    
-                                    JToken protectionPolicyIdValue = objectsValue["ProtectionPolicyId"];
-                                    if (protectionPolicyIdValue != null && protectionPolicyIdValue.Type != JTokenType.Null)
-                                    {
-                                        string protectionPolicyIdInstance = ((string)protectionPolicyIdValue);
-                                        dataSourceInfoInstance.ProtectionPolicyId = protectionPolicyIdInstance;
-                                    }
-                                    
-                                    JToken policyInconsistentValue = objectsValue["PolicyInconsistent"];
-                                    if (policyInconsistentValue != null && policyInconsistentValue.Type != JTokenType.Null)
-                                    {
-                                        bool policyInconsistentInstance = ((bool)policyInconsistentValue);
-                                        dataSourceInfoInstance.PolicyInconsistent = policyInconsistentInstance;
-                                    }
-                                    
-                                    JToken recoveryPointsCountValue = objectsValue["RecoveryPointsCount"];
-                                    if (recoveryPointsCountValue != null && recoveryPointsCountValue.Type != JTokenType.Null)
-                                    {
-                                        int recoveryPointsCountInstance = ((int)recoveryPointsCountValue);
-                                        dataSourceInfoInstance.RecoveryPointsCount = recoveryPointsCountInstance;
-                                    }
-                                    
-                                    JToken lastRecoveryPointValue = objectsValue["LastRecoveryPoint"];
-                                    if (lastRecoveryPointValue != null && lastRecoveryPointValue.Type != JTokenType.Null)
-                                    {
-                                        DateTime lastRecoveryPointInstance = ((DateTime)lastRecoveryPointValue);
-                                        dataSourceInfoInstance.LastRecoveryPoint = lastRecoveryPointInstance;
-                                    }
-                                    
-                                    JToken lastBackupTimeValue = objectsValue["LastBackupTime"];
-                                    if (lastBackupTimeValue != null && lastBackupTimeValue.Type != JTokenType.Null)
-                                    {
-                                        DateTime lastBackupTimeInstance = ((DateTime)lastBackupTimeValue);
-                                        dataSourceInfoInstance.LastBackupTime = lastBackupTimeInstance;
-                                    }
-                                    
-                                    JToken lastBackupStatusValue = objectsValue["LastBackupStatus"];
-                                    if (lastBackupStatusValue != null && lastBackupStatusValue.Type != JTokenType.Null)
-                                    {
-                                        string lastBackupStatusInstance = ((string)lastBackupStatusValue);
-                                        dataSourceInfoInstance.LastBackupStatus = lastBackupStatusInstance;
-                                    }
-                                    
-                                    JToken lastBackupJobIdValue = objectsValue["LastBackupJobId"];
-                                    if (lastBackupJobIdValue != null && lastBackupJobIdValue.Type != JTokenType.Null)
-                                    {
-                                        string lastBackupJobIdInstance = ((string)lastBackupJobIdValue);
-                                        dataSourceInfoInstance.LastBackupJobId = lastBackupJobIdInstance;
-                                    }
-                                    
-                                    JToken instanceIdValue = objectsValue["InstanceId"];
-                                    if (instanceIdValue != null && instanceIdValue.Type != JTokenType.Null)
-                                    {
-                                        string instanceIdInstance = ((string)instanceIdValue);
-                                        dataSourceInfoInstance.InstanceId = instanceIdInstance;
-                                    }
-                                    
-                                    JToken nameValue = objectsValue["Name"];
+                                    JToken nameValue = valueValue["name"];
                                     if (nameValue != null && nameValue.Type != JTokenType.Null)
                                     {
                                         string nameInstance = ((string)nameValue);
-                                        dataSourceInfoInstance.Name = nameInstance;
+                                        cSMProtectedItemResponseInstance.Name = nameInstance;
                                     }
                                     
-                                    JToken operationInProgressValue = objectsValue["OperationInProgress"];
-                                    if (operationInProgressValue != null && operationInProgressValue.Type != JTokenType.Null)
+                                    JToken typeValue = valueValue["type"];
+                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
                                     {
-                                        bool operationInProgressInstance = ((bool)operationInProgressValue);
-                                        dataSourceInfoInstance.OperationInProgress = operationInProgressInstance;
+                                        string typeInstance = ((string)typeValue);
+                                        cSMProtectedItemResponseInstance.Type = typeInstance;
                                     }
                                 }
                             }
                             
-                            JToken resultCountValue = responseDoc["ResultCount"];
-                            if (resultCountValue != null && resultCountValue.Type != JTokenType.Null)
+                            JToken nextLinkValue = responseDoc["nextLink"];
+                            if (nextLinkValue != null && nextLinkValue.Type != JTokenType.Null)
                             {
-                                int resultCountInstance = ((int)resultCountValue);
-                                dataSourcesInstance.ResultCount = resultCountInstance;
+                                string nextLinkInstance = ((string)nextLinkValue);
+                                cSMProtectedItemListResponseInstance.NextLink = nextLinkInstance;
                             }
                             
-                            JToken skiptokenValue = responseDoc["Skiptoken"];
-                            if (skiptokenValue != null && skiptokenValue.Type != JTokenType.Null)
+                            JToken idValue2 = responseDoc["id"];
+                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
                             {
-                                string skiptokenInstance = ((string)skiptokenValue);
-                                dataSourcesInstance.Skiptoken = skiptokenInstance;
+                                string idInstance2 = ((string)idValue2);
+                                cSMProtectedItemListResponseInstance.Id = idInstance2;
+                            }
+                            
+                            JToken nameValue2 = responseDoc["name"];
+                            if (nameValue2 != null && nameValue2.Type != JTokenType.Null)
+                            {
+                                string nameInstance2 = ((string)nameValue2);
+                                cSMProtectedItemListResponseInstance.Name = nameInstance2;
+                            }
+                            
+                            JToken typeValue2 = responseDoc["type"];
+                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
+                            {
+                                string typeInstance2 = ((string)typeValue2);
+                                cSMProtectedItemListResponseInstance.Type = typeInstance2;
                             }
                         }
                         
                     }
                     result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-client-request-id"))
+                    
+                    if (shouldTrace)
                     {
-                        customRequestHeaders.ClientRequestId = httpResponse.Headers.GetValues("x-ms-client-request-id").FirstOrDefault();
+                        TracingAdapter.Exit(invocationId, result);
                     }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Enable protection for given item.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='containerName'>
+        /// Required. containerName.
+        /// </param>
+        /// <param name='itemName'>
+        /// Required. itemName.
+        /// </param>
+        /// <param name='csmparameters'>
+        /// Required. Set protection request input.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a Operation Response.
+        /// </returns>
+        public async Task<OperationResponse> UpdateProtectionCSMAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string containerName, string itemName, CSMUpdateProtectionRequest csmparameters, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            if (containerName == null)
+            {
+                throw new ArgumentNullException("containerName");
+            }
+            if (itemName == null)
+            {
+                throw new ArgumentNullException("itemName");
+            }
+            if (csmparameters == null)
+            {
+                throw new ArgumentNullException("csmparameters");
+            }
+            if (csmparameters.Properties == null)
+            {
+                throw new ArgumentNullException("csmparameters.Properties");
+            }
+            if (csmparameters.Properties.PolicyId == null)
+            {
+                throw new ArgumentNullException("csmparameters.Properties.PolicyId");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
+                tracingParameters.Add("customRequestHeaders", customRequestHeaders);
+                tracingParameters.Add("containerName", containerName);
+                tracingParameters.Add("itemName", itemName);
+                tracingParameters.Add("csmparameters", csmparameters);
+                TracingAdapter.Enter(invocationId, this, "UpdateProtectionCSMAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + "Microsoft.Backup";
+            url = url + "/";
+            url = url + "BackupVault";
+            url = url + "/";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/registeredContainers/";
+            url = url + Uri.EscapeDataString(containerName);
+            url = url + "/protectedItems/";
+            url = url + Uri.EscapeDataString(itemName);
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2014-09-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = new HttpMethod("PATCH");
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject cSMUpdateProtectionRequestValue = new JObject();
+                requestDoc = cSMUpdateProtectionRequestValue;
+                
+                JObject propertiesValue = new JObject();
+                cSMUpdateProtectionRequestValue["properties"] = propertiesValue;
+                
+                propertiesValue["policyId"] = csmparameters.Properties.PolicyId;
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResponse result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new OperationResponse();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            Guid operationIdInstance = Guid.Parse(((string)responseDoc));
+                            result.OperationId = operationIdInstance;
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
                     
                     if (shouldTrace)
                     {

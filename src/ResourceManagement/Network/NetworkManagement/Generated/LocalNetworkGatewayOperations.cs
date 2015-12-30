@@ -177,28 +177,33 @@ namespace Microsoft.Azure.Management.Network
                 JObject propertiesValue = new JObject();
                 localNetworkGatewayJsonFormatValue["properties"] = propertiesValue;
                 
+                if (parameters.LocalNetworkAddressSpace != null)
+                {
+                    JObject localNetworkAddressSpaceValue = new JObject();
+                    propertiesValue["localNetworkAddressSpace"] = localNetworkAddressSpaceValue;
+                    
+                    if (parameters.LocalNetworkAddressSpace.AddressPrefixes != null)
+                    {
+                        if (parameters.LocalNetworkAddressSpace.AddressPrefixes is ILazyCollection == false || ((ILazyCollection)parameters.LocalNetworkAddressSpace.AddressPrefixes).IsInitialized)
+                        {
+                            JArray addressPrefixesArray = new JArray();
+                            foreach (string addressPrefixesItem in parameters.LocalNetworkAddressSpace.AddressPrefixes)
+                            {
+                                addressPrefixesArray.Add(addressPrefixesItem);
+                            }
+                            localNetworkAddressSpaceValue["addressPrefixes"] = addressPrefixesArray;
+                        }
+                    }
+                }
+                
                 if (parameters.GatewayIpAddress != null)
                 {
                     propertiesValue["gatewayIpAddress"] = parameters.GatewayIpAddress;
                 }
                 
-                if (parameters.LocalNetworkSiteAddressSpace != null)
+                if (parameters.ResourceGuid != null)
                 {
-                    JObject localNetworkSiteAddressSpaceValue = new JObject();
-                    propertiesValue["localNetworkSiteAddressSpace"] = localNetworkSiteAddressSpaceValue;
-                    
-                    if (parameters.LocalNetworkSiteAddressSpace.AddressPrefixes != null)
-                    {
-                        if (parameters.LocalNetworkSiteAddressSpace.AddressPrefixes is ILazyCollection == false || ((ILazyCollection)parameters.LocalNetworkSiteAddressSpace.AddressPrefixes).IsInitialized)
-                        {
-                            JArray addressPrefixesArray = new JArray();
-                            foreach (string addressPrefixesItem in parameters.LocalNetworkSiteAddressSpace.AddressPrefixes)
-                            {
-                                addressPrefixesArray.Add(addressPrefixesItem);
-                            }
-                            localNetworkSiteAddressSpaceValue["addressPrefixes"] = addressPrefixesArray;
-                        }
-                    }
+                    propertiesValue["resourceGuid"] = parameters.ResourceGuid;
                 }
                 
                 if (parameters.ProvisioningState != null)
@@ -292,6 +297,22 @@ namespace Microsoft.Azure.Management.Network
                             JToken propertiesValue2 = responseDoc["properties"];
                             if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
                             {
+                                JToken localNetworkAddressSpaceValue2 = propertiesValue2["localNetworkAddressSpace"];
+                                if (localNetworkAddressSpaceValue2 != null && localNetworkAddressSpaceValue2.Type != JTokenType.Null)
+                                {
+                                    AddressSpace localNetworkAddressSpaceInstance = new AddressSpace();
+                                    localNetworkGatewayInstance.LocalNetworkAddressSpace = localNetworkAddressSpaceInstance;
+                                    
+                                    JToken addressPrefixesArray2 = localNetworkAddressSpaceValue2["addressPrefixes"];
+                                    if (addressPrefixesArray2 != null && addressPrefixesArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray2))
+                                        {
+                                            localNetworkAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
+                                        }
+                                    }
+                                }
+                                
                                 JToken gatewayIpAddressValue = propertiesValue2["gatewayIpAddress"];
                                 if (gatewayIpAddressValue != null && gatewayIpAddressValue.Type != JTokenType.Null)
                                 {
@@ -299,20 +320,11 @@ namespace Microsoft.Azure.Management.Network
                                     localNetworkGatewayInstance.GatewayIpAddress = gatewayIpAddressInstance;
                                 }
                                 
-                                JToken localNetworkSiteAddressSpaceValue2 = propertiesValue2["localNetworkSiteAddressSpace"];
-                                if (localNetworkSiteAddressSpaceValue2 != null && localNetworkSiteAddressSpaceValue2.Type != JTokenType.Null)
+                                JToken resourceGuidValue = propertiesValue2["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
                                 {
-                                    AddressSpace localNetworkSiteAddressSpaceInstance = new AddressSpace();
-                                    localNetworkGatewayInstance.LocalNetworkSiteAddressSpace = localNetworkSiteAddressSpaceInstance;
-                                    
-                                    JToken addressPrefixesArray2 = localNetworkSiteAddressSpaceValue2["addressPrefixes"];
-                                    if (addressPrefixesArray2 != null && addressPrefixesArray2.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray2))
-                                        {
-                                            localNetworkSiteAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
-                                        }
-                                    }
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    localNetworkGatewayInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue = propertiesValue2["provisioningState"];
@@ -689,7 +701,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -758,7 +770,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -918,6 +930,22 @@ namespace Microsoft.Azure.Management.Network
                             JToken propertiesValue = responseDoc["properties"];
                             if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
                             {
+                                JToken localNetworkAddressSpaceValue = propertiesValue["localNetworkAddressSpace"];
+                                if (localNetworkAddressSpaceValue != null && localNetworkAddressSpaceValue.Type != JTokenType.Null)
+                                {
+                                    AddressSpace localNetworkAddressSpaceInstance = new AddressSpace();
+                                    localNetworkGatewayInstance.LocalNetworkAddressSpace = localNetworkAddressSpaceInstance;
+                                    
+                                    JToken addressPrefixesArray = localNetworkAddressSpaceValue["addressPrefixes"];
+                                    if (addressPrefixesArray != null && addressPrefixesArray.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray))
+                                        {
+                                            localNetworkAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
+                                        }
+                                    }
+                                }
+                                
                                 JToken gatewayIpAddressValue = propertiesValue["gatewayIpAddress"];
                                 if (gatewayIpAddressValue != null && gatewayIpAddressValue.Type != JTokenType.Null)
                                 {
@@ -925,20 +953,11 @@ namespace Microsoft.Azure.Management.Network
                                     localNetworkGatewayInstance.GatewayIpAddress = gatewayIpAddressInstance;
                                 }
                                 
-                                JToken localNetworkSiteAddressSpaceValue = propertiesValue["localNetworkSiteAddressSpace"];
-                                if (localNetworkSiteAddressSpaceValue != null && localNetworkSiteAddressSpaceValue.Type != JTokenType.Null)
+                                JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
                                 {
-                                    AddressSpace localNetworkSiteAddressSpaceInstance = new AddressSpace();
-                                    localNetworkGatewayInstance.LocalNetworkSiteAddressSpace = localNetworkSiteAddressSpaceInstance;
-                                    
-                                    JToken addressPrefixesArray = localNetworkSiteAddressSpaceValue["addressPrefixes"];
-                                    if (addressPrefixesArray != null && addressPrefixesArray.Type != JTokenType.Null)
-                                    {
-                                        foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray))
-                                        {
-                                            localNetworkSiteAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
-                                        }
-                                    }
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    localNetworkGatewayInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue = propertiesValue["provisioningState"];
@@ -1156,6 +1175,22 @@ namespace Microsoft.Azure.Management.Network
                                     JToken propertiesValue = valueValue["properties"];
                                     if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
                                     {
+                                        JToken localNetworkAddressSpaceValue = propertiesValue["localNetworkAddressSpace"];
+                                        if (localNetworkAddressSpaceValue != null && localNetworkAddressSpaceValue.Type != JTokenType.Null)
+                                        {
+                                            AddressSpace localNetworkAddressSpaceInstance = new AddressSpace();
+                                            localNetworkGatewayJsonFormatInstance.LocalNetworkAddressSpace = localNetworkAddressSpaceInstance;
+                                            
+                                            JToken addressPrefixesArray = localNetworkAddressSpaceValue["addressPrefixes"];
+                                            if (addressPrefixesArray != null && addressPrefixesArray.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray))
+                                                {
+                                                    localNetworkAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
+                                                }
+                                            }
+                                        }
+                                        
                                         JToken gatewayIpAddressValue = propertiesValue["gatewayIpAddress"];
                                         if (gatewayIpAddressValue != null && gatewayIpAddressValue.Type != JTokenType.Null)
                                         {
@@ -1163,20 +1198,11 @@ namespace Microsoft.Azure.Management.Network
                                             localNetworkGatewayJsonFormatInstance.GatewayIpAddress = gatewayIpAddressInstance;
                                         }
                                         
-                                        JToken localNetworkSiteAddressSpaceValue = propertiesValue["localNetworkSiteAddressSpace"];
-                                        if (localNetworkSiteAddressSpaceValue != null && localNetworkSiteAddressSpaceValue.Type != JTokenType.Null)
+                                        JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                        if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
                                         {
-                                            AddressSpace localNetworkSiteAddressSpaceInstance = new AddressSpace();
-                                            localNetworkGatewayJsonFormatInstance.LocalNetworkSiteAddressSpace = localNetworkSiteAddressSpaceInstance;
-                                            
-                                            JToken addressPrefixesArray = localNetworkSiteAddressSpaceValue["addressPrefixes"];
-                                            if (addressPrefixesArray != null && addressPrefixesArray.Type != JTokenType.Null)
-                                            {
-                                                foreach (JToken addressPrefixesValue in ((JArray)addressPrefixesArray))
-                                                {
-                                                    localNetworkSiteAddressSpaceInstance.AddressPrefixes.Add(((string)addressPrefixesValue));
-                                                }
-                                            }
+                                            string resourceGuidInstance = ((string)resourceGuidValue);
+                                            localNetworkGatewayJsonFormatInstance.ResourceGuid = resourceGuidInstance;
                                         }
                                         
                                         JToken provisioningStateValue = propertiesValue["provisioningState"];
