@@ -30,26 +30,26 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
     /// </summary>
     public partial class IaaSVMProtectableItem : ProtectableItem
     {
-        private string _containerUri;
+        private string _resourceGroup;
         
         /// <summary>
-        /// Optional. Container Uri
+        /// Optional. Resource Group
         /// </summary>
-        public string ContainerUri
+        public string ResourceGroup
         {
-            get { return this._containerUri; }
-            set { this._containerUri = value; }
+            get { return this._resourceGroup; }
+            set { this._resourceGroup = value; }
         }
         
-        private string _protectableObjectUri;
+        private string _virtualMachineId;
         
         /// <summary>
-        /// Optional. ProtectableObject Uri
+        /// Optional. VirtualMachine Id
         /// </summary>
-        public string ProtectableObjectUri
+        public string VirtualMachineId
         {
-            get { return this._protectableObjectUri; }
-            set { this._protectableObjectUri = value; }
+            get { return this._virtualMachineId; }
+            set { this._virtualMachineId = value; }
         }
         
         private string _virtualMachineVersion;

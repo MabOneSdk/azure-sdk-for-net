@@ -78,6 +78,10 @@
     <Compile Include="Generated\Models\ErrorInfo.cs" />
     <Compile Include="Generated\Models\ExportJobsOperationResultInfo.cs" />
     <Compile Include="Generated\Models\GetOperationResultResponse.cs" />
+    <Compile Include="Generated\Models\IaasClassiccomputeVmProtectableItem.cs" />
+    <Compile Include="Generated\Models\IaasComputeVmProtectableItem.cs" />
+    <Compile Include="Generated\Models\IaasComputeVmProtectionContainer.cs" />
+    <Compile Include="Generated\Models\IaasVmClassicComputeProtectionContainer.cs" />
     <Compile Include="Generated\Models\IaaSVMErrorInfo.cs" />
     <Compile Include="Generated\Models\IaaSVMJob.cs" />
     <Compile Include="Generated\Models\IaaSVMJobExtendedInfo.cs" />
