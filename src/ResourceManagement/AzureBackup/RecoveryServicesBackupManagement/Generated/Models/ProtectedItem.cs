@@ -52,28 +52,6 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._containerName = value; }
         }
         
-        private ProtectedItemExtendedInfo _extendedInfo;
-        
-        /// <summary>
-        /// Optional. ExtendedInfo for the protected item
-        /// </summary>
-        public ProtectedItemExtendedInfo ExtendedInfo
-        {
-            get { return this._extendedInfo; }
-            set { this._extendedInfo = value; }
-        }
-        
-        private string _friendlyName;
-        
-        /// <summary>
-        /// Optional. Protected Item FriendlyName
-        /// </summary>
-        public string FriendlyName
-        {
-            get { return this._friendlyName; }
-            set { this._friendlyName = value; }
-        }
-        
         private System.DateTime? _lastRecoveryPoint;
         
         /// <summary>

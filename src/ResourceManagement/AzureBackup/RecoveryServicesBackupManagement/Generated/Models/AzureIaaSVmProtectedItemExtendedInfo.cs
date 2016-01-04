@@ -26,47 +26,48 @@ using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
     /// <summary>
-    /// The definition of a IaasVM ProtectableItem object.
+    /// The definition of a AzureIaaSVmProtectedItemExtendedInfo object.
     /// </summary>
-    public partial class IaaSVMProtectableItem : ProtectableItem
+    public partial class AzureIaaSVmProtectedItemExtendedInfo : ProtectedItemExtendedInfo
     {
-        private string _resourceGroup;
+        private System.DateTime? _oldestRecoveryPoint;
         
         /// <summary>
-        /// Optional. Resource Group
+        /// Optional. OldestRecoveryPoint for the protected item
         /// </summary>
-        public string ResourceGroup
+        public System.DateTime? OldestRecoveryPoint
         {
-            get { return this._resourceGroup; }
-            set { this._resourceGroup = value; }
+            get { return this._oldestRecoveryPoint; }
+            set { this._oldestRecoveryPoint = value; }
         }
         
-        private string _virtualMachineId;
+        private bool _policyInconsistent;
         
         /// <summary>
-        /// Optional. VirtualMachine Id
+        /// Optional. If DataSourcePolicy is inconsistent with global policy
         /// </summary>
-        public string VirtualMachineId
+        public bool PolicyInconsistent
         {
-            get { return this._virtualMachineId; }
-            set { this._virtualMachineId = value; }
+            get { return this._policyInconsistent; }
+            set { this._policyInconsistent = value; }
         }
         
-        private string _virtualMachineVersion;
+        private int _recoveryPointCount;
         
         /// <summary>
-        /// Optional. Classic or Classic VM
+        /// Optional. RecoveryPointCount for the protected item
         /// </summary>
-        public string VirtualMachineVersion
+        public int RecoveryPointCount
         {
-            get { return this._virtualMachineVersion; }
-            set { this._virtualMachineVersion = value; }
+            get { return this._recoveryPointCount; }
+            set { this._recoveryPointCount = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the IaaSVMProtectableItem class.
+        /// Initializes a new instance of the
+        /// AzureIaaSVmProtectedItemExtendedInfo class.
         /// </summary>
-        public IaaSVMProtectableItem()
+        public AzureIaaSVmProtectedItemExtendedInfo()
         {
         }
     }

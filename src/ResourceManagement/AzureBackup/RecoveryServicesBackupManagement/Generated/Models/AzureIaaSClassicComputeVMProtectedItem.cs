@@ -21,11 +21,21 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
-    public enum ProviderTypes
+    /// <summary>
+    /// The definition of a IaasVM ProtectedItem object.
+    /// </summary>
+    public partial class AzureIaaSClassicComputeVMProtectedItem : AzureIaaSVMProtectedItem
     {
-        AzureIaasVM = 0,
+        /// <summary>
+        /// Initializes a new instance of the
+        /// AzureIaaSClassicComputeVMProtectedItem class.
+        /// </summary>
+        public AzureIaaSClassicComputeVMProtectedItem()
+        {
+        }
     }
 }
