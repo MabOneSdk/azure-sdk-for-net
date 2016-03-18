@@ -24,47 +24,19 @@ using System.Linq;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
-    public partial class ProtectableObjectListQueryParameters
+    /// <summary>
+    /// The WorkloadType type.
+    /// </summary>
+    public static partial class WorkloadType
     {
-        private string _friendlyName;
+        /// <summary>
+        /// The VM Workload type.
+        /// </summary>
+        public const string VM = "VM";
         
         /// <summary>
-        /// Optional.
+        /// The File Folder Workload type.
         /// </summary>
-        public string FriendlyName
-        {
-            get { return this._friendlyName; }
-            set { this._friendlyName = value; }
-        }
-        
-        private string _providerType;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public string ProviderType
-        {
-            get { return this._providerType; }
-            set { this._providerType = value; }
-        }
-        
-        private string _status;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public string Status
-        {
-            get { return this._status; }
-            set { this._status = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the
-        /// ProtectableObjectListQueryParameters class.
-        /// </summary>
-        public ProtectableObjectListQueryParameters()
-        {
-        }
+        public const string FileFolder = "FileFolder";
     }
 }

@@ -24,47 +24,19 @@ using System.Linq;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
-    public partial class ProtectableObjectListQueryParameters
+    /// <summary>
+    /// The ScheduleRunFrequency type.
+    /// </summary>
+    public static partial class ScheduleRunFrequencyType
     {
-        private string _friendlyName;
+        /// <summary>
+        /// Daily Schedule Run Frequency.
+        /// </summary>
+        public const string Daily = "Daily";
         
         /// <summary>
-        /// Optional.
+        /// Daily Schedule Run Frequency.
         /// </summary>
-        public string FriendlyName
-        {
-            get { return this._friendlyName; }
-            set { this._friendlyName = value; }
-        }
-        
-        private string _providerType;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public string ProviderType
-        {
-            get { return this._providerType; }
-            set { this._providerType = value; }
-        }
-        
-        private string _status;
-        
-        /// <summary>
-        /// Optional.
-        /// </summary>
-        public string Status
-        {
-            get { return this._status; }
-            set { this._status = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the
-        /// ProtectableObjectListQueryParameters class.
-        /// </summary>
-        public ProtectableObjectListQueryParameters()
-        {
-        }
+        public const string Weekly = "Weekly";
     }
 }

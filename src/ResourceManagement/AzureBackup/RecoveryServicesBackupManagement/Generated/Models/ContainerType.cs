@@ -24,47 +24,29 @@ using System.Linq;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
 {
-    public partial class ProtectableObjectListQueryParameters
+    /// <summary>
+    /// The Container type.
+    /// </summary>
+    public static partial class ContainerType
     {
-        private string _friendlyName;
+        /// <summary>
+        /// The Azure IaasVM container type.
+        /// </summary>
+        public const string IaasVMContainer = "IaasVMContainer";
         
         /// <summary>
-        /// Optional.
+        /// The Microsoft AzureBackup container type.
         /// </summary>
-        public string FriendlyName
-        {
-            get { return this._friendlyName; }
-            set { this._friendlyName = value; }
-        }
-        
-        private string _providerType;
+        public const string MABContainer = "MABContainer";
         
         /// <summary>
-        /// Optional.
+        /// The Data Protection Manager Container type.
         /// </summary>
-        public string ProviderType
-        {
-            get { return this._providerType; }
-            set { this._providerType = value; }
-        }
-        
-        private string _status;
+        public const string DPMContainer = "DPMContainer";
         
         /// <summary>
-        /// Optional.
+        /// The  DPM Venus Container type.
         /// </summary>
-        public string Status
-        {
-            get { return this._status; }
-            set { this._status = value; }
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the
-        /// ProtectableObjectListQueryParameters class.
-        /// </summary>
-        public ProtectableObjectListQueryParameters()
-        {
-        }
+        public const string DPMVenusContainer = "DPMVenusContainer";
     }
 }
