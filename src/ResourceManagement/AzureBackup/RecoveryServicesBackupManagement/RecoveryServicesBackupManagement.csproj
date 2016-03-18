@@ -82,6 +82,8 @@
     <Compile Include="Generated\Models\AzureIaaSVMProtectedItemExtendedInfo.cs" />
     <Compile Include="Generated\Models\AzureIaaSVMProtectionContainer.cs" />
     <Compile Include="Generated\Models\AzureIaaSVMProtectionPolicy.cs" />
+    <Compile Include="Generated\Models\AzureSqlProtectedItem.cs" />
+    <Compile Include="Generated\Models\AzureSqlProtectedItemExtendedInfo.cs" />
     <Compile Include="Generated\Models\BackUpOperationStatus.cs" />
     <Compile Include="Generated\Models\BackUpOperationStatusResponse.cs" />
     <Compile Include="Generated\Models\BaseRecoveryServicesJobResponse.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Generated\Models\DpmVenusProtectionContainer.cs" />
     <Compile Include="Generated\Models\ErrorInfo.cs" />
     <Compile Include="Generated\Models\ExportJobsOperationResultInfo.cs" />
+    <Compile Include="Generated\Models\GenericRecoveryPoint.cs" />
     <Compile Include="Generated\Models\GetOperationResultResponse.cs" />
     <Compile Include="Generated\Models\GetProtectedItemQueryParam.cs" />
     <Compile Include="Generated\Models\IaasVMRestoreRequest.cs" />

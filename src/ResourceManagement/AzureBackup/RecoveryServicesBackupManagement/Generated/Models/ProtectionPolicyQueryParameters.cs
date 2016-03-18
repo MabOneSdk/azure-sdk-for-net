@@ -29,26 +29,15 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
     /// </summary>
     public partial class ProtectionPolicyQueryParameters
     {
-        private string _dataSourceType;
-        
-        /// <summary>
-        /// Optional. provider type query parametee.
-        /// </summary>
-        public string DataSourceType
-        {
-            get { return this._dataSourceType; }
-            set { this._dataSourceType = value; }
-        }
-        
-        private string _providerType;
+        private string _backupManagementType;
         
         /// <summary>
         /// Optional. provider type query parameter
         /// </summary>
-        public string ProviderType
+        public string BackupManagementType
         {
-            get { return this._providerType; }
-            set { this._providerType = value; }
+            get { return this._backupManagementType; }
+            set { this._backupManagementType = value; }
         }
         
         /// <summary>
