@@ -53,6 +53,12 @@ namespace Microsoft.Azure.Search.Models
         public long? Count { get; set; }
 
         /// <summary>
+        /// Gets a value indicating the percentage of the index that was included in the query, or null if
+        /// MinimumCoverage was not set in the <c cref="SearchParameters">SearchParameters</c>.
+        /// </summary>
+        public double? Coverage { get; set; }
+
+        /// <summary>
         /// Gets the facet query results for the search operation, or null if the query did not include any facet
         /// expressions.
         /// </summary>
@@ -72,8 +78,11 @@ namespace Microsoft.Azure.Search.Models
         /// Azure Search index.
         /// </summary>
         /// <remarks>
-        /// This property will be null unless you request more than 1000 results, and the number of results exceeds
-        /// 1000. In that case, you can pass the value of this property to the
+        /// This property will be null unless you request more results than the page size. This can happen either when
+        /// you do not specify <c cref="SearchParameters.Top">Top</c> and there are more than 50 results (default page
+        /// size is 50), or when you specify a value greater than 1000 for <c cref="SearchParameters.Top">Top</c> and
+        /// there are more than 1000 results (maximum page size is 1000). In either case, you can pass the value of
+        /// this property to the
         /// <c cref="IDocumentOperations.ContinueSearchAsync(SearchContinuationToken, System.Threading.CancellationToken)">ContinueSearchAsync</c>
         /// method to retrieve the next page of results.
         /// </remarks>

@@ -249,6 +249,17 @@ namespace Microsoft.Azure.Management.Network
                                 }
                             }
                             
+                            if (subnetsItem.RouteTable != null)
+                            {
+                                JObject routeTableValue = new JObject();
+                                propertiesValue2["routeTable"] = routeTableValue;
+                                
+                                if (subnetsItem.RouteTable.Id != null)
+                                {
+                                    routeTableValue["id"] = subnetsItem.RouteTable.Id;
+                                }
+                            }
+                            
                             if (subnetsItem.IpConfigurations != null)
                             {
                                 if (subnetsItem.IpConfigurations is ILazyCollection == false || ((ILazyCollection)subnetsItem.IpConfigurations).IsInitialized)
@@ -290,6 +301,11 @@ namespace Microsoft.Azure.Management.Network
                         }
                         propertiesValue["subnets"] = subnetsArray;
                     }
+                }
+                
+                if (parameters.ResourceGuid != null)
+                {
+                    propertiesValue["resourceGuid"] = parameters.ResourceGuid;
                 }
                 
                 if (parameters.ProvisioningState != null)
@@ -447,6 +463,20 @@ namespace Microsoft.Azure.Management.Network
                                                 }
                                             }
                                             
+                                            JToken routeTableValue2 = propertiesValue4["routeTable"];
+                                            if (routeTableValue2 != null && routeTableValue2.Type != JTokenType.Null)
+                                            {
+                                                ResourceId routeTableInstance = new ResourceId();
+                                                subnetJsonFormatInstance.RouteTable = routeTableInstance;
+                                                
+                                                JToken idValue2 = routeTableValue2["id"];
+                                                if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                {
+                                                    string idInstance2 = ((string)idValue2);
+                                                    routeTableInstance.Id = idInstance2;
+                                                }
+                                            }
+                                            
                                             JToken ipConfigurationsArray2 = propertiesValue4["ipConfigurations"];
                                             if (ipConfigurationsArray2 != null && ipConfigurationsArray2.Type != JTokenType.Null)
                                             {
@@ -455,11 +485,11 @@ namespace Microsoft.Azure.Management.Network
                                                     ResourceId resourceIdInstance = new ResourceId();
                                                     subnetJsonFormatInstance.IpConfigurations.Add(resourceIdInstance);
                                                     
-                                                    JToken idValue2 = ipConfigurationsValue["id"];
-                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                    JToken idValue3 = ipConfigurationsValue["id"];
+                                                    if (idValue3 != null && idValue3.Type != JTokenType.Null)
                                                     {
-                                                        string idInstance2 = ((string)idValue2);
-                                                        resourceIdInstance.Id = idInstance2;
+                                                        string idInstance3 = ((string)idValue3);
+                                                        resourceIdInstance.Id = idInstance3;
                                                     }
                                                 }
                                             }
@@ -486,13 +516,20 @@ namespace Microsoft.Azure.Management.Network
                                             subnetJsonFormatInstance.Etag = etagInstance;
                                         }
                                         
-                                        JToken idValue3 = subnetsValue["id"];
-                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                        JToken idValue4 = subnetsValue["id"];
+                                        if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                         {
-                                            string idInstance3 = ((string)idValue3);
-                                            subnetJsonFormatInstance.Id = idInstance3;
+                                            string idInstance4 = ((string)idValue4);
+                                            subnetJsonFormatInstance.Id = idInstance4;
                                         }
                                     }
+                                }
+                                
+                                JToken resourceGuidValue = propertiesValue3["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                {
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    virtualNetworkInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue2 = propertiesValue3["provisioningState"];
@@ -510,11 +547,11 @@ namespace Microsoft.Azure.Management.Network
                                 virtualNetworkInstance.Etag = etagInstance2;
                             }
                             
-                            JToken idValue4 = responseDoc["id"];
-                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                            JToken idValue5 = responseDoc["id"];
+                            if (idValue5 != null && idValue5.Type != JTokenType.Null)
                             {
-                                string idInstance4 = ((string)idValue4);
-                                virtualNetworkInstance.Id = idInstance4;
+                                string idInstance5 = ((string)idValue5);
+                                virtualNetworkInstance.Id = idInstance5;
                             }
                             
                             JToken nameValue2 = responseDoc["name"];
@@ -867,7 +904,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -936,7 +973,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -1159,6 +1196,20 @@ namespace Microsoft.Azure.Management.Network
                                                 }
                                             }
                                             
+                                            JToken routeTableValue = propertiesValue2["routeTable"];
+                                            if (routeTableValue != null && routeTableValue.Type != JTokenType.Null)
+                                            {
+                                                ResourceId routeTableInstance = new ResourceId();
+                                                subnetJsonFormatInstance.RouteTable = routeTableInstance;
+                                                
+                                                JToken idValue2 = routeTableValue["id"];
+                                                if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                {
+                                                    string idInstance2 = ((string)idValue2);
+                                                    routeTableInstance.Id = idInstance2;
+                                                }
+                                            }
+                                            
                                             JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
                                             if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
                                             {
@@ -1167,11 +1218,11 @@ namespace Microsoft.Azure.Management.Network
                                                     ResourceId resourceIdInstance = new ResourceId();
                                                     subnetJsonFormatInstance.IpConfigurations.Add(resourceIdInstance);
                                                     
-                                                    JToken idValue2 = ipConfigurationsValue["id"];
-                                                    if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                    JToken idValue3 = ipConfigurationsValue["id"];
+                                                    if (idValue3 != null && idValue3.Type != JTokenType.Null)
                                                     {
-                                                        string idInstance2 = ((string)idValue2);
-                                                        resourceIdInstance.Id = idInstance2;
+                                                        string idInstance3 = ((string)idValue3);
+                                                        resourceIdInstance.Id = idInstance3;
                                                     }
                                                 }
                                             }
@@ -1198,13 +1249,20 @@ namespace Microsoft.Azure.Management.Network
                                             subnetJsonFormatInstance.Etag = etagInstance;
                                         }
                                         
-                                        JToken idValue3 = subnetsValue["id"];
-                                        if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                        JToken idValue4 = subnetsValue["id"];
+                                        if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                         {
-                                            string idInstance3 = ((string)idValue3);
-                                            subnetJsonFormatInstance.Id = idInstance3;
+                                            string idInstance4 = ((string)idValue4);
+                                            subnetJsonFormatInstance.Id = idInstance4;
                                         }
                                     }
+                                }
+                                
+                                JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                {
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    virtualNetworkInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue2 = propertiesValue["provisioningState"];
@@ -1222,11 +1280,11 @@ namespace Microsoft.Azure.Management.Network
                                 virtualNetworkInstance.Etag = etagInstance2;
                             }
                             
-                            JToken idValue4 = responseDoc["id"];
-                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                            JToken idValue5 = responseDoc["id"];
+                            if (idValue5 != null && idValue5.Type != JTokenType.Null)
                             {
-                                string idInstance4 = ((string)idValue4);
-                                virtualNetworkInstance.Id = idInstance4;
+                                string idInstance5 = ((string)idValue5);
+                                virtualNetworkInstance.Id = idInstance5;
                             }
                             
                             JToken nameValue2 = responseDoc["name"];
@@ -1486,6 +1544,20 @@ namespace Microsoft.Azure.Management.Network
                                                         }
                                                     }
                                                     
+                                                    JToken routeTableValue = propertiesValue2["routeTable"];
+                                                    if (routeTableValue != null && routeTableValue.Type != JTokenType.Null)
+                                                    {
+                                                        ResourceId routeTableInstance = new ResourceId();
+                                                        subnetJsonFormatInstance.RouteTable = routeTableInstance;
+                                                        
+                                                        JToken idValue2 = routeTableValue["id"];
+                                                        if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string idInstance2 = ((string)idValue2);
+                                                            routeTableInstance.Id = idInstance2;
+                                                        }
+                                                    }
+                                                    
                                                     JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
                                                     if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
                                                     {
@@ -1494,11 +1566,11 @@ namespace Microsoft.Azure.Management.Network
                                                             ResourceId resourceIdInstance = new ResourceId();
                                                             subnetJsonFormatInstance.IpConfigurations.Add(resourceIdInstance);
                                                             
-                                                            JToken idValue2 = ipConfigurationsValue["id"];
-                                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                            JToken idValue3 = ipConfigurationsValue["id"];
+                                                            if (idValue3 != null && idValue3.Type != JTokenType.Null)
                                                             {
-                                                                string idInstance2 = ((string)idValue2);
-                                                                resourceIdInstance.Id = idInstance2;
+                                                                string idInstance3 = ((string)idValue3);
+                                                                resourceIdInstance.Id = idInstance3;
                                                             }
                                                         }
                                                     }
@@ -1525,13 +1597,20 @@ namespace Microsoft.Azure.Management.Network
                                                     subnetJsonFormatInstance.Etag = etagInstance;
                                                 }
                                                 
-                                                JToken idValue3 = subnetsValue["id"];
-                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                JToken idValue4 = subnetsValue["id"];
+                                                if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                 {
-                                                    string idInstance3 = ((string)idValue3);
-                                                    subnetJsonFormatInstance.Id = idInstance3;
+                                                    string idInstance4 = ((string)idValue4);
+                                                    subnetJsonFormatInstance.Id = idInstance4;
                                                 }
                                             }
+                                        }
+                                        
+                                        JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                        if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                        {
+                                            string resourceGuidInstance = ((string)resourceGuidValue);
+                                            virtualNetworkJsonFormatInstance.ResourceGuid = resourceGuidInstance;
                                         }
                                         
                                         JToken provisioningStateValue2 = propertiesValue["provisioningState"];
@@ -1549,11 +1628,11 @@ namespace Microsoft.Azure.Management.Network
                                         virtualNetworkJsonFormatInstance.Etag = etagInstance2;
                                     }
                                     
-                                    JToken idValue4 = valueValue["id"];
-                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    JToken idValue5 = valueValue["id"];
+                                    if (idValue5 != null && idValue5.Type != JTokenType.Null)
                                     {
-                                        string idInstance4 = ((string)idValue4);
-                                        virtualNetworkJsonFormatInstance.Id = idInstance4;
+                                        string idInstance5 = ((string)idValue5);
+                                        virtualNetworkJsonFormatInstance.Id = idInstance5;
                                     }
                                     
                                     JToken nameValue2 = valueValue["name"];
@@ -1812,6 +1891,20 @@ namespace Microsoft.Azure.Management.Network
                                                         }
                                                     }
                                                     
+                                                    JToken routeTableValue = propertiesValue2["routeTable"];
+                                                    if (routeTableValue != null && routeTableValue.Type != JTokenType.Null)
+                                                    {
+                                                        ResourceId routeTableInstance = new ResourceId();
+                                                        subnetJsonFormatInstance.RouteTable = routeTableInstance;
+                                                        
+                                                        JToken idValue2 = routeTableValue["id"];
+                                                        if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string idInstance2 = ((string)idValue2);
+                                                            routeTableInstance.Id = idInstance2;
+                                                        }
+                                                    }
+                                                    
                                                     JToken ipConfigurationsArray = propertiesValue2["ipConfigurations"];
                                                     if (ipConfigurationsArray != null && ipConfigurationsArray.Type != JTokenType.Null)
                                                     {
@@ -1820,11 +1913,11 @@ namespace Microsoft.Azure.Management.Network
                                                             ResourceId resourceIdInstance = new ResourceId();
                                                             subnetJsonFormatInstance.IpConfigurations.Add(resourceIdInstance);
                                                             
-                                                            JToken idValue2 = ipConfigurationsValue["id"];
-                                                            if (idValue2 != null && idValue2.Type != JTokenType.Null)
+                                                            JToken idValue3 = ipConfigurationsValue["id"];
+                                                            if (idValue3 != null && idValue3.Type != JTokenType.Null)
                                                             {
-                                                                string idInstance2 = ((string)idValue2);
-                                                                resourceIdInstance.Id = idInstance2;
+                                                                string idInstance3 = ((string)idValue3);
+                                                                resourceIdInstance.Id = idInstance3;
                                                             }
                                                         }
                                                     }
@@ -1851,13 +1944,20 @@ namespace Microsoft.Azure.Management.Network
                                                     subnetJsonFormatInstance.Etag = etagInstance;
                                                 }
                                                 
-                                                JToken idValue3 = subnetsValue["id"];
-                                                if (idValue3 != null && idValue3.Type != JTokenType.Null)
+                                                JToken idValue4 = subnetsValue["id"];
+                                                if (idValue4 != null && idValue4.Type != JTokenType.Null)
                                                 {
-                                                    string idInstance3 = ((string)idValue3);
-                                                    subnetJsonFormatInstance.Id = idInstance3;
+                                                    string idInstance4 = ((string)idValue4);
+                                                    subnetJsonFormatInstance.Id = idInstance4;
                                                 }
                                             }
+                                        }
+                                        
+                                        JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                        if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                        {
+                                            string resourceGuidInstance = ((string)resourceGuidValue);
+                                            virtualNetworkJsonFormatInstance.ResourceGuid = resourceGuidInstance;
                                         }
                                         
                                         JToken provisioningStateValue2 = propertiesValue["provisioningState"];
@@ -1875,11 +1975,11 @@ namespace Microsoft.Azure.Management.Network
                                         virtualNetworkJsonFormatInstance.Etag = etagInstance2;
                                     }
                                     
-                                    JToken idValue4 = valueValue["id"];
-                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    JToken idValue5 = valueValue["id"];
+                                    if (idValue5 != null && idValue5.Type != JTokenType.Null)
                                     {
-                                        string idInstance4 = ((string)idValue4);
-                                        virtualNetworkJsonFormatInstance.Id = idInstance4;
+                                        string idInstance5 = ((string)idValue5);
+                                        virtualNetworkJsonFormatInstance.Id = idInstance5;
                                     }
                                     
                                     JToken nameValue2 = valueValue["name"];

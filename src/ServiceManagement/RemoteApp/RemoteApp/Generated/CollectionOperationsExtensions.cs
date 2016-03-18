@@ -23,10 +23,10 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Management.RemoteApp;
-using Microsoft.Azure.Management.RemoteApp.Models;
+using Microsoft.WindowsAzure.Management.RemoteApp;
+using Microsoft.WindowsAzure.Management.RemoteApp.Models;
 
-namespace Microsoft.Azure.Management.RemoteApp
+namespace Microsoft.WindowsAzure.Management.RemoteApp
 {
     /// <summary>
     /// RmoteApp management client
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='populateOnly'>
         /// Required. A flag denoting if the request is to populate the
@@ -65,7 +65,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='populateOnly'>
         /// Required. A flag denoting if the request is to populate the
@@ -88,7 +88,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -110,7 +110,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -128,7 +128,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -153,7 +153,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -174,7 +174,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -196,7 +196,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -214,7 +214,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. Name of the collection
@@ -237,7 +237,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. Name of the collection
@@ -256,7 +256,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The collection name.
@@ -288,7 +288,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The collection name.
@@ -316,7 +316,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The collection name.
@@ -344,7 +344,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The collection name.
@@ -369,7 +369,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <returns>
         /// The response for the get collections list operation.
@@ -389,7 +389,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <returns>
         /// The response for the get collections list operation.
@@ -404,7 +404,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the sessions exists.
@@ -426,7 +426,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the sessions exists.
@@ -440,11 +440,51 @@ namespace Microsoft.Azure.Management.RemoteApp
         }
         
         /// <summary>
+        /// Gets the list of all virtual machines in the collection.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
+        /// </param>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name where vms exist.
+        /// </param>
+        /// <returns>
+        /// List of virtual machines in a given collection.
+        /// </returns>
+        public static CollectionVmsListResult ListVms(this ICollectionOperations operations, string collectionName)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((ICollectionOperations)s).ListVmsAsync(collectionName);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Gets the list of all virtual machines in the collection.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
+        /// </param>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name where vms exist.
+        /// </param>
+        /// <returns>
+        /// List of virtual machines in a given collection.
+        /// </returns>
+        public static Task<CollectionVmsListResult> ListVmsAsync(this ICollectionOperations operations, string collectionName)
+        {
+            return operations.ListVmsAsync(collectionName, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// Logs off the session associated with the user UPN
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -469,7 +509,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -491,7 +531,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <returns>
         /// The list of locations.
@@ -511,7 +551,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <returns>
         /// The list of locations.
@@ -522,11 +562,59 @@ namespace Microsoft.Azure.Management.RemoteApp
         }
         
         /// <summary>
+        /// Restarts VM associated with a collection.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
+        /// </param>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name containing the VM to be
+        /// restarted.
+        /// </param>
+        /// <param name='details'>
+        /// Required. The details of VM to be restarted.
+        /// </param>
+        /// <returns>
+        /// The response containing the operation tracking id.
+        /// </returns>
+        public static OperationResultWithTrackingId RestartVm(this ICollectionOperations operations, string collectionName, RestartVmCommandParameter details)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((ICollectionOperations)s).RestartVmAsync(collectionName, details);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Restarts VM associated with a collection.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
+        /// </param>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name containing the VM to be
+        /// restarted.
+        /// </param>
+        /// <param name='details'>
+        /// Required. The details of VM to be restarted.
+        /// </param>
+        /// <returns>
+        /// The response containing the operation tracking id.
+        /// </returns>
+        public static Task<OperationResultWithTrackingId> RestartVmAsync(this ICollectionOperations operations, string collectionName, RestartVmCommandParameter details)
+        {
+            return operations.RestartVmAsync(collectionName, details, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// Sends message to the session associated with the user UPN
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -552,7 +640,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The RemoteApp collection name where the session exists.
@@ -574,7 +662,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -607,7 +695,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. The name of the collection.
@@ -636,7 +724,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. Name of the collection
@@ -661,7 +749,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
-        /// Microsoft.Azure.Management.RemoteApp.ICollectionOperations.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.ICollectionOperations.
         /// </param>
         /// <param name='collectionName'>
         /// Required. Name of the collection

@@ -12,9 +12,11 @@
     <Compile Include="Tests\ActiveDirectoryTests.cs" />
     <Compile Include="Tests\RemoteAppPrincipalTests.cs" />
     <Compile Include="Tests\RemoteAppPublishingTests.cs" />
+    <Compile Include="Tests\RemoteAppTestBase.cs" />
     <Compile Include="Tests\TemplateImageTests.cs" />
     <Compile Include="Tests\RemoteAppServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\VmTests.cs" />
     <Compile Include="Tests\VnetTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +114,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SessionRecords\RemoteApp.Tests.Tests.DiagnosticTests\CanGetDiagnosticSummary.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\RemoteApp.Tests.VmTests\CanListVms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\RemoteApp.Tests.VmTests\CanRestartVm.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SessionRecords\RemoteApp.Tests.VnetTests\CanCreateVnet.json">
