@@ -49,12 +49,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generated\AlertConfigurationOperations.cs" />
+    <Compile Include="Generated\AlertConfigurationOperationsExtensions.cs" />
+    <Compile Include="Generated\AlertOperations.cs" />
+    <Compile Include="Generated\AlertOperationsExtensions.cs" />
     <Compile Include="Generated\BackupOperationResults.cs" />
     <Compile Include="Generated\BackupOperationResultsExtensions.cs" />
     <Compile Include="Generated\BackupOperations.cs" />
     <Compile Include="Generated\BackupOperationsExtensions.cs" />
     <Compile Include="Generated\ContainerOperation.cs" />
     <Compile Include="Generated\ContainerOperationExtensions.cs" />
+    <Compile Include="Generated\IAlertConfigurationOperations.cs" />
+    <Compile Include="Generated\IAlertOperations.cs" />
     <Compile Include="Generated\IBackupOperationResults.cs" />
     <Compile Include="Generated\IBackupOperations.cs" />
     <Compile Include="Generated\IContainerOperation.cs" />
@@ -67,6 +73,18 @@
     <Compile Include="Generated\IRestoreOperations.cs" />
     <Compile Include="Generated\JobOperations.cs" />
     <Compile Include="Generated\JobOperationsExtensions.cs" />
+    <Compile Include="Generated\Models\AlertCategory.cs" />
+    <Compile Include="Generated\Models\AlertDetailsExtendedInfo.cs" />
+    <Compile Include="Generated\Models\AlertExtendedInfoBase.cs" />
+    <Compile Include="Generated\Models\AlertInfoBaseWithoutResourceInfo.cs" />
+    <Compile Include="Generated\Models\AlertQueryFilters.cs" />
+    <Compile Include="Generated\Models\AlertResponse.cs" />
+    <Compile Include="Generated\Models\AlertResponseProperties.cs" />
+    <Compile Include="Generated\Models\AlertSeverity.cs" />
+    <Compile Include="Generated\Models\AlertSource.cs" />
+    <Compile Include="Generated\Models\AlertsResponse.cs" />
+    <Compile Include="Generated\Models\AlertStatus.cs" />
+    <Compile Include="Generated\Models\AlertType.cs" />
     <Compile Include="Generated\Models\AzureIaasClassicComputeVMProtectableItem.cs" />
     <Compile Include="Generated\Models\AzureIaaSClassicComputeVMProtectedItem.cs" />
     <Compile Include="Generated\Models\AzureIaaSClassicComputeVMProtectionContainer.cs" />
@@ -85,10 +103,14 @@
     <Compile Include="Generated\Models\BackUpOperationStatus.cs" />
     <Compile Include="Generated\Models\BackUpOperationStatusResponse.cs" />
     <Compile Include="Generated\Models\BaseRecoveryServicesJobResponse.cs" />
+    <Compile Include="Generated\Models\CommonAlertQueryFilters.cs" />
     <Compile Include="Generated\Models\CommonJobQueryFilters.cs" />
+    <Compile Include="Generated\Models\ConfigureNotificationRequest.cs" />
+    <Compile Include="Generated\Models\ConfigureNotificationRequestProperties.cs" />
     <Compile Include="Generated\Models\CustomRequestHeaders.cs" />
     <Compile Include="Generated\Models\DailyRetentionFormat.cs" />
     <Compile Include="Generated\Models\DailyRetentionSchedule.cs" />
+    <Compile Include="Generated\Models\DatasourceInfoBaseWithoutResourceInfo.cs" />
     <Compile Include="Generated\Models\Day.cs" />
     <Compile Include="Generated\Models\DpmProtectionContainer.cs" />
     <Compile Include="Generated\Models\DpmVenusProtectionContainer.cs" />
@@ -113,8 +135,16 @@
     <Compile Include="Generated\Models\MabFileFolderProtectedItem.cs" />
     <Compile Include="Generated\Models\MabFileFolderProtectedItemExtendedInfo.cs" />
     <Compile Include="Generated\Models\MabProtectionContainer.cs" />
+    <Compile Include="Generated\Models\MonitoringBase.cs" />
+    <Compile Include="Generated\Models\MonitoringListResponseBase.cs" />
+    <Compile Include="Generated\Models\MonitoringRequestBase.cs" />
+    <Compile Include="Generated\Models\MonitoringResponseBase.cs" />
     <Compile Include="Generated\Models\Month.cs" />
     <Compile Include="Generated\Models\MonthlyRetentionSchedule.cs" />
+    <Compile Include="Generated\Models\NotificationConfiguration.cs" />
+    <Compile Include="Generated\Models\NotificationConfigurationResponse.cs" />
+    <Compile Include="Generated\Models\NotificationFrequencyDetails.cs" />
+    <Compile Include="Generated\Models\NotificationFrequencyType.cs" />
     <Compile Include="Generated\Models\OperationResultInfo.cs" />
     <Compile Include="Generated\Models\OperationResultInfoBase.cs" />
     <Compile Include="Generated\Models\OperationStatusError.cs" />
@@ -163,6 +193,9 @@
     <Compile Include="Generated\Models\RecoveryPointResourceList.cs" />
     <Compile Include="Generated\Models\RecoveryPointResponse.cs" />
     <Compile Include="Generated\Models\RecoveryType.cs" />
+    <Compile Include="Generated\Models\ResolutionMethodEnum.cs" />
+    <Compile Include="Generated\Models\ResolveAlertProperties.cs" />
+    <Compile Include="Generated\Models\ResolveAlertRequest.cs" />
     <Compile Include="Generated\Models\Resource.cs" />
     <Compile Include="Generated\Models\RestoreRequest.cs" />
     <Compile Include="Generated\Models\RestoreRequestResource.cs" />

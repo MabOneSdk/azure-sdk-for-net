@@ -92,6 +92,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             set { this._resourceNamespace = value; }
         }
         
+        private IAlertConfigurationOperations _alertConfiguration;
+        
+        /// <summary>
+        /// Definition of AlertConfiguration operations for the Azure Backup
+        /// extension.
+        /// </summary>
+        public virtual IAlertConfigurationOperations AlertConfiguration
+        {
+            get { return this._alertConfiguration; }
+        }
+        
+        private IAlertOperations _alert;
+        
+        /// <summary>
+        /// Definition of Alert operations for the Azure Backup extension.
+        /// </summary>
+        public virtual IAlertOperations Alert
+        {
+            get { return this._alert; }
+        }
+        
         private IBackupOperationResults _backupOperationResults;
         
         /// <summary>
@@ -194,6 +215,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient()
             : base()
         {
+            this._alertConfiguration = new AlertConfigurationOperations(this);
+            this._alert = new AlertOperations(this);
             this._backupOperationResults = new BackupOperationResults(this);
             this._backup = new BackupOperations(this);
             this._container = new ContainerOperation(this);
@@ -287,6 +310,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient(HttpClient httpClient)
             : base(httpClient)
         {
+            this._alertConfiguration = new AlertConfigurationOperations(this);
+            this._alert = new AlertOperations(this);
             this._backupOperationResults = new BackupOperationResults(this);
             this._backup = new BackupOperations(this);
             this._container = new ContainerOperation(this);

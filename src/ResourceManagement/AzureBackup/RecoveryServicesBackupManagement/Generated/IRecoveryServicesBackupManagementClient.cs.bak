@@ -76,23 +76,6 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         }
         
         /// <summary>
-        /// Definition of AlertConfiguration operations for the Azure Backup
-        /// extension.
-        /// </summary>
-        IAlertConfigurationOperations AlertConfiguration
-        {
-            get; 
-        }
-        
-        /// <summary>
-        /// Definition of Alert operations for the Azure Backup extension.
-        /// </summary>
-        IAlertOperations Alert
-        {
-            get; 
-        }
-        
-        /// <summary>
         /// Definition of OperationResults operations for the Azure Backup
         /// extension.
         /// </summary>
