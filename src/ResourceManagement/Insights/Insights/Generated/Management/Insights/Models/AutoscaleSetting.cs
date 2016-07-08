@@ -36,8 +36,8 @@ namespace Microsoft.Azure.Management.Insights.Models
         private bool _enabled;
         
         /// <summary>
-        /// Optional. Specifies whether automatic scaling is enabled for the
-        /// resource.
+        /// Optional. Gets or sets the enabled flag.Specifies whether automatic
+        /// scaling is enabled for the resource.
         /// </summary>
         public bool Enabled
         {
@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Management.Insights.Models
         private string _name;
         
         /// <summary>
-        /// Optional. The name of the autoscale setting.
+        /// Optional. Gets or sets the name of the autoscale setting.
         /// </summary>
         public string Name
         {
@@ -56,12 +56,23 @@ namespace Microsoft.Azure.Management.Insights.Models
             set { this._name = value; }
         }
         
+        private IList<AutoscaleNotification> _notifications;
+        
+        /// <summary>
+        /// Optional. Gets or sets the collection of notifications.
+        /// </summary>
+        public IList<AutoscaleNotification> Notifications
+        {
+            get { return this._notifications; }
+            set { this._notifications = value; }
+        }
+        
         private IList<AutoscaleProfile> _profiles;
         
         /// <summary>
-        /// Optional. Contains a collection of automatic scaling profiles that
-        /// specify different scaling parameters for different time periods. A
-        /// maximum of 20 profiles can be specified.
+        /// Optional. Gets or sets the collection of automatic scaling profiles
+        /// that specify different scaling parameters for different time
+        /// periods. A maximum of 20 profiles can be specified.
         /// </summary>
         public IList<AutoscaleProfile> Profiles
         {
@@ -72,8 +83,8 @@ namespace Microsoft.Azure.Management.Insights.Models
         private string _targetResourceUri;
         
         /// <summary>
-        /// Optional. The resource identifier of the resource that the
-        /// autoscale setting should be added to.
+        /// Optional. Gets or sets the resource identifier of the resource that
+        /// the autoscale setting should be added to.
         /// </summary>
         public string TargetResourceUri
         {
@@ -86,6 +97,7 @@ namespace Microsoft.Azure.Management.Insights.Models
         /// </summary>
         public AutoscaleSetting()
         {
+            this.Notifications = new LazyList<AutoscaleNotification>();
             this.Profiles = new LazyList<AutoscaleProfile>();
         }
     }

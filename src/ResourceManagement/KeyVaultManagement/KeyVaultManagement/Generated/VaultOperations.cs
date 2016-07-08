@@ -132,7 +132,7 @@ namespace Microsoft.Azure.Management.KeyVault
             url = url + "/vaults/";
             url = url + Uri.EscapeDataString(vaultName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-12-19-PREVIEW");
+            queryParameters.Add("api-version=2015-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -226,6 +226,16 @@ namespace Microsoft.Azure.Management.KeyVault
                 }
                 
                 propertiesValue["enabledForDeployment"] = parameters.Properties.EnabledForDeployment;
+                
+                if (parameters.Properties.EnabledForDiskEncryption != null)
+                {
+                    propertiesValue["enabledForDiskEncryption"] = parameters.Properties.EnabledForDiskEncryption.Value;
+                }
+                
+                if (parameters.Properties.EnabledForTemplateDeployment != null)
+                {
+                    propertiesValue["enabledForTemplateDeployment"] = parameters.Properties.EnabledForTemplateDeployment.Value;
+                }
                 
                 vaultCreateOrUpdateParametersValue["location"] = parameters.Location;
                 
@@ -375,6 +385,20 @@ namespace Microsoft.Azure.Management.KeyVault
                                     bool enabledForDeploymentInstance = ((bool)enabledForDeploymentValue);
                                     propertiesInstance.EnabledForDeployment = enabledForDeploymentInstance;
                                 }
+                                
+                                JToken enabledForDiskEncryptionValue = propertiesValue2["enabledForDiskEncryption"];
+                                if (enabledForDiskEncryptionValue != null && enabledForDiskEncryptionValue.Type != JTokenType.Null)
+                                {
+                                    bool enabledForDiskEncryptionInstance = ((bool)enabledForDiskEncryptionValue);
+                                    propertiesInstance.EnabledForDiskEncryption = enabledForDiskEncryptionInstance;
+                                }
+                                
+                                JToken enabledForTemplateDeploymentValue = propertiesValue2["enabledForTemplateDeployment"];
+                                if (enabledForTemplateDeploymentValue != null && enabledForTemplateDeploymentValue.Type != JTokenType.Null)
+                                {
+                                    bool enabledForTemplateDeploymentInstance = ((bool)enabledForTemplateDeploymentValue);
+                                    propertiesInstance.EnabledForTemplateDeployment = enabledForTemplateDeploymentInstance;
+                                }
                             }
                             
                             JToken idValue = responseDoc["id"];
@@ -500,7 +524,7 @@ namespace Microsoft.Azure.Management.KeyVault
             url = url + "/vaults/";
             url = url + Uri.EscapeDataString(vaultName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-12-19-PREVIEW");
+            queryParameters.Add("api-version=2015-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -644,7 +668,7 @@ namespace Microsoft.Azure.Management.KeyVault
             url = url + "/vaults/";
             url = url + Uri.EscapeDataString(vaultName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-12-19-PREVIEW");
+            queryParameters.Add("api-version=2015-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -806,6 +830,20 @@ namespace Microsoft.Azure.Management.KeyVault
                                     bool enabledForDeploymentInstance = ((bool)enabledForDeploymentValue);
                                     propertiesInstance.EnabledForDeployment = enabledForDeploymentInstance;
                                 }
+                                
+                                JToken enabledForDiskEncryptionValue = propertiesValue["enabledForDiskEncryption"];
+                                if (enabledForDiskEncryptionValue != null && enabledForDiskEncryptionValue.Type != JTokenType.Null)
+                                {
+                                    bool enabledForDiskEncryptionInstance = ((bool)enabledForDiskEncryptionValue);
+                                    propertiesInstance.EnabledForDiskEncryption = enabledForDiskEncryptionInstance;
+                                }
+                                
+                                JToken enabledForTemplateDeploymentValue = propertiesValue["enabledForTemplateDeployment"];
+                                if (enabledForTemplateDeploymentValue != null && enabledForTemplateDeploymentValue.Type != JTokenType.Null)
+                                {
+                                    bool enabledForTemplateDeploymentInstance = ((bool)enabledForTemplateDeploymentValue);
+                                    propertiesInstance.EnabledForTemplateDeployment = enabledForTemplateDeploymentInstance;
+                                }
                             }
                             
                             JToken idValue = responseDoc["id"];
@@ -919,12 +957,12 @@ namespace Microsoft.Azure.Management.KeyVault
             {
                 url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
             }
-            url = url + "/resourceGroups/";
+            url = url + "/";
             if (resourceGroupName != null)
             {
-                url = url + Uri.EscapeDataString(resourceGroupName);
+                url = url + "resourceGroups/" + Uri.EscapeDataString(resourceGroupName) + "/";
             }
-            url = url + "/resources";
+            url = url + "resources";
             List<string> queryParameters = new List<string>();
             List<string> odataFilter = new List<string>();
             odataFilter.Add("resourceType eq 'Microsoft.KeyVault/vaults' ");
@@ -1099,6 +1137,20 @@ namespace Microsoft.Azure.Management.KeyVault
                                         {
                                             bool enabledForDeploymentInstance = ((bool)enabledForDeploymentValue);
                                             propertiesInstance.EnabledForDeployment = enabledForDeploymentInstance;
+                                        }
+                                        
+                                        JToken enabledForDiskEncryptionValue = propertiesValue["enabledForDiskEncryption"];
+                                        if (enabledForDiskEncryptionValue != null && enabledForDiskEncryptionValue.Type != JTokenType.Null)
+                                        {
+                                            bool enabledForDiskEncryptionInstance = ((bool)enabledForDiskEncryptionValue);
+                                            propertiesInstance.EnabledForDiskEncryption = enabledForDiskEncryptionInstance;
+                                        }
+                                        
+                                        JToken enabledForTemplateDeploymentValue = propertiesValue["enabledForTemplateDeployment"];
+                                        if (enabledForTemplateDeploymentValue != null && enabledForTemplateDeploymentValue.Type != JTokenType.Null)
+                                        {
+                                            bool enabledForTemplateDeploymentInstance = ((bool)enabledForTemplateDeploymentValue);
+                                            propertiesInstance.EnabledForTemplateDeployment = enabledForTemplateDeploymentInstance;
                                         }
                                     }
                                     
@@ -1367,6 +1419,20 @@ namespace Microsoft.Azure.Management.KeyVault
                                         {
                                             bool enabledForDeploymentInstance = ((bool)enabledForDeploymentValue);
                                             propertiesInstance.EnabledForDeployment = enabledForDeploymentInstance;
+                                        }
+                                        
+                                        JToken enabledForDiskEncryptionValue = propertiesValue["enabledForDiskEncryption"];
+                                        if (enabledForDiskEncryptionValue != null && enabledForDiskEncryptionValue.Type != JTokenType.Null)
+                                        {
+                                            bool enabledForDiskEncryptionInstance = ((bool)enabledForDiskEncryptionValue);
+                                            propertiesInstance.EnabledForDiskEncryption = enabledForDiskEncryptionInstance;
+                                        }
+                                        
+                                        JToken enabledForTemplateDeploymentValue = propertiesValue["enabledForTemplateDeployment"];
+                                        if (enabledForTemplateDeploymentValue != null && enabledForTemplateDeploymentValue.Type != JTokenType.Null)
+                                        {
+                                            bool enabledForTemplateDeploymentInstance = ((bool)enabledForTemplateDeploymentValue);
+                                            propertiesInstance.EnabledForTemplateDeployment = enabledForTemplateDeploymentInstance;
                                         }
                                     }
                                     

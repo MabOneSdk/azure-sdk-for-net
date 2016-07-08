@@ -30,11 +30,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hyak.Common;
 using Hyak.Common.Internals;
-using Microsoft.Azure.Management.RemoteApp;
-using Microsoft.Azure.Management.RemoteApp.Models;
+using Microsoft.WindowsAzure.Management.RemoteApp;
+using Microsoft.WindowsAzure.Management.RemoteApp.Models;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Azure.Management.RemoteApp
+namespace Microsoft.WindowsAzure.Management.RemoteApp
 {
     /// <summary>
     /// RemoteApp collection operations.
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Management.RemoteApp
         
         /// <summary>
         /// Gets a reference to the
-        /// Microsoft.Azure.Management.RemoteApp.RemoteAppManagementClient.
+        /// Microsoft.WindowsAzure.Management.RemoteApp.RemoteAppManagementClient.
         /// </summary>
         public RemoteAppManagementClient Client
         {
@@ -667,8 +667,10 @@ namespace Microsoft.Azure.Management.RemoteApp
                 string requestContent = null;
                 JToken requestDoc = null;
                 
-                requestDoc = new JObject();
-                requestDoc["UserUpn"] = sessionParameter.UserUpn;
+                JObject sessionCommandParameterValue = new JObject();
+                requestDoc = sessionCommandParameterValue;
+                
+                sessionCommandParameterValue["UserUpn"] = sessionParameter.UserUpn;
                 
                 requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -1030,6 +1032,13 @@ namespace Microsoft.Azure.Management.RemoteApp
                             {
                                 string subnetNameInstance = ((string)subnetNameValue);
                                 collectionInstance.SubnetName = subnetNameInstance;
+                            }
+                            
+                            JToken aclLevelValue = responseDoc["AclLevel"];
+                            if (aclLevelValue != null && aclLevelValue.Type != JTokenType.Null)
+                            {
+                                CollectionAclLevel aclLevelInstance = ((CollectionAclLevel)(((int)aclLevelValue)));
+                                collectionInstance.AclLevel = aclLevelInstance;
                             }
                         }
                         
@@ -1958,6 +1967,13 @@ namespace Microsoft.Azure.Management.RemoteApp
                                         string subnetNameInstance = ((string)subnetNameValue);
                                         collectionInstance.SubnetName = subnetNameInstance;
                                     }
+                                    
+                                    JToken aclLevelValue = collectionsValue["AclLevel"];
+                                    if (aclLevelValue != null && aclLevelValue.Type != JTokenType.Null)
+                                    {
+                                        CollectionAclLevel aclLevelInstance = ((CollectionAclLevel)(((int)aclLevelValue)));
+                                        collectionInstance.AclLevel = aclLevelInstance;
+                                    }
                                 }
                             }
                         }
@@ -2178,6 +2194,186 @@ namespace Microsoft.Azure.Management.RemoteApp
         }
         
         /// <summary>
+        /// Gets the list of all virtual machines in the collection.
+        /// </summary>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name where vms exist.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// List of virtual machines in a given collection.
+        /// </returns>
+        public async Task<CollectionVmsListResult> ListVmsAsync(string collectionName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (collectionName == null)
+            {
+                throw new ArgumentNullException("collectionName");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("collectionName", collectionName);
+                TracingAdapter.Enter(invocationId, this, "ListVmsAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/services/";
+            if (this.Client.RdfeNamespace != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.RdfeNamespace);
+            }
+            url = url + "/collections/";
+            url = url + Uri.EscapeDataString(collectionName);
+            url = url + "/vms";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2014-09-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept", "application/json; charset=utf-8");
+                httpRequest.Headers.Add("x-ms-version", "2014-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    CollectionVmsListResult result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new CollectionVmsListResult();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            JToken vmsArray = responseDoc;
+                            if (vmsArray != null && vmsArray.Type != JTokenType.Null)
+                            {
+                                foreach (JToken vmsValue in ((JArray)vmsArray))
+                                {
+                                    RemoteAppVm remoteAppVmInstance = new RemoteAppVm();
+                                    result.Vms.Add(remoteAppVmInstance);
+                                    
+                                    JToken virtualMachineNameValue = vmsValue["VirtualMachineName"];
+                                    if (virtualMachineNameValue != null && virtualMachineNameValue.Type != JTokenType.Null)
+                                    {
+                                        string virtualMachineNameInstance = ((string)virtualMachineNameValue);
+                                        remoteAppVmInstance.VirtualMachineName = virtualMachineNameInstance;
+                                    }
+                                    
+                                    JToken loggedOnUserUpnArray = vmsValue["LoggedOnUserUpn"];
+                                    if (loggedOnUserUpnArray != null && loggedOnUserUpnArray.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken loggedOnUserUpnValue in ((JArray)loggedOnUserUpnArray))
+                                        {
+                                            remoteAppVmInstance.LoggedOnUserUpns.Add(((string)loggedOnUserUpnValue));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// Logs off the session associated with the user UPN
         /// </summary>
         /// <param name='collectionName'>
@@ -2274,8 +2470,10 @@ namespace Microsoft.Azure.Management.RemoteApp
                 string requestContent = null;
                 JToken requestDoc = null;
                 
-                requestDoc = new JObject();
-                requestDoc["UserUpn"] = sessionParameter.UserUpn;
+                JObject sessionCommandParameterValue = new JObject();
+                requestDoc = sessionCommandParameterValue;
+                
+                sessionCommandParameterValue["UserUpn"] = sessionParameter.UserUpn;
                 
                 requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -2514,6 +2712,183 @@ namespace Microsoft.Azure.Management.RemoteApp
         }
         
         /// <summary>
+        /// Restarts VM associated with a collection.
+        /// </summary>
+        /// <param name='collectionName'>
+        /// Required. The RemoteApp collection name containing the VM to be
+        /// restarted.
+        /// </param>
+        /// <param name='details'>
+        /// Required. The details of VM to be restarted.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response containing the operation tracking id.
+        /// </returns>
+        public async Task<OperationResultWithTrackingId> RestartVmAsync(string collectionName, RestartVmCommandParameter details, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (collectionName == null)
+            {
+                throw new ArgumentNullException("collectionName");
+            }
+            if (details == null)
+            {
+                throw new ArgumentNullException("details");
+            }
+            if (details.VirtualMachineName == null)
+            {
+                throw new ArgumentNullException("details.VirtualMachineName");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("collectionName", collectionName);
+                tracingParameters.Add("details", details);
+                TracingAdapter.Enter(invocationId, this, "RestartVmAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/services/";
+            if (this.Client.RdfeNamespace != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.RdfeNamespace);
+            }
+            url = url + "/collections/";
+            url = url + Uri.EscapeDataString(collectionName);
+            url = url + "/vms/restart";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2014-09-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept", "application/json; charset=utf-8");
+                httpRequest.Headers.Add("x-ms-version", "2014-08-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject restartVmCommandParameterValue = new JObject();
+                requestDoc = restartVmCommandParameterValue;
+                
+                restartVmCommandParameterValue["VirtualMachineName"] = details.VirtualMachineName;
+                
+                if (details.LogoffMessage != null)
+                {
+                    restartVmCommandParameterValue["LogoffMessage"] = details.LogoffMessage;
+                }
+                
+                restartVmCommandParameterValue["LogoffWaitTimeInSeconds"] = details.LogoffWaitTimeInSeconds;
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    OperationResultWithTrackingId result = null;
+                    // Deserialize Response
+                    result = new OperationResultWithTrackingId();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("x-remoteapp-operation-tracking-id"))
+                    {
+                        result.TrackingId = httpResponse.Headers.GetValues("x-remoteapp-operation-tracking-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// Sends message to the session associated with the user UPN
         /// </summary>
         /// <param name='collectionName'>
@@ -2615,10 +2990,12 @@ namespace Microsoft.Azure.Management.RemoteApp
                 string requestContent = null;
                 JToken requestDoc = null;
                 
-                requestDoc = new JObject();
-                requestDoc["UserUpn"] = sessionMessageParameter.UserUpn;
+                JObject sessionSendMessageCommandParameterValue = new JObject();
+                requestDoc = sessionSendMessageCommandParameterValue;
                 
-                requestDoc["Message"] = sessionMessageParameter.Message;
+                sessionSendMessageCommandParameterValue["UserUpn"] = sessionMessageParameter.UserUpn;
+                
+                sessionSendMessageCommandParameterValue["Message"] = sessionMessageParameter.Message;
                 
                 requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
@@ -2846,6 +3223,13 @@ namespace Microsoft.Azure.Management.RemoteApp
                 }
                 
                 collectionUpdateDetailsValue["WaitBeforeShutdownInMinutes"] = collectionDetails.WaitBeforeShutdownInMinutes;
+                
+                if (collectionDetails.SubnetName != null)
+                {
+                    collectionUpdateDetailsValue["SubnetName"] = collectionDetails.SubnetName;
+                }
+                
+                collectionUpdateDetailsValue["AclLevel"] = ((int)collectionDetails.AclLevel);
                 
                 requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);

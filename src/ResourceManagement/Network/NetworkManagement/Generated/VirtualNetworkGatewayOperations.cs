@@ -246,17 +246,33 @@ namespace Microsoft.Azure.Management.Network
                     }
                 }
                 
-                if (parameters.GatewaySize != null)
-                {
-                    propertiesValue["gatewaySize"] = parameters.GatewaySize;
-                }
-                
                 if (parameters.GatewayType != null)
                 {
                     propertiesValue["gatewayType"] = parameters.GatewayType;
                 }
                 
+                if (parameters.VpnType != null)
+                {
+                    propertiesValue["vpnType"] = parameters.VpnType;
+                }
+                
                 propertiesValue["enableBgp"] = parameters.EnableBgp;
+                
+                if (parameters.GatewayDefaultSite != null)
+                {
+                    JObject gatewayDefaultSiteValue = new JObject();
+                    propertiesValue["gatewayDefaultSite"] = gatewayDefaultSiteValue;
+                    
+                    if (parameters.GatewayDefaultSite.Id != null)
+                    {
+                        gatewayDefaultSiteValue["id"] = parameters.GatewayDefaultSite.Id;
+                    }
+                }
+                
+                if (parameters.ResourceGuid != null)
+                {
+                    propertiesValue["resourceGuid"] = parameters.ResourceGuid;
+                }
                 
                 if (parameters.ProvisioningState != null)
                 {
@@ -433,13 +449,6 @@ namespace Microsoft.Azure.Management.Network
                                     }
                                 }
                                 
-                                JToken gatewaySizeValue = propertiesValue3["gatewaySize"];
-                                if (gatewaySizeValue != null && gatewaySizeValue.Type != JTokenType.Null)
-                                {
-                                    string gatewaySizeInstance = ((string)gatewaySizeValue);
-                                    virtualNetworkGatewayInstance.GatewaySize = gatewaySizeInstance;
-                                }
-                                
                                 JToken gatewayTypeValue = propertiesValue3["gatewayType"];
                                 if (gatewayTypeValue != null && gatewayTypeValue.Type != JTokenType.Null)
                                 {
@@ -447,11 +456,39 @@ namespace Microsoft.Azure.Management.Network
                                     virtualNetworkGatewayInstance.GatewayType = gatewayTypeInstance;
                                 }
                                 
+                                JToken vpnTypeValue = propertiesValue3["vpnType"];
+                                if (vpnTypeValue != null && vpnTypeValue.Type != JTokenType.Null)
+                                {
+                                    string vpnTypeInstance = ((string)vpnTypeValue);
+                                    virtualNetworkGatewayInstance.VpnType = vpnTypeInstance;
+                                }
+                                
                                 JToken enableBgpValue = propertiesValue3["enableBgp"];
                                 if (enableBgpValue != null && enableBgpValue.Type != JTokenType.Null)
                                 {
                                     bool enableBgpInstance = ((bool)enableBgpValue);
                                     virtualNetworkGatewayInstance.EnableBgp = enableBgpInstance;
+                                }
+                                
+                                JToken gatewayDefaultSiteValue2 = propertiesValue3["gatewayDefaultSite"];
+                                if (gatewayDefaultSiteValue2 != null && gatewayDefaultSiteValue2.Type != JTokenType.Null)
+                                {
+                                    ResourceId gatewayDefaultSiteInstance = new ResourceId();
+                                    virtualNetworkGatewayInstance.GatewayDefaultSite = gatewayDefaultSiteInstance;
+                                    
+                                    JToken idValue4 = gatewayDefaultSiteValue2["id"];
+                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    {
+                                        string idInstance4 = ((string)idValue4);
+                                        gatewayDefaultSiteInstance.Id = idInstance4;
+                                    }
+                                }
+                                
+                                JToken resourceGuidValue = propertiesValue3["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                {
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    virtualNetworkGatewayInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue2 = propertiesValue3["provisioningState"];
@@ -469,11 +506,11 @@ namespace Microsoft.Azure.Management.Network
                                 virtualNetworkGatewayInstance.Etag = etagInstance2;
                             }
                             
-                            JToken idValue4 = responseDoc["id"];
-                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                            JToken idValue5 = responseDoc["id"];
+                            if (idValue5 != null && idValue5.Type != JTokenType.Null)
                             {
-                                string idInstance4 = ((string)idValue4);
-                                virtualNetworkGatewayInstance.Id = idInstance4;
+                                string idInstance5 = ((string)idValue5);
+                                virtualNetworkGatewayInstance.Id = idInstance5;
                             }
                             
                             JToken nameValue2 = responseDoc["name"];
@@ -951,17 +988,33 @@ namespace Microsoft.Azure.Management.Network
                     }
                 }
                 
-                if (parameters.GatewaySize != null)
-                {
-                    propertiesValue["gatewaySize"] = parameters.GatewaySize;
-                }
-                
                 if (parameters.GatewayType != null)
                 {
                     propertiesValue["gatewayType"] = parameters.GatewayType;
                 }
                 
+                if (parameters.VpnType != null)
+                {
+                    propertiesValue["vpnType"] = parameters.VpnType;
+                }
+                
                 propertiesValue["enableBgp"] = parameters.EnableBgp;
+                
+                if (parameters.GatewayDefaultSite != null)
+                {
+                    JObject gatewayDefaultSiteValue = new JObject();
+                    propertiesValue["gatewayDefaultSite"] = gatewayDefaultSiteValue;
+                    
+                    if (parameters.GatewayDefaultSite.Id != null)
+                    {
+                        gatewayDefaultSiteValue["id"] = parameters.GatewayDefaultSite.Id;
+                    }
+                }
+                
+                if (parameters.ResourceGuid != null)
+                {
+                    propertiesValue["resourceGuid"] = parameters.ResourceGuid;
+                }
                 
                 if (parameters.ProvisioningState != null)
                 {
@@ -1021,7 +1074,7 @@ namespace Microsoft.Azure.Management.Network
                         TracingAdapter.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Created)
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -1035,7 +1088,7 @@ namespace Microsoft.Azure.Management.Network
                     // Create Result
                     VirtualNetworkGatewayPutResponse result = null;
                     // Deserialize Response
-                    if (statusCode == HttpStatusCode.OK || statusCode == HttpStatusCode.Created)
+                    if (statusCode == HttpStatusCode.OK || statusCode == HttpStatusCode.Accepted)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -1138,13 +1191,6 @@ namespace Microsoft.Azure.Management.Network
                                     }
                                 }
                                 
-                                JToken gatewaySizeValue = propertiesValue3["gatewaySize"];
-                                if (gatewaySizeValue != null && gatewaySizeValue.Type != JTokenType.Null)
-                                {
-                                    string gatewaySizeInstance = ((string)gatewaySizeValue);
-                                    virtualNetworkGatewayInstance.GatewaySize = gatewaySizeInstance;
-                                }
-                                
                                 JToken gatewayTypeValue = propertiesValue3["gatewayType"];
                                 if (gatewayTypeValue != null && gatewayTypeValue.Type != JTokenType.Null)
                                 {
@@ -1152,11 +1198,39 @@ namespace Microsoft.Azure.Management.Network
                                     virtualNetworkGatewayInstance.GatewayType = gatewayTypeInstance;
                                 }
                                 
+                                JToken vpnTypeValue = propertiesValue3["vpnType"];
+                                if (vpnTypeValue != null && vpnTypeValue.Type != JTokenType.Null)
+                                {
+                                    string vpnTypeInstance = ((string)vpnTypeValue);
+                                    virtualNetworkGatewayInstance.VpnType = vpnTypeInstance;
+                                }
+                                
                                 JToken enableBgpValue = propertiesValue3["enableBgp"];
                                 if (enableBgpValue != null && enableBgpValue.Type != JTokenType.Null)
                                 {
                                     bool enableBgpInstance = ((bool)enableBgpValue);
                                     virtualNetworkGatewayInstance.EnableBgp = enableBgpInstance;
+                                }
+                                
+                                JToken gatewayDefaultSiteValue2 = propertiesValue3["gatewayDefaultSite"];
+                                if (gatewayDefaultSiteValue2 != null && gatewayDefaultSiteValue2.Type != JTokenType.Null)
+                                {
+                                    ResourceId gatewayDefaultSiteInstance = new ResourceId();
+                                    virtualNetworkGatewayInstance.GatewayDefaultSite = gatewayDefaultSiteInstance;
+                                    
+                                    JToken idValue4 = gatewayDefaultSiteValue2["id"];
+                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    {
+                                        string idInstance4 = ((string)idValue4);
+                                        gatewayDefaultSiteInstance.Id = idInstance4;
+                                    }
+                                }
+                                
+                                JToken resourceGuidValue = propertiesValue3["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                {
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    virtualNetworkGatewayInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue2 = propertiesValue3["provisioningState"];
@@ -1174,11 +1248,11 @@ namespace Microsoft.Azure.Management.Network
                                 virtualNetworkGatewayInstance.Etag = etagInstance2;
                             }
                             
-                            JToken idValue4 = responseDoc["id"];
-                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                            JToken idValue5 = responseDoc["id"];
+                            if (idValue5 != null && idValue5.Type != JTokenType.Null)
                             {
-                                string idInstance4 = ((string)idValue4);
-                                virtualNetworkGatewayInstance.Id = idInstance4;
+                                string idInstance5 = ((string)idValue5);
+                                virtualNetworkGatewayInstance.Id = idInstance5;
                             }
                             
                             JToken nameValue2 = responseDoc["name"];
@@ -1375,7 +1449,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -1444,7 +1518,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -1688,13 +1762,6 @@ namespace Microsoft.Azure.Management.Network
                                     }
                                 }
                                 
-                                JToken gatewaySizeValue = propertiesValue["gatewaySize"];
-                                if (gatewaySizeValue != null && gatewaySizeValue.Type != JTokenType.Null)
-                                {
-                                    string gatewaySizeInstance = ((string)gatewaySizeValue);
-                                    virtualNetworkGatewayInstance.GatewaySize = gatewaySizeInstance;
-                                }
-                                
                                 JToken gatewayTypeValue = propertiesValue["gatewayType"];
                                 if (gatewayTypeValue != null && gatewayTypeValue.Type != JTokenType.Null)
                                 {
@@ -1702,11 +1769,39 @@ namespace Microsoft.Azure.Management.Network
                                     virtualNetworkGatewayInstance.GatewayType = gatewayTypeInstance;
                                 }
                                 
+                                JToken vpnTypeValue = propertiesValue["vpnType"];
+                                if (vpnTypeValue != null && vpnTypeValue.Type != JTokenType.Null)
+                                {
+                                    string vpnTypeInstance = ((string)vpnTypeValue);
+                                    virtualNetworkGatewayInstance.VpnType = vpnTypeInstance;
+                                }
+                                
                                 JToken enableBgpValue = propertiesValue["enableBgp"];
                                 if (enableBgpValue != null && enableBgpValue.Type != JTokenType.Null)
                                 {
                                     bool enableBgpInstance = ((bool)enableBgpValue);
                                     virtualNetworkGatewayInstance.EnableBgp = enableBgpInstance;
+                                }
+                                
+                                JToken gatewayDefaultSiteValue = propertiesValue["gatewayDefaultSite"];
+                                if (gatewayDefaultSiteValue != null && gatewayDefaultSiteValue.Type != JTokenType.Null)
+                                {
+                                    ResourceId gatewayDefaultSiteInstance = new ResourceId();
+                                    virtualNetworkGatewayInstance.GatewayDefaultSite = gatewayDefaultSiteInstance;
+                                    
+                                    JToken idValue4 = gatewayDefaultSiteValue["id"];
+                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    {
+                                        string idInstance4 = ((string)idValue4);
+                                        gatewayDefaultSiteInstance.Id = idInstance4;
+                                    }
+                                }
+                                
+                                JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                {
+                                    string resourceGuidInstance = ((string)resourceGuidValue);
+                                    virtualNetworkGatewayInstance.ResourceGuid = resourceGuidInstance;
                                 }
                                 
                                 JToken provisioningStateValue2 = propertiesValue["provisioningState"];
@@ -1724,11 +1819,11 @@ namespace Microsoft.Azure.Management.Network
                                 virtualNetworkGatewayInstance.Etag = etagInstance2;
                             }
                             
-                            JToken idValue4 = responseDoc["id"];
-                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                            JToken idValue5 = responseDoc["id"];
+                            if (idValue5 != null && idValue5.Type != JTokenType.Null)
                             {
-                                string idInstance4 = ((string)idValue4);
-                                virtualNetworkGatewayInstance.Id = idInstance4;
+                                string idInstance5 = ((string)idValue5);
+                                virtualNetworkGatewayInstance.Id = idInstance5;
                             }
                             
                             JToken nameValue2 = responseDoc["name"];
@@ -2008,13 +2103,6 @@ namespace Microsoft.Azure.Management.Network
                                             }
                                         }
                                         
-                                        JToken gatewaySizeValue = propertiesValue["gatewaySize"];
-                                        if (gatewaySizeValue != null && gatewaySizeValue.Type != JTokenType.Null)
-                                        {
-                                            string gatewaySizeInstance = ((string)gatewaySizeValue);
-                                            virtualNetworkGatewayJsonFormatInstance.GatewaySize = gatewaySizeInstance;
-                                        }
-                                        
                                         JToken gatewayTypeValue = propertiesValue["gatewayType"];
                                         if (gatewayTypeValue != null && gatewayTypeValue.Type != JTokenType.Null)
                                         {
@@ -2022,11 +2110,39 @@ namespace Microsoft.Azure.Management.Network
                                             virtualNetworkGatewayJsonFormatInstance.GatewayType = gatewayTypeInstance;
                                         }
                                         
+                                        JToken vpnTypeValue = propertiesValue["vpnType"];
+                                        if (vpnTypeValue != null && vpnTypeValue.Type != JTokenType.Null)
+                                        {
+                                            string vpnTypeInstance = ((string)vpnTypeValue);
+                                            virtualNetworkGatewayJsonFormatInstance.VpnType = vpnTypeInstance;
+                                        }
+                                        
                                         JToken enableBgpValue = propertiesValue["enableBgp"];
                                         if (enableBgpValue != null && enableBgpValue.Type != JTokenType.Null)
                                         {
                                             bool enableBgpInstance = ((bool)enableBgpValue);
                                             virtualNetworkGatewayJsonFormatInstance.EnableBgp = enableBgpInstance;
+                                        }
+                                        
+                                        JToken gatewayDefaultSiteValue = propertiesValue["gatewayDefaultSite"];
+                                        if (gatewayDefaultSiteValue != null && gatewayDefaultSiteValue.Type != JTokenType.Null)
+                                        {
+                                            ResourceId gatewayDefaultSiteInstance = new ResourceId();
+                                            virtualNetworkGatewayJsonFormatInstance.GatewayDefaultSite = gatewayDefaultSiteInstance;
+                                            
+                                            JToken idValue4 = gatewayDefaultSiteValue["id"];
+                                            if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                            {
+                                                string idInstance4 = ((string)idValue4);
+                                                gatewayDefaultSiteInstance.Id = idInstance4;
+                                            }
+                                        }
+                                        
+                                        JToken resourceGuidValue = propertiesValue["resourceGuid"];
+                                        if (resourceGuidValue != null && resourceGuidValue.Type != JTokenType.Null)
+                                        {
+                                            string resourceGuidInstance = ((string)resourceGuidValue);
+                                            virtualNetworkGatewayJsonFormatInstance.ResourceGuid = resourceGuidInstance;
                                         }
                                         
                                         JToken provisioningStateValue2 = propertiesValue["provisioningState"];
@@ -2044,11 +2160,11 @@ namespace Microsoft.Azure.Management.Network
                                         virtualNetworkGatewayJsonFormatInstance.Etag = etagInstance2;
                                     }
                                     
-                                    JToken idValue4 = valueValue["id"];
-                                    if (idValue4 != null && idValue4.Type != JTokenType.Null)
+                                    JToken idValue5 = valueValue["id"];
+                                    if (idValue5 != null && idValue5.Type != JTokenType.Null)
                                     {
-                                        string idInstance4 = ((string)idValue4);
-                                        virtualNetworkGatewayJsonFormatInstance.Id = idInstance4;
+                                        string idInstance5 = ((string)idValue5);
+                                        virtualNetworkGatewayJsonFormatInstance.Id = idInstance5;
                                     }
                                     
                                     JToken nameValue2 = valueValue["name"];
@@ -2180,7 +2296,7 @@ namespace Microsoft.Azure.Management.Network
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.Management.Network.Models.OperationStatus.InProgress) == false)
+            while (result.Status == NetworkOperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);

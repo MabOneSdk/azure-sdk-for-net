@@ -15,7 +15,6 @@
 namespace Microsoft.Azure.Management.ApiManagement.Tests.ScenarioTests
 {
     using System;
-    using System.Runtime.InteropServices;
     using global::ApiManagement.Tests;
     using Microsoft.Azure.Test;
 
@@ -28,14 +27,10 @@ namespace Microsoft.Azure.Management.ApiManagement.Tests.ScenarioTests
             //Environment.SetEnvironmentVariable("AZURE_TEST_MODE", "Record");
 
             //Environment.SetEnvironmentVariable(
-            //    "TEST_CSM_ORGID_AUTHENTICATION",
-            //    "SubscriptionId=;Environment=;AADTenant=");
+            //   "TEST_CSM_ORGID_AUTHENTICATION",
+            //   "SubscriptionId=;Environment=Prod");
 
-            //Environment.SetEnvironmentVariable(
-            //    "TEST_ORGID_AUTHENTICATION",
-            //    "SubscriptionId=;Environment=");
 #endif
-
             TestUtilities.StartTest();
             try
             {
@@ -60,7 +55,7 @@ namespace Microsoft.Azure.Management.ApiManagement.Tests.ScenarioTests
             Cleanup();
         }
 
-        private void Cleanup()
+        protected void Cleanup()
         {
             UndoContext.Current.UndoAll();
         }

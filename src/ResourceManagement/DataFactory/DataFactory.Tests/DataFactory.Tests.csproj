@@ -8,14 +8,63 @@
   <Import Project="..\..\..\..\tools\Library.Settings.targets" />
   <Import Project="$(LibraryToolsFolder)\Test.Dependencies.target" />
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenarioTests\BasicDelegatingHandler.cs" />
-    <Compile Include="ScenarioTests\PipelineTests.cs" />
-    <Compile Include="ScenarioTests\SqlCopyPipelineTests.cs" />
-    <Compile Include="ScenarioTests\TableTests.cs" />
-    <Compile Include="ScenarioTests\TestHelper.cs" />
+    <Reference Include="Moq">
+      <HintPath>$(LibraryNugetPackageFolder)\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>$(LibraryNugetPackageFolder)\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\Common.cs" />
+    <Compile Include="Framework\CustomIsoDateTimeConverter.cs" />
+    <Compile Include="Framework\DateTimeExtensions.cs" />
+    <Compile Include="Framework\JsonComparer.cs" />
+    <Compile Include="Framework\JsonSampleAttribute.cs" />
+    <Compile Include="Framework\JsonSampleCommon.cs" />
+    <Compile Include="Framework\JsonSampleInfo.cs" />
+    <Compile Include="Framework\JsonSamples\JsonSampleCollection.cs" />
+    <Compile Include="Framework\JsonSamples\JsonSampleType.cs" />
+    <Compile Include="Framework\JsonSamples\PipelineJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\CustomLinkedServiceJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\HubJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\LinkedServiceJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\RegisteredActivityTypeJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\RegisteredComputeTypeJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\DatasetJsonSamples.cs" />
+    <Compile Include="Framework\JsonSamples\DatasetInvalidDateTimeJsonSamples.cs" />
+    <Compile Include="Framework\AdfTestLogger.cs" />
+    <Compile Include="Framework\JsonUtilities.cs" />
+    <Compile Include="Framework\TestCategories.cs" />
+    <Compile Include="Framework\ValueWrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenarioTests\BasicDelegatingHandler.cs" />
+    <Compile Include="ScenarioTests\OAuthTests.cs" />
+    <Compile Include="ScenarioTests\PipelineTests.cs" />
+    <Compile Include="ScenarioTests\TestHelper.cs" />
+    <Compile Include="UnitTests\ActivityConfigurationTests.cs" />
+    <Compile Include="UnitTests\ActivityTypeTests.cs" />
+    <Compile Include="UnitTests\ActivityWindowOperationsTests.cs" />
+    <Compile Include="UnitTests\ComputeTypeTests.cs" />
+    <Compile Include="UnitTests\DataFactoryManagementClientTests.cs" />
+    <Compile Include="UnitTests\LinkedServiceTests.cs" />
+    <Compile Include="UnitTests\LinkedServiceTypeRegistrationTests.cs" />
+    <Compile Include="UnitTests\PipelineTests.cs" />
+    <Compile Include="UnitTests\PipelineTypeRegistrationTests.cs" />
+    <Compile Include="UnitTests\DatasetTests.cs" />
+    <Compile Include="UnitTests\DatasetTypeRegistrationTests.cs" />
+    <Compile Include="UnitTests\TestClasses\MyActivityType.cs" />
+    <Compile Include="UnitTests\TestClasses\MyLinkedServiceType.cs" />
+    <Compile Include="UnitTests\TestClasses\MyLinkedServiceType2.cs" />
+    <Compile Include="UnitTests\TestClasses\MyLinkedServiceTypeWithDictionaryProperty.cs" />
+    <Compile Include="UnitTests\TestClasses\MyLinkedServiceTypeWithListProperty.cs" />
+    <Compile Include="UnitTests\TestClasses\MyDatasetType.cs" />
+    <Compile Include="UnitTests\RegistrationTestUtilities.cs" />
+    <Compile Include="UnitTests\TypeRegistrationTestBase.cs" />
+    <Compile Include="UnitTests\UnitTestBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\DA_CuratedWikiData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -26,9 +75,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\DP_Wikisamplev2json.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\linkedService.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\LinkedService_CuratedWikiData.json">
@@ -43,43 +89,17 @@
     <None Include="Resources\LinkedService_WikipediaClickEvents.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\SqlStoredProcedureParameters\LinkedService_SqlAzure.json">
+    <None Include="SessionRecords\DataFactory.Tests.ScenarioTests.OAuthTests\OAuthAuthorizationSessionTest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\SqlStoredProcedureParameters\Pipeline_Copy.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\SqlStoredProcedureParameters\Table_SinkTable.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\SqlStoredProcedureParameters\Table_SourceTable.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\table.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SessionRecords\DataFactories.DataPipeline.Test.ScenarioTests.PipelineTests\WikipediaPipelineTest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SessionRecords\DataFactories.DataPipeline.Test.ScenarioTests.SqlCopyPipelineTests\SqlCopyPipelineTest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SessionRecords\DataFactories.DataPipeline.Test.ScenarioTests.TableTests\TestCreateTable.json">
+    <None Include="SessionRecords\DataFactory.Tests.ScenarioTests.PipelineTests\WikipediaPipelineE2ETest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ServiceManagement\Management\Management\Management.csproj">
-      <Project>{2b6d304f-5dc0-4052-a8ab-80e53c291e5f}</Project>
-      <Name>Management</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\TestDependencies\TestDependencies.csproj">
       <Project>{40f35645-00ee-4df2-b66e-7624546b66df}</Project>
       <Name>TestDependencies</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Resource\ResourceManagement\ResourceManagement.csproj">
-      <Project>{165ef660-235b-45af-83cb-0d32bef4c1a2}</Project>
-      <Name>ResourceManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataFactoryManagement\DataFactoryManagement.csproj">
       <Project>{5cf6cc47-222c-4510-9123-1f9cc35b6e50}</Project>

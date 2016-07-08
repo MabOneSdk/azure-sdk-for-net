@@ -69,6 +69,9 @@ namespace Microsoft.Azure.Management.Authorization
         /// <param name='roleDefinitionId'>
         /// Required. Role definition id.
         /// </param>
+        /// <param name='scope'>
+        /// Required. Scope
+        /// </param>
         /// <param name='parameters'>
         /// Required. Role definition.
         /// </param>
@@ -78,9 +81,13 @@ namespace Microsoft.Azure.Management.Authorization
         /// <returns>
         /// Role definition create or update operation result.
         /// </returns>
-        public async Task<RoleDefinitionCreateOrUpdateResult> CreateOrUpdateAsync(Guid roleDefinitionId, RoleDefinitionCreateOrUpdateParameters parameters, CancellationToken cancellationToken)
+        public async Task<RoleDefinitionCreateOrUpdateResult> CreateOrUpdateAsync(Guid roleDefinitionId, string scope, RoleDefinitionCreateOrUpdateParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
+            if (scope == null)
+            {
+                throw new ArgumentNullException("scope");
+            }
             if (parameters == null)
             {
                 throw new ArgumentNullException("parameters");
@@ -94,21 +101,19 @@ namespace Microsoft.Azure.Management.Authorization
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("roleDefinitionId", roleDefinitionId);
+                tracingParameters.Add("scope", scope);
                 tracingParameters.Add("parameters", parameters);
                 TracingAdapter.Enter(invocationId, this, "CreateOrUpdateAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/subscriptions/";
-            if (this.Client.Credentials.SubscriptionId != null)
-            {
-                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
-            }
+            url = url + "/";
+            url = url + scope;
             url = url + "/providers/Microsoft.Authorization/roleDefinitions/";
             url = url + Uri.EscapeDataString(roleDefinitionId.ToString());
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-10-01-preview");
+            queryParameters.Add("api-version=2015-07-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -135,7 +140,6 @@ namespace Microsoft.Azure.Management.Authorization
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2014-10-01-preview");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -177,11 +181,6 @@ namespace Microsoft.Azure.Management.Authorization
                             propertiesValue2["description"] = parameters.RoleDefinition.Properties.Description;
                         }
                         
-                        if (parameters.RoleDefinition.Properties.Scope != null)
-                        {
-                            propertiesValue2["scope"] = parameters.RoleDefinition.Properties.Scope;
-                        }
-                        
                         if (parameters.RoleDefinition.Properties.Type != null)
                         {
                             propertiesValue2["type"] = parameters.RoleDefinition.Properties.Type;
@@ -194,6 +193,9 @@ namespace Microsoft.Azure.Management.Authorization
                                 JArray permissionsArray = new JArray();
                                 foreach (Permission permissionsItem in parameters.RoleDefinition.Properties.Permissions)
                                 {
+                                    JObject permissionValue = new JObject();
+                                    permissionsArray.Add(permissionValue);
+                                    
                                     if (permissionsItem.Actions != null)
                                     {
                                         if (permissionsItem.Actions is ILazyCollection == false || ((ILazyCollection)permissionsItem.Actions).IsInitialized)
@@ -203,7 +205,7 @@ namespace Microsoft.Azure.Management.Authorization
                                             {
                                                 actionsArray.Add(actionsItem);
                                             }
-                                            requestDoc = actionsArray;
+                                            permissionValue["actions"] = actionsArray;
                                         }
                                     }
                                     
@@ -216,7 +218,7 @@ namespace Microsoft.Azure.Management.Authorization
                                             {
                                                 notActionsArray.Add(notActionsItem);
                                             }
-                                            requestDoc = notActionsArray;
+                                            permissionValue["notActions"] = notActionsArray;
                                         }
                                     }
                                 }
@@ -228,12 +230,12 @@ namespace Microsoft.Azure.Management.Authorization
                         {
                             if (parameters.RoleDefinition.Properties.AssignableScopes is ILazyCollection == false || ((ILazyCollection)parameters.RoleDefinition.Properties.AssignableScopes).IsInitialized)
                             {
-                                JArray assignablescopesArray = new JArray();
-                                foreach (string assignablescopesItem in parameters.RoleDefinition.Properties.AssignableScopes)
+                                JArray assignableScopesArray = new JArray();
+                                foreach (string assignableScopesItem in parameters.RoleDefinition.Properties.AssignableScopes)
                                 {
-                                    assignablescopesArray.Add(assignablescopesItem);
+                                    assignableScopesArray.Add(assignableScopesItem);
                                 }
-                                propertiesValue2["assignablescopes"] = assignablescopesArray;
+                                propertiesValue2["assignableScopes"] = assignableScopesArray;
                             }
                         }
                     }
@@ -258,7 +260,7 @@ namespace Microsoft.Azure.Management.Authorization
                         TracingAdapter.ReceiveResponse(invocationId, httpResponse);
                     }
                     HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
+                    if (statusCode != HttpStatusCode.Created)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -272,7 +274,7 @@ namespace Microsoft.Azure.Management.Authorization
                     // Create Result
                     RoleDefinitionCreateOrUpdateResult result = null;
                     // Deserialize Response
-                    if (statusCode == HttpStatusCode.OK)
+                    if (statusCode == HttpStatusCode.Created)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -329,13 +331,6 @@ namespace Microsoft.Azure.Management.Authorization
                                     propertiesInstance.Description = descriptionInstance;
                                 }
                                 
-                                JToken scopeValue = propertiesValue3["scope"];
-                                if (scopeValue != null && scopeValue.Type != JTokenType.Null)
-                                {
-                                    string scopeInstance = ((string)scopeValue);
-                                    propertiesInstance.Scope = scopeInstance;
-                                }
-                                
                                 JToken typeValue2 = propertiesValue3["type"];
                                 if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                                 {
@@ -371,12 +366,12 @@ namespace Microsoft.Azure.Management.Authorization
                                     }
                                 }
                                 
-                                JToken assignablescopesArray2 = propertiesValue3["assignablescopes"];
-                                if (assignablescopesArray2 != null && assignablescopesArray2.Type != JTokenType.Null)
+                                JToken assignableScopesArray2 = propertiesValue3["assignableScopes"];
+                                if (assignableScopesArray2 != null && assignableScopesArray2.Type != JTokenType.Null)
                                 {
-                                    foreach (JToken assignablescopesValue in ((JArray)assignablescopesArray2))
+                                    foreach (JToken assignableScopesValue in ((JArray)assignableScopesArray2))
                                     {
-                                        propertiesInstance.AssignableScopes.Add(((string)assignablescopesValue));
+                                        propertiesInstance.AssignableScopes.Add(((string)assignableScopesValue));
                                     }
                                 }
                             }
@@ -418,18 +413,21 @@ namespace Microsoft.Azure.Management.Authorization
         /// <param name='roleDefinitionId'>
         /// Required. Role definition id.
         /// </param>
+        /// <param name='scope'>
+        /// Required. Scope
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// Role definition delete operation result.
         /// </returns>
-        public async Task<RoleDefinitionDeleteResult> DeleteAsync(string roleDefinitionId, CancellationToken cancellationToken)
+        public async Task<RoleDefinitionDeleteResult> DeleteAsync(Guid roleDefinitionId, string scope, CancellationToken cancellationToken)
         {
             // Validate
-            if (roleDefinitionId == null)
+            if (scope == null)
             {
-                throw new ArgumentNullException("roleDefinitionId");
+                throw new ArgumentNullException("scope");
             }
             
             // Tracing
@@ -440,15 +438,18 @@ namespace Microsoft.Azure.Management.Authorization
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("roleDefinitionId", roleDefinitionId);
+                tracingParameters.Add("scope", scope);
                 TracingAdapter.Enter(invocationId, this, "DeleteAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
             url = url + "/";
-            url = url + roleDefinitionId;
+            url = url + scope;
+            url = url + "/providers/Microsoft.Authorization/roleDefinitions/";
+            url = url + Uri.EscapeDataString(roleDefinitionId.ToString());
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-10-01-preview");
+            queryParameters.Add("api-version=2015-07-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -475,7 +476,6 @@ namespace Microsoft.Azure.Management.Authorization
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2014-10-01-preview");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -567,13 +567,6 @@ namespace Microsoft.Azure.Management.Authorization
                                     propertiesInstance.Description = descriptionInstance;
                                 }
                                 
-                                JToken scopeValue = propertiesValue["scope"];
-                                if (scopeValue != null && scopeValue.Type != JTokenType.Null)
-                                {
-                                    string scopeInstance = ((string)scopeValue);
-                                    propertiesInstance.Scope = scopeInstance;
-                                }
-                                
                                 JToken typeValue2 = propertiesValue["type"];
                                 if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                                 {
@@ -609,251 +602,12 @@ namespace Microsoft.Azure.Management.Authorization
                                     }
                                 }
                                 
-                                JToken assignablescopesArray = propertiesValue["assignablescopes"];
-                                if (assignablescopesArray != null && assignablescopesArray.Type != JTokenType.Null)
+                                JToken assignableScopesArray = propertiesValue["assignableScopes"];
+                                if (assignableScopesArray != null && assignableScopesArray.Type != JTokenType.Null)
                                 {
-                                    foreach (JToken assignablescopesValue in ((JArray)assignablescopesArray))
+                                    foreach (JToken assignableScopesValue in ((JArray)assignableScopesArray))
                                     {
-                                        propertiesInstance.AssignableScopes.Add(((string)assignablescopesValue));
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
-                    result.StatusCode = statusCode;
-                    if (httpResponse.Headers.Contains("x-ms-request-id"))
-                    {
-                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
-                    }
-                    
-                    if (shouldTrace)
-                    {
-                        TracingAdapter.Exit(invocationId, result);
-                    }
-                    return result;
-                }
-                finally
-                {
-                    if (httpResponse != null)
-                    {
-                        httpResponse.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (httpRequest != null)
-                {
-                    httpRequest.Dispose();
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Get role definition by name (GUID).
-        /// </summary>
-        /// <param name='roleDefinitionName'>
-        /// Required. Role definition name (GUID).
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// Cancellation token.
-        /// </param>
-        /// <returns>
-        /// Role definition get operation result.
-        /// </returns>
-        public async Task<RoleDefinitionGetResult> GetAsync(Guid roleDefinitionName, CancellationToken cancellationToken)
-        {
-            // Validate
-            
-            // Tracing
-            bool shouldTrace = TracingAdapter.IsEnabled;
-            string invocationId = null;
-            if (shouldTrace)
-            {
-                invocationId = TracingAdapter.NextInvocationId.ToString();
-                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
-                tracingParameters.Add("roleDefinitionName", roleDefinitionName);
-                TracingAdapter.Enter(invocationId, this, "GetAsync", tracingParameters);
-            }
-            
-            // Construct URL
-            string url = "";
-            url = url + "/subscriptions/";
-            if (this.Client.Credentials.SubscriptionId != null)
-            {
-                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
-            }
-            url = url + "/providers/Microsoft.Authorization/roleDefinitions/";
-            url = url + Uri.EscapeDataString(roleDefinitionName.ToString());
-            List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-10-01-preview");
-            if (queryParameters.Count > 0)
-            {
-                url = url + "?" + string.Join("&", queryParameters);
-            }
-            string baseUrl = this.Client.BaseUri.AbsoluteUri;
-            // Trim '/' character from the end of baseUrl and beginning of url.
-            if (baseUrl[baseUrl.Length - 1] == '/')
-            {
-                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-            }
-            if (url[0] == '/')
-            {
-                url = url.Substring(1);
-            }
-            url = baseUrl + "/" + url;
-            url = url.Replace(" ", "%20");
-            
-            // Create HTTP transport objects
-            HttpRequestMessage httpRequest = null;
-            try
-            {
-                httpRequest = new HttpRequestMessage();
-                httpRequest.Method = HttpMethod.Get;
-                httpRequest.RequestUri = new Uri(url);
-                
-                // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2014-10-01-preview");
-                
-                // Set Credentials
-                cancellationToken.ThrowIfCancellationRequested();
-                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                
-                // Send Request
-                HttpResponseMessage httpResponse = null;
-                try
-                {
-                    if (shouldTrace)
-                    {
-                        TracingAdapter.SendRequest(invocationId, httpRequest);
-                    }
-                    cancellationToken.ThrowIfCancellationRequested();
-                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                    if (shouldTrace)
-                    {
-                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
-                    }
-                    HttpStatusCode statusCode = httpResponse.StatusCode;
-                    if (statusCode != HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        if (shouldTrace)
-                        {
-                            TracingAdapter.Error(invocationId, ex);
-                        }
-                        throw ex;
-                    }
-                    
-                    // Create Result
-                    RoleDefinitionGetResult result = null;
-                    // Deserialize Response
-                    if (statusCode == HttpStatusCode.OK)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        result = new RoleDefinitionGetResult();
-                        JToken responseDoc = null;
-                        if (string.IsNullOrEmpty(responseContent) == false)
-                        {
-                            responseDoc = JToken.Parse(responseContent);
-                        }
-                        
-                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
-                        {
-                            RoleDefinition roleDefinitionInstance = new RoleDefinition();
-                            result.RoleDefinition = roleDefinitionInstance;
-                            
-                            JToken idValue = responseDoc["id"];
-                            if (idValue != null && idValue.Type != JTokenType.Null)
-                            {
-                                string idInstance = ((string)idValue);
-                                roleDefinitionInstance.Id = idInstance;
-                            }
-                            
-                            JToken nameValue = responseDoc["name"];
-                            if (nameValue != null && nameValue.Type != JTokenType.Null)
-                            {
-                                Guid nameInstance = Guid.Parse(((string)nameValue));
-                                roleDefinitionInstance.Name = nameInstance;
-                            }
-                            
-                            JToken typeValue = responseDoc["type"];
-                            if (typeValue != null && typeValue.Type != JTokenType.Null)
-                            {
-                                string typeInstance = ((string)typeValue);
-                                roleDefinitionInstance.Type = typeInstance;
-                            }
-                            
-                            JToken propertiesValue = responseDoc["properties"];
-                            if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
-                            {
-                                RoleDefinitionProperties propertiesInstance = new RoleDefinitionProperties();
-                                roleDefinitionInstance.Properties = propertiesInstance;
-                                
-                                JToken roleNameValue = propertiesValue["roleName"];
-                                if (roleNameValue != null && roleNameValue.Type != JTokenType.Null)
-                                {
-                                    string roleNameInstance = ((string)roleNameValue);
-                                    propertiesInstance.RoleName = roleNameInstance;
-                                }
-                                
-                                JToken descriptionValue = propertiesValue["description"];
-                                if (descriptionValue != null && descriptionValue.Type != JTokenType.Null)
-                                {
-                                    string descriptionInstance = ((string)descriptionValue);
-                                    propertiesInstance.Description = descriptionInstance;
-                                }
-                                
-                                JToken scopeValue = propertiesValue["scope"];
-                                if (scopeValue != null && scopeValue.Type != JTokenType.Null)
-                                {
-                                    string scopeInstance = ((string)scopeValue);
-                                    propertiesInstance.Scope = scopeInstance;
-                                }
-                                
-                                JToken typeValue2 = propertiesValue["type"];
-                                if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
-                                {
-                                    string typeInstance2 = ((string)typeValue2);
-                                    propertiesInstance.Type = typeInstance2;
-                                }
-                                
-                                JToken permissionsArray = propertiesValue["permissions"];
-                                if (permissionsArray != null && permissionsArray.Type != JTokenType.Null)
-                                {
-                                    foreach (JToken permissionsValue in ((JArray)permissionsArray))
-                                    {
-                                        Permission permissionInstance = new Permission();
-                                        propertiesInstance.Permissions.Add(permissionInstance);
-                                        
-                                        JToken actionsArray = permissionsValue["actions"];
-                                        if (actionsArray != null && actionsArray.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken actionsValue in ((JArray)actionsArray))
-                                            {
-                                                permissionInstance.Actions.Add(((string)actionsValue));
-                                            }
-                                        }
-                                        
-                                        JToken notActionsArray = permissionsValue["notActions"];
-                                        if (notActionsArray != null && notActionsArray.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken notActionsValue in ((JArray)notActionsArray))
-                                            {
-                                                permissionInstance.NotActions.Add(((string)notActionsValue));
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                JToken assignablescopesArray = propertiesValue["assignablescopes"];
-                                if (assignablescopesArray != null && assignablescopesArray.Type != JTokenType.Null)
-                                {
-                                    foreach (JToken assignablescopesValue in ((JArray)assignablescopesArray))
-                                    {
-                                        propertiesInstance.AssignableScopes.Add(((string)assignablescopesValue));
+                                        propertiesInstance.AssignableScopes.Add(((string)assignableScopesValue));
                                     }
                                 }
                             }
@@ -895,18 +649,21 @@ namespace Microsoft.Azure.Management.Authorization
         /// <param name='roleDefinitionId'>
         /// Required. Role definition Id
         /// </param>
+        /// <param name='scope'>
+        /// Required. Scope
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// Role definition get operation result.
         /// </returns>
-        public async Task<RoleDefinitionGetResult> GetByIdAsync(string roleDefinitionId, CancellationToken cancellationToken)
+        public async Task<RoleDefinitionGetResult> GetAsync(Guid roleDefinitionId, string scope, CancellationToken cancellationToken)
         {
             // Validate
-            if (roleDefinitionId == null)
+            if (scope == null)
             {
-                throw new ArgumentNullException("roleDefinitionId");
+                throw new ArgumentNullException("scope");
             }
             
             // Tracing
@@ -917,15 +674,18 @@ namespace Microsoft.Azure.Management.Authorization
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("roleDefinitionId", roleDefinitionId);
-                TracingAdapter.Enter(invocationId, this, "GetByIdAsync", tracingParameters);
+                tracingParameters.Add("scope", scope);
+                TracingAdapter.Enter(invocationId, this, "GetAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
             url = url + "/";
-            url = url + roleDefinitionId;
+            url = url + scope;
+            url = url + "/providers/Microsoft.Authorization/roleDefinitions/";
+            url = url + Uri.EscapeDataString(roleDefinitionId.ToString());
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-10-01-preview");
+            queryParameters.Add("api-version=2015-07-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -952,7 +712,6 @@ namespace Microsoft.Azure.Management.Authorization
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2014-10-01-preview");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1044,11 +803,234 @@ namespace Microsoft.Azure.Management.Authorization
                                     propertiesInstance.Description = descriptionInstance;
                                 }
                                 
-                                JToken scopeValue = propertiesValue["scope"];
-                                if (scopeValue != null && scopeValue.Type != JTokenType.Null)
+                                JToken typeValue2 = propertiesValue["type"];
+                                if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                                 {
-                                    string scopeInstance = ((string)scopeValue);
-                                    propertiesInstance.Scope = scopeInstance;
+                                    string typeInstance2 = ((string)typeValue2);
+                                    propertiesInstance.Type = typeInstance2;
+                                }
+                                
+                                JToken permissionsArray = propertiesValue["permissions"];
+                                if (permissionsArray != null && permissionsArray.Type != JTokenType.Null)
+                                {
+                                    foreach (JToken permissionsValue in ((JArray)permissionsArray))
+                                    {
+                                        Permission permissionInstance = new Permission();
+                                        propertiesInstance.Permissions.Add(permissionInstance);
+                                        
+                                        JToken actionsArray = permissionsValue["actions"];
+                                        if (actionsArray != null && actionsArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken actionsValue in ((JArray)actionsArray))
+                                            {
+                                                permissionInstance.Actions.Add(((string)actionsValue));
+                                            }
+                                        }
+                                        
+                                        JToken notActionsArray = permissionsValue["notActions"];
+                                        if (notActionsArray != null && notActionsArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken notActionsValue in ((JArray)notActionsArray))
+                                            {
+                                                permissionInstance.NotActions.Add(((string)notActionsValue));
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                JToken assignableScopesArray = propertiesValue["assignableScopes"];
+                                if (assignableScopesArray != null && assignableScopesArray.Type != JTokenType.Null)
+                                {
+                                    foreach (JToken assignableScopesValue in ((JArray)assignableScopesArray))
+                                    {
+                                        propertiesInstance.AssignableScopes.Add(((string)assignableScopesValue));
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Get role definition by name (GUID).
+        /// </summary>
+        /// <param name='roleDefinitionId'>
+        /// Required. Fully qualified role definition Id
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Role definition get operation result.
+        /// </returns>
+        public async Task<RoleDefinitionGetResult> GetByIdAsync(string roleDefinitionId, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (roleDefinitionId == null)
+            {
+                throw new ArgumentNullException("roleDefinitionId");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("roleDefinitionId", roleDefinitionId);
+                TracingAdapter.Enter(invocationId, this, "GetByIdAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/";
+            url = url + roleDefinitionId;
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2015-07-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    RoleDefinitionGetResult result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new RoleDefinitionGetResult();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            RoleDefinition roleDefinitionInstance = new RoleDefinition();
+                            result.RoleDefinition = roleDefinitionInstance;
+                            
+                            JToken idValue = responseDoc["id"];
+                            if (idValue != null && idValue.Type != JTokenType.Null)
+                            {
+                                string idInstance = ((string)idValue);
+                                roleDefinitionInstance.Id = idInstance;
+                            }
+                            
+                            JToken nameValue = responseDoc["name"];
+                            if (nameValue != null && nameValue.Type != JTokenType.Null)
+                            {
+                                Guid nameInstance = Guid.Parse(((string)nameValue));
+                                roleDefinitionInstance.Name = nameInstance;
+                            }
+                            
+                            JToken typeValue = responseDoc["type"];
+                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                            {
+                                string typeInstance = ((string)typeValue);
+                                roleDefinitionInstance.Type = typeInstance;
+                            }
+                            
+                            JToken propertiesValue = responseDoc["properties"];
+                            if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
+                            {
+                                RoleDefinitionProperties propertiesInstance = new RoleDefinitionProperties();
+                                roleDefinitionInstance.Properties = propertiesInstance;
+                                
+                                JToken roleNameValue = propertiesValue["roleName"];
+                                if (roleNameValue != null && roleNameValue.Type != JTokenType.Null)
+                                {
+                                    string roleNameInstance = ((string)roleNameValue);
+                                    propertiesInstance.RoleName = roleNameInstance;
+                                }
+                                
+                                JToken descriptionValue = propertiesValue["description"];
+                                if (descriptionValue != null && descriptionValue.Type != JTokenType.Null)
+                                {
+                                    string descriptionInstance = ((string)descriptionValue);
+                                    propertiesInstance.Description = descriptionInstance;
                                 }
                                 
                                 JToken typeValue2 = propertiesValue["type"];
@@ -1086,12 +1068,12 @@ namespace Microsoft.Azure.Management.Authorization
                                     }
                                 }
                                 
-                                JToken assignablescopesArray = propertiesValue["assignablescopes"];
-                                if (assignablescopesArray != null && assignablescopesArray.Type != JTokenType.Null)
+                                JToken assignableScopesArray = propertiesValue["assignableScopes"];
+                                if (assignableScopesArray != null && assignableScopesArray.Type != JTokenType.Null)
                                 {
-                                    foreach (JToken assignablescopesValue in ((JArray)assignablescopesArray))
+                                    foreach (JToken assignableScopesValue in ((JArray)assignableScopesArray))
                                     {
-                                        propertiesInstance.AssignableScopes.Add(((string)assignablescopesValue));
+                                        propertiesInstance.AssignableScopes.Add(((string)assignableScopesValue));
                                     }
                                 }
                             }
@@ -1128,17 +1110,28 @@ namespace Microsoft.Azure.Management.Authorization
         }
         
         /// <summary>
-        /// Get all role definitions.
+        /// Get all role definitions that are applicable at scope and above.
+        /// Use atScopeAndBelow filter to search below the given scope as well
         /// </summary>
+        /// <param name='scope'>
+        /// Required. Scope
+        /// </param>
+        /// <param name='parameters'>
+        /// Optional. List role definitions filters.
+        /// </param>
         /// <param name='cancellationToken'>
         /// Cancellation token.
         /// </param>
         /// <returns>
         /// Role definition list operation result.
         /// </returns>
-        public async Task<RoleDefinitionListResult> ListAsync(CancellationToken cancellationToken)
+        public async Task<RoleDefinitionListResult> ListAsync(string scope, ListDefinitionFilterParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
+            if (scope == null)
+            {
+                throw new ArgumentNullException("scope");
+            }
             
             // Tracing
             bool shouldTrace = TracingAdapter.IsEnabled;
@@ -1147,19 +1140,31 @@ namespace Microsoft.Azure.Management.Authorization
             {
                 invocationId = TracingAdapter.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("scope", scope);
+                tracingParameters.Add("parameters", parameters);
                 TracingAdapter.Enter(invocationId, this, "ListAsync", tracingParameters);
             }
             
             // Construct URL
             string url = "";
-            url = url + "/subscriptions/";
-            if (this.Client.Credentials.SubscriptionId != null)
-            {
-                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
-            }
+            url = url + "/";
+            url = url + scope;
             url = url + "/providers/Microsoft.Authorization/roleDefinitions";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-10-01-preview");
+            List<string> odataFilter = new List<string>();
+            if (parameters != null && parameters.RoleName != null)
+            {
+                odataFilter.Add("roleName eq '" + Uri.EscapeDataString(parameters.RoleName) + "'");
+            }
+            if (parameters != null && parameters.AtScopeAndBelow == true)
+            {
+                odataFilter.Add("atScopeAndBelow()");
+            }
+            if (odataFilter.Count > 0)
+            {
+                queryParameters.Add("$filter=" + string.Join(" and ", odataFilter));
+            }
+            queryParameters.Add("api-version=2015-07-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1186,7 +1191,6 @@ namespace Microsoft.Azure.Management.Authorization
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2014-10-01-preview");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1283,13 +1287,6 @@ namespace Microsoft.Azure.Management.Authorization
                                             propertiesInstance.Description = descriptionInstance;
                                         }
                                         
-                                        JToken scopeValue = propertiesValue["scope"];
-                                        if (scopeValue != null && scopeValue.Type != JTokenType.Null)
-                                        {
-                                            string scopeInstance = ((string)scopeValue);
-                                            propertiesInstance.Scope = scopeInstance;
-                                        }
-                                        
                                         JToken typeValue2 = propertiesValue["type"];
                                         if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                                         {
@@ -1325,12 +1322,12 @@ namespace Microsoft.Azure.Management.Authorization
                                             }
                                         }
                                         
-                                        JToken assignablescopesArray = propertiesValue["assignablescopes"];
-                                        if (assignablescopesArray != null && assignablescopesArray.Type != JTokenType.Null)
+                                        JToken assignableScopesArray = propertiesValue["assignableScopes"];
+                                        if (assignableScopesArray != null && assignableScopesArray.Type != JTokenType.Null)
                                         {
-                                            foreach (JToken assignablescopesValue in ((JArray)assignablescopesArray))
+                                            foreach (JToken assignableScopesValue in ((JArray)assignableScopesArray))
                                             {
-                                                propertiesInstance.AssignableScopes.Add(((string)assignablescopesValue));
+                                                propertiesInstance.AssignableScopes.Add(((string)assignableScopesValue));
                                             }
                                         }
                                     }

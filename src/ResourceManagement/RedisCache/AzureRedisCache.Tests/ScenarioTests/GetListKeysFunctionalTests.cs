@@ -28,18 +28,17 @@ namespace AzureRedisCache.Tests
             var _client = RedisCacheManagementTestUtilities.GetRedisManagementClient(this);
             RedisGetResponse response = _client.Redis.Get(resourceGroupName: fixture.ResourceGroupName, name: fixture.RedisCacheName);
             Assert.NotNull(response.RequestId);
-            Assert.Contains(fixture.RedisCacheName, response.Id);
-            Assert.Equal(fixture.RedisCacheName, response.Name);
-            
-            Assert.True("succeeded".Equals (response.Properties.ProvisioningState, StringComparison.InvariantCultureIgnoreCase));
-            Assert.Equal(SkuName.Basic, response.Properties.Sku.Name);
-            Assert.Equal(SkuFamily.C, response.Properties.Sku.Family);
-            Assert.Equal(0, response.Properties.Sku.Capacity);
-            Assert.Contains("2.8", response.Properties.RedisVersion);
-            
-            Assert.Contains(fixture.RedisCacheName, response.Properties.HostName);
-            Assert.Equal(6379, response.Properties.Port);
-            Assert.Equal(6380, response.Properties.SslPort);
+            Assert.Contains(fixture.RedisCacheName, response.Resource.Id);
+            Assert.Equal(fixture.RedisCacheName, response.Resource.Name);
+
+            Assert.True("succeeded".Equals(response.Resource.Properties.ProvisioningState, StringComparison.InvariantCultureIgnoreCase));
+            Assert.Equal(SkuName.Basic, response.Resource.Properties.Sku.Name);
+            Assert.Equal(SkuFamily.C, response.Resource.Properties.Sku.Family);
+            Assert.Equal(0, response.Resource.Properties.Sku.Capacity);
+
+            Assert.Contains(fixture.RedisCacheName, response.Resource.Properties.HostName);
+            Assert.Equal(6379, response.Resource.Properties.Port);
+            Assert.Equal(6380, response.Resource.Properties.SslPort);
             TestUtilities.EndTest();
         }
 
@@ -66,7 +65,6 @@ namespace AzureRedisCache.Tests
                     Assert.Equal(SkuName.Basic, response.Properties.Sku.Name);
                     Assert.Equal(SkuFamily.C, response.Properties.Sku.Family);
                     Assert.Equal(0, response.Properties.Sku.Capacity);
-                    Assert.Contains("2.8", response.Properties.RedisVersion);
                     
                     Assert.Contains(fixture.RedisCacheName, response.Properties.HostName);
                     Assert.Equal(6379, response.Properties.Port);
@@ -100,7 +98,6 @@ namespace AzureRedisCache.Tests
                     Assert.Equal(SkuName.Basic, response.Properties.Sku.Name);
                     Assert.Equal(SkuFamily.C, response.Properties.Sku.Family);
                     Assert.Equal(0, response.Properties.Sku.Capacity);
-                    Assert.Contains("2.8", response.Properties.RedisVersion);
                     
                     Assert.Contains(fixture.RedisCacheName, response.Properties.HostName);
                     Assert.Equal(6379, response.Properties.Port);

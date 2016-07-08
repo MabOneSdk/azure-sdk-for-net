@@ -1,7 +1,8 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/hydra19407/providers/Microsoft.Cache/Redis/hydracache1/listKeys?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/resourceGroups/hydra16259/providers/Microsoft.Cache/Redis/hydracache-1/listKeys?api-version=2015-08-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvMTliNTIwZTQtMzlhNy00ZmFjLWIxZGEtZDk0MGYyZDM5YTM4L3Jlc291cmNlR3JvdXBzL2h5ZHJhMTYyNTkvcHJvdmlkZXJzL01pY3Jvc29mdC5DYWNoZS9SZWRpcy9oeWRyYWNhY2hlLTEvbGlzdEtleXM/YXBpLXZlcnNpb249MjAxNS0wOC0wMQ==",
       "RequestMethod": "POST",
       "RequestBody": "",
       "RequestHeaders": {
@@ -9,34 +10,43 @@
           "Microsoft.Azure.Management.Redis.RedisManagementClient/1.0.0.0"
         ]
       },
-      "ResponseBody": "{\r\n  \"primaryKey\": \"wnhtuKx3NtJFkgyjl6cuBUsOYsGGoARw2woAJ1B1VPM=\",\r\n  \"secondaryKey\": \"GBcpPU0v4Ftd9i1WAItaOhhP4RGFwsJOAKEG27cmsw8=\"\r\n}",
+      "ResponseBody": "{\r\n  \"primaryKey\": \"Td/0QLndJIqGflXAG/L75uO4S8NtVQrOCGKD8KFcH4A=\",\r\n  \"secondaryKey\": \"JyvU/4WQK2WDNcpfqAsf1B2K1pXFjjhHuyqBbCfwkR8=\"\r\n}",
       "ResponseHeaders": {
+        "Content-Length": [
+          "123"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
         "Pragma": [
           "no-cache"
         ],
         "x-ms-request-id": [
-          "b746e5bd-0380-493d-b6c5-93298e0dab8e"
+          "ebee2159-f324-4912-b867-35a2c842a017"
         ],
         "x-rp-server-mvid": [
-          "ada78035-ec7d-467d-993c-7ac34724eb72"
+          "07b2bbeb-fdac-487b-ada5-44fe2bacf2b2"
         ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
-          "1196"
+          "1199"
         ],
         "x-ms-correlation-request-id": [
-          "657d30a4-bf7c-4ddf-b57a-a0cff7c02edc"
+          "5204e076-7bb9-4691-bce9-94fb9ce27853"
         ],
         "x-ms-routing-request-id": [
-          "CENTRALUS:20140902T222405Z:657d30a4-bf7c-4ddf-b57a-a0cff7c02edc"
+          "CENTRALUS:20151014T014600Z:5204e076-7bb9-4691-bce9-94fb9ce27853"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Tue, 02 Sep 2014 22:24:04 GMT"
+          "Wed, 14 Oct 2015 01:45:59 GMT"
         ],
         "Server": [
           "Microsoft-HTTPAPI/2.0"
@@ -47,6 +57,6 @@
   ],
   "Names": {},
   "Variables": {
-    "SubscriptionId": "f435d8e1-f7a0-4f79-adf7-b1a564728140"
+    "SubscriptionId": "19b520e4-39a7-4fac-b1da-d940f2d39a38"
   }
 }

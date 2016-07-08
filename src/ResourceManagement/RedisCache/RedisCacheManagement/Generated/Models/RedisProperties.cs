@@ -20,7 +20,9 @@
 // code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hyak.Common;
 using Microsoft.Azure.Management.Redis.Models;
 
 namespace Microsoft.Azure.Management.Redis.Models
@@ -30,39 +32,53 @@ namespace Microsoft.Azure.Management.Redis.Models
     /// </summary>
     public partial class RedisProperties
     {
-        private bool _enableNonSslPort;
+        private bool? _enableNonSslPort;
         
         /// <summary>
-        /// Required. Non-ssl redis server port (6379) is enabled or not.
+        /// Optional. If the value is true, then the non-ssl redis server port
+        /// (6379) will be enabled.
         /// </summary>
-        public bool EnableNonSslPort
+        public bool? EnableNonSslPort
         {
             get { return this._enableNonSslPort; }
             set { this._enableNonSslPort = value; }
         }
         
-        private string _maxMemoryPolicy;
+        private IDictionary<string, string> _redisConfiguration;
         
         /// <summary>
-        /// Optional. What is maxMemoryPolicy of redis cache. Valid values:
-        /// (VolatileLRU, AllKeysLRU, VolatileRandom, AllKeysRandom,
-        /// VolatileTTL, NoEviction)
+        /// Optional. All Redis Settings. Few possible keys:
+        /// <para>rdb-backup-enabled</para><para>rdb-storage-connection-string</para><para>rdb-backup-frequency</para><para>maxmemory-reserved</para><para>maxmemory-policy</para><para>notify-keyspace-events</para>.
         /// </summary>
-        public string MaxMemoryPolicy
+        public IDictionary<string, string> RedisConfiguration
         {
-            get { return this._maxMemoryPolicy; }
-            set { this._maxMemoryPolicy = value; }
+            get { return this._redisConfiguration; }
+            set { this._redisConfiguration = value; }
         }
         
         private string _redisVersion;
         
         /// <summary>
-        /// Required. The version of Redis to deploy. Valid values: (2.8)
+        /// Optional. RedisVersion parameter has been deprecated. As such, it
+        /// is no longer necessary to provide this parameter and any value
+        /// specified is ignored.
         /// </summary>
         public string RedisVersion
         {
             get { return this._redisVersion; }
             set { this._redisVersion = value; }
+        }
+        
+        private int? _shardCount;
+        
+        /// <summary>
+        /// Optional. The number of shards to be created on a Premium Cluster
+        /// Cache.
+        /// </summary>
+        public int? ShardCount
+        {
+            get { return this._shardCount; }
+            set { this._shardCount = value; }
         }
         
         private Sku _sku;
@@ -76,31 +92,75 @@ namespace Microsoft.Azure.Management.Redis.Models
             set { this._sku = value; }
         }
         
+        private string _staticIP;
+        
+        /// <summary>
+        /// Optional. Required when deploying a redis cache inside an existing
+        /// Azure Virtual Network.
+        /// </summary>
+        public string StaticIP
+        {
+            get { return this._staticIP; }
+            set { this._staticIP = value; }
+        }
+        
+        private string _subnet;
+        
+        /// <summary>
+        /// Optional. Required when deploying a redis cache inside an existing
+        /// Azure Virtual Network.
+        /// </summary>
+        public string Subnet
+        {
+            get { return this._subnet; }
+            set { this._subnet = value; }
+        }
+        
+        private IDictionary<string, string> _tenantSettings;
+        
+        /// <summary>
+        /// Optional. tenantSettings
+        /// </summary>
+        public IDictionary<string, string> TenantSettings
+        {
+            get { return this._tenantSettings; }
+            set { this._tenantSettings = value; }
+        }
+        
+        private string _virtualNetwork;
+        
+        /// <summary>
+        /// Optional. The exact ARM resource ID of the virtual network to
+        /// deploy the redis cache in. Example format:
+        /// /subscriptions/{subid}/resourceGroups/{resourceGroupName}/providers/Microsoft.ClassicNetwork/VirtualNetworks/{vnetName}
+        /// </summary>
+        public string VirtualNetwork
+        {
+            get { return this._virtualNetwork; }
+            set { this._virtualNetwork = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the RedisProperties class.
         /// </summary>
         public RedisProperties()
         {
+            this.RedisConfiguration = new LazyDictionary<string, string>();
+            this.TenantSettings = new LazyDictionary<string, string>();
         }
         
         /// <summary>
         /// Initializes a new instance of the RedisProperties class with
         /// required arguments.
         /// </summary>
-        public RedisProperties(string redisVersion, Sku sku, bool enableNonSslPort)
+        public RedisProperties(Sku sku)
             : this()
         {
-            if (redisVersion == null)
-            {
-                throw new ArgumentNullException("redisVersion");
-            }
             if (sku == null)
             {
                 throw new ArgumentNullException("sku");
             }
-            this.RedisVersion = redisVersion;
             this.Sku = sku;
-            this.EnableNonSslPort = enableNonSslPort;
         }
     }
 }

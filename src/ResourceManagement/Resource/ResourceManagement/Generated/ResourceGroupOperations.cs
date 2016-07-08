@@ -118,7 +118,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/resourcegroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -275,7 +275,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/resourcegroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -432,7 +432,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/resourcegroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -675,7 +675,7 @@ namespace Microsoft.Azure.Management.Resources
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != Microsoft.Azure.OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -750,7 +750,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/resourcegroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -969,7 +969,7 @@ namespace Microsoft.Azure.Management.Resources
             {
                 queryParameters.Add("$top=" + Uri.EscapeDataString(parameters.Top.Value.ToString()));
             }
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1110,11 +1110,11 @@ namespace Microsoft.Azure.Management.Resources
                                 }
                             }
                             
-                            JToken odatanextLinkValue = responseDoc["@odata.nextLink"];
-                            if (odatanextLinkValue != null && odatanextLinkValue.Type != JTokenType.Null)
+                            JToken nextLinkValue = responseDoc["nextLink"];
+                            if (nextLinkValue != null && nextLinkValue.Type != JTokenType.Null)
                             {
-                                string odatanextLinkInstance = ((string)odatanextLinkValue);
-                                result.NextLink = odatanextLinkInstance;
+                                string nextLinkInstance = ((string)nextLinkValue);
+                                result.NextLink = nextLinkInstance;
                             }
                         }
                         
@@ -1308,11 +1308,11 @@ namespace Microsoft.Azure.Management.Resources
                                 }
                             }
                             
-                            JToken odatanextLinkValue = responseDoc["@odata.nextLink"];
-                            if (odatanextLinkValue != null && odatanextLinkValue.Type != JTokenType.Null)
+                            JToken nextLinkValue = responseDoc["nextLink"];
+                            if (nextLinkValue != null && nextLinkValue.Type != JTokenType.Null)
                             {
-                                string odatanextLinkInstance = ((string)odatanextLinkValue);
-                                result.NextLink = odatanextLinkInstance;
+                                string nextLinkInstance = ((string)nextLinkValue);
+                                result.NextLink = nextLinkInstance;
                             }
                         }
                         
@@ -1412,7 +1412,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/resourcegroups/";
             url = url + Uri.EscapeDataString(resourceGroupName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);

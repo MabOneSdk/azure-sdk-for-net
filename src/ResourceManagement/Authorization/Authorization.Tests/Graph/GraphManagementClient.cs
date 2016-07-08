@@ -15,6 +15,7 @@
 
 using Hyak.Common;
 using Microsoft.Azure.Test;
+using Microsoft.Azure.Test.HttpRecorder;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xunit;
 
 namespace Authorization.Tests
 {
@@ -31,7 +33,7 @@ namespace Authorization.Tests
     {
         private const string DefaultUserDomain = "@aad191.ccsctp.net";
 
-        private const string DefaultTenantId = "1449d5b7-8a83-47db-ae4c-9b03e888bad0";
+        private const string DefaultTenantId = "1273adef-00a3-4086-a51a-dbcce1857d36";
         
         private const string GraphApiVersion = "1.42-previewInternal";
 
@@ -41,6 +43,10 @@ namespace Authorization.Tests
 
         private const string GraphGroupsSuffix = "groups";
 
+        private const string GraphDirectoryObjectsSuffix = "directoryObjects";
+
+        private const string GraphGroupMemberSuffix = @"$links/members";
+
         private const string CreateUserJsonFormatter = @"{0}
     ""accountEnabled"": true,
     ""displayName"": ""{2}"",
@@ -49,12 +55,16 @@ namespace Authorization.Tests
     ""userPrincipalName"": ""{2}{3}""
 {1}";
 
-    private const string CreateGroupJsonFormatter = @"{0}
+        private const string CreateGroupJsonFormatter = @"{0}
   ""displayName"":""{2}"",
   ""mailNickname"":""{2}"",
   ""mailEnabled"":false,
   ""securityEnabled"":true
 {1}";
+   
+        private const string AddMemberToGroupJsonFormatter = @"{0}
+  ""url"":""{2}"",
+  {1}";
         private TestEnvironment testEnvironment;
 
         public string UserDomain { get; private set; }
@@ -70,14 +80,17 @@ namespace Authorization.Tests
             }
 
             this.testEnvironment = testEnv;
-            if (testEnv.AuthorizationContext != null)
+            if (this.testEnvironment != null 
+                && this.testEnvironment.AuthorizationContext != null 
+                && this.testEnvironment.AuthorizationContext.UserId != null)
             {
-                var atIndex = this.testEnvironment.AuthorizationContext.UserId.IndexOf("@");
+                var username = this.testEnvironment.AuthorizationContext.UserId;
+                var atIndex = username.IndexOf("@");
 
                 if (atIndex != -1 &&
-                    atIndex != this.testEnvironment.AuthorizationContext.UserId.Length - 1)
+                    atIndex != username.Length - 1)
                 {
-                    this.UserDomain = this.testEnvironment.AuthorizationContext.UserId.Substring(atIndex);
+                    this.UserDomain = username.Substring(atIndex);
                 }
             }
             else
@@ -177,10 +190,29 @@ namespace Authorization.Tests
                     this.GetGraphUriString(GraphManagementClient.GraphGroupsSuffix + "/" + groupName),
                     HttpMethod.Delete,
                     null);
-
             var response = this.CallServerSync(request);
         }
-        
+
+        public void AddMemberToGroup(string groupId, string memberObjectId)
+        {
+            var memberObjectUri = this.GetGraphUriString(GraphManagementClient.GraphDirectoryObjectsSuffix + "/" + memberObjectId);
+            var index = memberObjectUri.IndexOf("?", StringComparison.Ordinal);
+            memberObjectUri = memberObjectUri.Remove(index);
+
+            var addGroupMemberRequestBody = string.Format(
+              GraphManagementClient.AddMemberToGroupJsonFormatter,
+              "{",
+              "}",
+              memberObjectUri);
+
+            var request = this.CreateRequest(
+                this.GetGraphUriString(GraphManagementClient.GraphGroupsSuffix + "/" + groupId + "/" + GraphManagementClient.GraphGroupMemberSuffix), 
+                HttpMethod.Post, 
+                addGroupMemberRequestBody);
+
+            this.CallServerSync(request);
+        }
+
         public IEnumerable<string> ListGroups(string groupNameFilter = null)
         {
             var returnValue = new List<string>();
@@ -218,9 +250,9 @@ namespace Authorization.Tests
             return string.Format(
                 GraphUriFormatter,
                 this.testEnvironment.Endpoints.GraphUri.ToString(),
-                this.testEnvironment.AuthorizationContext == null ? 
-                    GraphManagementClient.DefaultTenantId :
-                    this.testEnvironment.AuthorizationContext.TenatId,
+                this.testEnvironment.AuthorizationContext == null || this.testEnvironment.AuthorizationContext.TenantId == null ?
+                GraphManagementClient.DefaultTenantId :
+                    this.testEnvironment.AuthorizationContext.TenantId,
                 suffix,
                 GraphManagementClient.GraphApiVersion);
         }

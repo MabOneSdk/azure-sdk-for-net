@@ -16,13 +16,11 @@
 using Microsoft.Azure.Test.HttpRecorder;
 using Microsoft.WindowsAzure.Management.Compute;
 using Microsoft.WindowsAzure.Management.Storage;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Linq;
 
 namespace Microsoft.Azure.Test
 {
@@ -64,13 +62,13 @@ namespace Microsoft.Azure.Test
                     if (srcBlob.BlobType == BlobType.PageBlob)
                     {
                         var pageBlob = containerClient.GetPageBlobReference(destBlob);
-                        pageBlob.StartCopyFromBlob(srcBlobUri);
+                        pageBlob.StartCopy(srcBlobUri);
                         blobUri = pageBlob.Uri;
                     }
                     else
                     {
                         var blockBlob = containerClient.GetBlockBlobReference(destBlob);
-                        blockBlob.StartCopyFromBlob(srcBlobUri);
+                        blockBlob.StartCopy(srcBlobUri);
                         blobUri = blockBlob.Uri;
                     }
                 }
@@ -108,7 +106,7 @@ namespace Microsoft.Azure.Test
                     });
 
                     var pageBlob = containerClient.GetPageBlobReference(destBlob);
-                    pageBlob.StartCopyFromBlob(srcBlobUri);
+                    pageBlob.StartCopy(srcBlobUri);
                     blobUri = pageBlob.Uri;
                 }
             }
@@ -119,6 +117,30 @@ namespace Microsoft.Azure.Test
             }
 
             return blobUri;
+        }
+
+        public static DateTime GetDeploymentEventStartDate()
+        {
+            if (HttpMockServer.Mode != HttpRecorderMode.Playback)
+            {
+                return DateTime.Now.AddDays(-30);
+            }
+            else
+            {
+                return new DateTime(2015, 1, 10);
+            }
+        }
+
+        public static DateTime GetDeploymentEventEndDate()
+        {
+            if (HttpMockServer.Mode != HttpRecorderMode.Playback)
+            {
+                return DateTime.Now.AddDays(-20);
+            }
+            else
+            {
+                return new DateTime(2015, 1, 20);
+            }
         }
     }
 }

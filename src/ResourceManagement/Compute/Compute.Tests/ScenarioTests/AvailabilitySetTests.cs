@@ -141,7 +141,7 @@ namespace Compute.Tests
             }
             catch (Hyak.Common.CloudException ex)
             {
-                Assert.True(ex.Response.StatusCode == HttpStatusCode.Forbidden);
+                Assert.True(ex.Response.StatusCode == HttpStatusCode.Conflict);
                 Assert.True(ex.Error.Code == "PropertyChangeNotAllowed");
             }
             Assert.True(createOrUpdateResponse == null);
@@ -165,7 +165,7 @@ namespace Compute.Tests
             }
             catch (Hyak.Common.CloudException ex)
             {
-                Assert.True(ex.Response.StatusCode == HttpStatusCode.Forbidden);
+                Assert.True(ex.Response.StatusCode == HttpStatusCode.Conflict);
                 Assert.True(ex.Error.Code == "PropertyChangeNotAllowed");
             }
             Assert.True(createOrUpdateResponse == null);
@@ -348,7 +348,9 @@ namespace Compute.Tests
             Assert.True(outputAvailabilitySet.PlatformFaultDomainCount == expectedFD);
             Assert.True(outputAvailabilitySet.PlatformUpdateDomainCount == expectedUD);
 
-            Assert.True(inputAvailabilitySet.Tags != null && outputAvailabilitySet.Tags != null);
+            Assert.NotNull(inputAvailabilitySet.Tags);
+            Assert.NotNull(outputAvailabilitySet.Tags);
+
             foreach (var tag in inputAvailabilitySet.Tags)
             {
                 string key = tag.Key;

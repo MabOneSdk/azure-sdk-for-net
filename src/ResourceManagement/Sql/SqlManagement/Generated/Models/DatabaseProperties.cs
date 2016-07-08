@@ -43,6 +43,17 @@ namespace Microsoft.Azure.Management.Sql.Models
             set { this._collation = value; }
         }
         
+        private string _createMode;
+        
+        /// <summary>
+        /// Optional. Gets the create mode for this database.
+        /// </summary>
+        public string CreateMode
+        {
+            get { return this._createMode; }
+            set { this._createMode = value; }
+        }
+        
         private DateTime _creationDate;
         
         /// <summary>
@@ -76,6 +87,17 @@ namespace Microsoft.Azure.Management.Sql.Models
         {
             get { return this._databaseId; }
             set { this._databaseId = value; }
+        }
+        
+        private string _defaultSecondaryLocation;
+        
+        /// <summary>
+        /// Optional. Gets the default secondary region for this database.
+        /// </summary>
+        public string DefaultSecondaryLocation
+        {
+            get { return this._defaultSecondaryLocation; }
+            set { this._defaultSecondaryLocation = value; }
         }
         
         private DateTime _earliestRestoreDate;
@@ -153,6 +175,17 @@ namespace Microsoft.Azure.Management.Sql.Models
             set { this._requestedServiceObjectiveName = value; }
         }
         
+        private IList<Schema> _schemas;
+        
+        /// <summary>
+        /// Optional. Gets the schemas from this database.
+        /// </summary>
+        public IList<Schema> Schemas
+        {
+            get { return this._schemas; }
+            set { this._schemas = value; }
+        }
+        
         private string _serviceObjective;
         
         /// <summary>
@@ -204,6 +237,7 @@ namespace Microsoft.Azure.Management.Sql.Models
         /// </summary>
         public DatabaseProperties()
         {
+            this.Schemas = new LazyList<Schema>();
             this.ServiceTierAdvisors = new LazyList<ServiceTierAdvisor>();
         }
     }

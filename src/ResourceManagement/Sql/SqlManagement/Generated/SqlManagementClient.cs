@@ -102,6 +102,40 @@ namespace Microsoft.Azure.Management.Sql
             get { return this._auditingPolicy; }
         }
         
+        private ICapabilitiesOperations _capabilities;
+        
+        /// <summary>
+        /// Represents all the operations for determining the set of
+        /// capabilites available in a specified region.
+        /// </summary>
+        public virtual ICapabilitiesOperations Capabilities
+        {
+            get { return this._capabilities; }
+        }
+        
+        private IDatabaseActivationOperations _databaseActivation;
+        
+        /// <summary>
+        /// Represents all the operations for operating pertaining to
+        /// activation on Azure SQL Data Warehouse databases. Contains
+        /// operations to: Pause and Resume databases
+        /// </summary>
+        public virtual IDatabaseActivationOperations DatabaseActivation
+        {
+            get { return this._databaseActivation; }
+        }
+        
+        private IDatabaseBackupOperations _databaseBackup;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Database
+        /// database backups.
+        /// </summary>
+        public virtual IDatabaseBackupOperations DatabaseBackup
+        {
+            get { return this._databaseBackup; }
+        }
+        
         private IDatabaseOperations _databases;
         
         /// <summary>
@@ -152,6 +186,30 @@ namespace Microsoft.Azure.Management.Sql
             get { return this._firewallRules; }
         }
         
+        private IImportExportOperations _importExport;
+        
+        /// <summary>
+        /// Represents all the operations for import/export on Azure SQL
+        /// Databases.  Contains operations to: Import, Export, Get
+        /// Import/Export status for a database.
+        /// </summary>
+        public virtual IImportExportOperations ImportExport
+        {
+            get { return this._importExport; }
+        }
+        
+        private IJobAccountOperations _jobAccounts;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Job
+        /// Accounts. Contains operations to: Create, Retrieve, Update, and
+        /// Delete Job Accounts
+        /// </summary>
+        public virtual IJobAccountOperations JobAccounts
+        {
+            get { return this._jobAccounts; }
+        }
+        
         private IRecommendedElasticPoolOperations _recommendedElasticPools;
         
         /// <summary>
@@ -161,6 +219,30 @@ namespace Microsoft.Azure.Management.Sql
         public virtual IRecommendedElasticPoolOperations RecommendedElasticPools
         {
             get { return this._recommendedElasticPools; }
+        }
+        
+        private IRecommendedIndexOperations _recommendedIndexes;
+        
+        /// <summary>
+        /// Represents all the operations for managing recommended indexes on
+        /// Azure SQL Databases. Contains operations to retrieve recommended
+        /// index and update state.
+        /// </summary>
+        public virtual IRecommendedIndexOperations RecommendedIndexes
+        {
+            get { return this._recommendedIndexes; }
+        }
+        
+        private IReplicationLinkOperations _databaseReplicationLinks;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Database
+        /// Replication Links.  Contains operations to: Delete and Retrieve
+        /// replication links.
+        /// </summary>
+        public virtual IReplicationLinkOperations DatabaseReplicationLinks
+        {
+            get { return this._databaseReplicationLinks; }
         }
         
         private ISecureConnectionPolicyOperations _secureConnection;
@@ -173,6 +255,55 @@ namespace Microsoft.Azure.Management.Sql
         public virtual ISecureConnectionPolicyOperations SecureConnection
         {
             get { return this._secureConnection; }
+        }
+        
+        private ISecurityAlertPolicyOperations _securityAlertPolicy;
+        
+        /// <summary>
+        /// Represents all the operations to manage Azure SQL Database and
+        /// Database Server Security Alert policy.  Contains operations to:
+        /// Create, Retrieve and Update policy.
+        /// </summary>
+        public virtual ISecurityAlertPolicyOperations SecurityAlertPolicy
+        {
+            get { return this._securityAlertPolicy; }
+        }
+        
+        private IServerAdministratorOperations _serverAdministrators;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Server
+        /// Active Directory Administrators.  Contains operations to: Create,
+        /// Retrieve, Update, and Delete Azure SQL Server Active Directory
+        /// Administrators.
+        /// </summary>
+        public virtual IServerAdministratorOperations ServerAdministrators
+        {
+            get { return this._serverAdministrators; }
+        }
+        
+        private IServerCommunicationLinkOperations _communicationLinks;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Server
+        /// communication links.  Contains operations to: Create, Retrieve,
+        /// Update, and Delete.
+        /// </summary>
+        public virtual IServerCommunicationLinkOperations CommunicationLinks
+        {
+            get { return this._communicationLinks; }
+        }
+        
+        private IServerDisasterRecoveryConfigurationOperations _serverDisasterRecoveryConfigurations;
+        
+        /// <summary>
+        /// Represents all the operations for operating on Azure SQL Server
+        /// disaster recovery configurations. Contains operations to: Create,
+        /// Retrieve, Update, Failover, and Delete.
+        /// </summary>
+        public virtual IServerDisasterRecoveryConfigurationOperations ServerDisasterRecoveryConfigurations
+        {
+            get { return this._serverDisasterRecoveryConfigurations; }
         }
         
         private IServerOperations _servers;
@@ -239,12 +370,23 @@ namespace Microsoft.Azure.Management.Sql
             : base()
         {
             this._auditingPolicy = new AuditingPolicyOperations(this);
+            this._capabilities = new CapabilitiesOperations(this);
+            this._databaseActivation = new DatabaseActivationOperations(this);
+            this._databaseBackup = new DatabaseBackupOperations(this);
             this._databases = new DatabaseOperations(this);
             this._dataMasking = new DataMaskingOperations(this);
             this._elasticPools = new ElasticPoolOperations(this);
             this._firewallRules = new FirewallRuleOperations(this);
+            this._importExport = new ImportExportOperations(this);
+            this._jobAccounts = new JobAccountOperations(this);
             this._recommendedElasticPools = new RecommendedElasticPoolOperations(this);
+            this._recommendedIndexes = new RecommendedIndexOperations(this);
+            this._databaseReplicationLinks = new ReplicationLinkOperations(this);
             this._secureConnection = new SecureConnectionPolicyOperations(this);
+            this._securityAlertPolicy = new SecurityAlertPolicyOperations(this);
+            this._serverAdministrators = new ServerAdministratorOperations(this);
+            this._communicationLinks = new ServerCommunicationLinkOperations(this);
+            this._serverDisasterRecoveryConfigurations = new ServerDisasterRecoveryConfigurationOperations(this);
             this._servers = new ServerOperations(this);
             this._serverUpgrades = new ServerUpgradeOperations(this);
             this._serviceObjectives = new ServiceObjectiveOperations(this);
@@ -316,12 +458,23 @@ namespace Microsoft.Azure.Management.Sql
             : base(httpClient)
         {
             this._auditingPolicy = new AuditingPolicyOperations(this);
+            this._capabilities = new CapabilitiesOperations(this);
+            this._databaseActivation = new DatabaseActivationOperations(this);
+            this._databaseBackup = new DatabaseBackupOperations(this);
             this._databases = new DatabaseOperations(this);
             this._dataMasking = new DataMaskingOperations(this);
             this._elasticPools = new ElasticPoolOperations(this);
             this._firewallRules = new FirewallRuleOperations(this);
+            this._importExport = new ImportExportOperations(this);
+            this._jobAccounts = new JobAccountOperations(this);
             this._recommendedElasticPools = new RecommendedElasticPoolOperations(this);
+            this._recommendedIndexes = new RecommendedIndexOperations(this);
+            this._databaseReplicationLinks = new ReplicationLinkOperations(this);
             this._secureConnection = new SecureConnectionPolicyOperations(this);
+            this._securityAlertPolicy = new SecurityAlertPolicyOperations(this);
+            this._serverAdministrators = new ServerAdministratorOperations(this);
+            this._communicationLinks = new ServerCommunicationLinkOperations(this);
+            this._serverDisasterRecoveryConfigurations = new ServerDisasterRecoveryConfigurationOperations(this);
             this._servers = new ServerOperations(this);
             this._serverUpgrades = new ServerUpgradeOperations(this);
             this._serviceObjectives = new ServiceObjectiveOperations(this);

@@ -1,22 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "/Subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/swatirg1/providers/Microsoft.Backupseadev01/BackupVault/swatirn1/protectionpolicies?api-version=2014-09-01",
-      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvZjUzMDNhMGItZmFlNC00Y2RiLWI0NGQtMGU0YzAzMmRkZTI2L3Jlc291cmNlR3JvdXBzL3N3YXRpcmcxL3Byb3ZpZGVycy9NaWNyb3NvZnQuQmFja3Vwc2VhZGV2MDEvQmFja3VwVmF1bHQvc3dhdGlybjEvcHJvdGVjdGlvbnBvbGljaWVzP2FwaS12ZXJzaW9uPTIwMTQtMDktMDE=",
+      "RequestUri": "/Subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/backuprg/providers/Microsoft.Backup/BackupVault/backuprn/protectionPolicies?api-version=2014-09-01",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvZjUzMDNhMGItZmFlNC00Y2RiLWI0NGQtMGU0YzAzMmRkZTI2L3Jlc291cmNlR3JvdXBzL2JhY2t1cHJnL3Byb3ZpZGVycy9NaWNyb3NvZnQuQmFja3VwL0JhY2t1cFZhdWx0L2JhY2t1cHJuL3Byb3RlY3Rpb25Qb2xpY2llcz9hcGktdmVyc2lvbj0yMDE0LTA5LTAx",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
         "Accept-Language": [
           "en-us"
         ],
+        "x-ms-client-request-id": [
+          "f75ac69c-0e9c-40b0-92be-3a682e91bf58"
+        ],
         "User-Agent": [
           "Microsoft.Azure.Management.BackupServices.BackupServicesManagementClient/0.0.0.0"
         ]
       },
-      "ResponseBody": "{\r\n  \"Objects\": [\r\n    {\r\n      \"WorkloadType\": \"VM\",\r\n      \"Schedule\": {\r\n        \"BackupType\": \"Full\",\r\n        \"ScheduleRun\": \"Daily\",\r\n        \"ScheduleStartTime\": \"0001-01-01T00:00:00\",\r\n        \"ScheduleRunDays\": null,\r\n        \"ScheduleRunTimes\": [\r\n          \"2015-06-08T20:30:00\"\r\n        ],\r\n        \"RetentionPolicy\": {\r\n          \"RetentionType\": 1,\r\n          \"RetentionDuration\": 30\r\n        }\r\n      },\r\n      \"InstanceId\": \"40716838-2fa2-453b-8901-3f16ecb5359b\",\r\n      \"Name\": \"DefaultPolicy\",\r\n      \"OperationInProgress\": false\r\n    },\r\n    {\r\n      \"WorkloadType\": \"VM\",\r\n      \"Schedule\": {\r\n        \"BackupType\": \"Full\",\r\n        \"ScheduleRun\": \"Daily\",\r\n        \"ScheduleStartTime\": \"0001-01-01T00:00:00\",\r\n        \"ScheduleRunDays\": null,\r\n        \"ScheduleRunTimes\": [\r\n          \"2001-01-01T09:00:00\",\r\n          \"2001-01-01T21:00:00\"\r\n        ],\r\n        \"RetentionPolicy\": {\r\n          \"RetentionType\": 1,\r\n          \"RetentionDuration\": 30\r\n        }\r\n      },\r\n      \"InstanceId\": \"a4ae9969-2de5-40aa-97ce-19889b979d09\",\r\n      \"Name\": \"TestPolicyName\",\r\n      \"OperationInProgress\": false\r\n    },\r\n    {\r\n      \"WorkloadType\": \"VM\",\r\n      \"Schedule\": {\r\n        \"BackupType\": \"Full\",\r\n        \"ScheduleRun\": \"Daily\",\r\n        \"ScheduleStartTime\": \"0001-01-01T00:00:00\",\r\n        \"ScheduleRunDays\": null,\r\n        \"ScheduleRunTimes\": [\r\n          \"2001-01-01T09:00:00\",\r\n          \"2001-01-01T21:00:00\"\r\n        ],\r\n        \"RetentionPolicy\": {\r\n          \"RetentionType\": 1,\r\n          \"RetentionDuration\": 30\r\n        }\r\n      },\r\n      \"InstanceId\": \"c5fe92c5-b779-4a2f-bd6e-bc4121ccf599\",\r\n      \"Name\": \"TestPolicyName2\",\r\n      \"OperationInProgress\": false\r\n    }\r\n  ],\r\n  \"ResultCount\": 3,\r\n  \"Skiptoken\": null\r\n}",
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"properties\": {\r\n        \"workloadType\": \"IaasVM\",\r\n        \"policyName\": \"DefaultPolicy\",\r\n        \"backupSchedule\": {\r\n          \"backupType\": \"Full\",\r\n          \"scheduleRun\": \"Daily\",\r\n          \"scheduleRunDays\": null,\r\n          \"scheduleRunTimes\": [\r\n            \"2015-08-14T00:00:00\"\r\n          ]\r\n        },\r\n        \"ltrRetentionPolicy\": {\r\n          \"DailySchedule\": {\r\n            \"RetentionTimes\": [\r\n              \"2015-08-14T00:00:00\"\r\n            ],\r\n            \"CSMRetentionDuration\": {\r\n              \"Count\": 30,\r\n              \"DurationType\": 1\r\n            }\r\n          },\r\n          \"WeeklySchedule\": null,\r\n          \"MonthlySchedule\": null,\r\n          \"YearlySchedule\": null\r\n        }\r\n      },\r\n      \"id\": \"/subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/backuprg/providers/Microsoft.Backup/BackupVault/backuprn/protectionPolicies/DefaultPolicy\",\r\n      \"name\": \"DefaultPolicy\",\r\n      \"type\": \"Microsoft.Backup/BackupVault/protectionPolicies\"\r\n    },\r\n    {\r\n      \"properties\": {\r\n        \"workloadType\": \"IaasVM\",\r\n        \"policyName\": \"ProtPolicy01\",\r\n        \"backupSchedule\": {\r\n          \"backupType\": \"Full\",\r\n          \"scheduleRun\": \"Daily\",\r\n          \"scheduleRunDays\": null,\r\n          \"scheduleRunTimes\": [\r\n            \"2015-12-06T19:30:00\"\r\n          ]\r\n        },\r\n        \"ltrRetentionPolicy\": {\r\n          \"DailySchedule\": {\r\n            \"RetentionTimes\": [\r\n              \"2015-12-06T19:30:00\"\r\n            ],\r\n            \"CSMRetentionDuration\": {\r\n              \"Count\": 20,\r\n              \"DurationType\": 1\r\n            }\r\n          },\r\n          \"WeeklySchedule\": {\r\n            \"DaysOfTheWeek\": [\r\n              1\r\n            ],\r\n            \"RetentionTimes\": [\r\n              \"2015-12-06T19:30:00\"\r\n            ],\r\n            \"CSMRetentionDuration\": {\r\n              \"Count\": 4,\r\n              \"DurationType\": 2\r\n            }\r\n          },\r\n          \"MonthlySchedule\": null,\r\n          \"YearlySchedule\": null\r\n        }\r\n      },\r\n      \"id\": \"/subscriptions/f5303a0b-fae4-4cdb-b44d-0e4c032dde26/resourceGroups/backuprg/providers/Microsoft.Backup/BackupVault/backuprn/protectionPolicies/ProtPolicy01\",\r\n      \"name\": \"ProtPolicy01\",\r\n      \"type\": \"Microsoft.Backup/BackupVault/protectionPolicies\"\r\n    }\r\n  ],\r\n  \"nextLink\": null\r\n}",
       "ResponseHeaders": {
         "Content-Length": [
-          "1140"
+          "1420"
         ],
         "Content-Type": [
           "application/json"
@@ -28,29 +31,29 @@
           "no-cache"
         ],
         "x-ms-request-id": [
-          "62507eef-c3eb-4d0d-933d-d5ae500ea54a"
+          "268593c6-04f4-451e-8194-dc625cf69a0d"
         ],
         "x-ms-client-request-id": [
-          "b5aa9c48-e3ce-44f5-8a8b-e6f9ea410f95",
-          "b5aa9c48-e3ce-44f5-8a8b-e6f9ea410f95"
+          "f75ac69c-0e9c-40b0-92be-3a682e91bf58",
+          "f75ac69c-0e9c-40b0-92be-3a682e91bf58"
         ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "14999"
+          "14993"
         ],
         "x-ms-correlation-request-id": [
-          "62507eef-c3eb-4d0d-933d-d5ae500ea54a"
+          "268593c6-04f4-451e-8194-dc625cf69a0d"
         ],
         "x-ms-routing-request-id": [
-          "CENTRALUS:20150608T105955Z:62507eef-c3eb-4d0d-933d-d5ae500ea54a"
+          "CENTRALUS:20150813T145715Z:268593c6-04f4-451e-8194-dc625cf69a0d"
         ],
         "Cache-Control": [
           "no-cache"
         ],
         "Date": [
-          "Mon, 08 Jun 2015 10:59:54 GMT"
+          "Thu, 13 Aug 2015 14:57:14 GMT"
         ],
         "Server": [
           "Microsoft-IIS/8.0"

@@ -127,6 +127,39 @@ namespace Microsoft.WindowsAzure.Management.Compute
             }
             if (parameters.ProvisioningConfiguration != null)
             {
+                if (parameters.ProvisioningConfiguration.AdditionalUnattendContent != null)
+                {
+                    if (parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses != null)
+                    {
+                        foreach (UnattendPassSettings unattendPassesParameterItem in parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses)
+                        {
+                            if (unattendPassesParameterItem.PassName == null)
+                            {
+                                throw new ArgumentNullException("parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses.PassName");
+                            }
+                            if (unattendPassesParameterItem.UnattendComponents != null)
+                            {
+                                foreach (UnattendComponent unattendComponentsParameterItem in unattendPassesParameterItem.UnattendComponents)
+                                {
+                                    if (unattendComponentsParameterItem.ComponentName == null)
+                                    {
+                                        throw new ArgumentNullException("parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses.UnattendComponents.ComponentName");
+                                    }
+                                    if (unattendComponentsParameterItem.UnattendComponentSettings != null)
+                                    {
+                                        foreach (ComponentSetting unattendComponentSettingsParameterItem in unattendComponentsParameterItem.UnattendComponentSettings)
+                                        {
+                                            if (unattendComponentSettingsParameterItem.SettingName == null)
+                                            {
+                                                throw new ArgumentNullException("parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses.UnattendComponents.UnattendComponentSettings.SettingName");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 if (parameters.ProvisioningConfiguration.DomainJoin != null)
                 {
                     if (parameters.ProvisioningConfiguration.DomainJoin.Credentials != null)
@@ -270,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -465,6 +498,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     loadBalancerDistributionElement.Value = inputEndpointsItem.LoadBalancerDistribution;
                                     inputEndpointElement.Add(loadBalancerDistributionElement);
                                 }
+                                
+                                if (inputEndpointsItem.VirtualIPName != null)
+                                {
+                                    XElement virtualIPNameElement = new XElement(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                    virtualIPNameElement.Value = inputEndpointsItem.VirtualIPName;
+                                    inputEndpointElement.Add(virtualIPNameElement);
+                                }
                             }
                             provisioningConfigurationElement.Add(inputEndpointsSequenceElement);
                         }
@@ -571,6 +611,20 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         networkInterfaceElement.Add(iPConfigurationsSequenceElement);
                                     }
                                 }
+                                
+                                if (networkInterfacesItem.NetworkSecurityGroup != null)
+                                {
+                                    XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                    networkSecurityGroupElement.Value = networkInterfacesItem.NetworkSecurityGroup;
+                                    networkInterfaceElement.Add(networkSecurityGroupElement);
+                                }
+                                
+                                if (networkInterfacesItem.IPForwarding != null)
+                                {
+                                    XElement iPForwardingElement = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                    iPForwardingElement.Value = networkInterfacesItem.IPForwarding;
+                                    networkInterfaceElement.Add(iPForwardingElement);
+                                }
                             }
                             provisioningConfigurationElement.Add(networkInterfacesSequenceElement);
                         }
@@ -578,9 +632,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     
                     if (parameters.ProvisioningConfiguration.NetworkSecurityGroup != null)
                     {
-                        XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                        networkSecurityGroupElement.Value = parameters.ProvisioningConfiguration.NetworkSecurityGroup;
-                        provisioningConfigurationElement.Add(networkSecurityGroupElement);
+                        XElement networkSecurityGroupElement2 = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                        networkSecurityGroupElement2.Value = parameters.ProvisioningConfiguration.NetworkSecurityGroup;
+                        provisioningConfigurationElement.Add(networkSecurityGroupElement2);
+                    }
+                    
+                    if (parameters.ProvisioningConfiguration.IPForwarding != null)
+                    {
+                        XElement iPForwardingElement2 = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                        iPForwardingElement2.Value = parameters.ProvisioningConfiguration.IPForwarding;
+                        provisioningConfigurationElement.Add(iPForwardingElement2);
                     }
                     
                     if (parameters.ProvisioningConfiguration.ComputerName != null)
@@ -734,6 +795,73 @@ namespace Microsoft.WindowsAzure.Management.Compute
                         XElement adminUsernameElement = new XElement(XName.Get("AdminUsername", "http://schemas.microsoft.com/windowsazure"));
                         adminUsernameElement.Value = parameters.ProvisioningConfiguration.AdminUserName;
                         provisioningConfigurationElement.Add(adminUsernameElement);
+                    }
+                    
+                    if (parameters.ProvisioningConfiguration.AdditionalUnattendContent != null)
+                    {
+                        XElement additionalUnattendContentElement = new XElement(XName.Get("AdditionalUnattendContent", "http://schemas.microsoft.com/windowsazure"));
+                        provisioningConfigurationElement.Add(additionalUnattendContentElement);
+                        
+                        if (parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses != null)
+                        {
+                            if (parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses is ILazyCollection == false || ((ILazyCollection)parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses).IsInitialized)
+                            {
+                                XElement passesSequenceElement = new XElement(XName.Get("Passes", "http://schemas.microsoft.com/windowsazure"));
+                                foreach (UnattendPassSettings passesItem in parameters.ProvisioningConfiguration.AdditionalUnattendContent.UnattendPasses)
+                                {
+                                    XElement unattendPassElement = new XElement(XName.Get("UnattendPass", "http://schemas.microsoft.com/windowsazure"));
+                                    passesSequenceElement.Add(unattendPassElement);
+                                    
+                                    XElement passNameElement = new XElement(XName.Get("PassName", "http://schemas.microsoft.com/windowsazure"));
+                                    passNameElement.Value = passesItem.PassName;
+                                    unattendPassElement.Add(passNameElement);
+                                    
+                                    if (passesItem.UnattendComponents != null)
+                                    {
+                                        if (passesItem.UnattendComponents is ILazyCollection == false || ((ILazyCollection)passesItem.UnattendComponents).IsInitialized)
+                                        {
+                                            XElement componentsSequenceElement = new XElement(XName.Get("Components", "http://schemas.microsoft.com/windowsazure"));
+                                            foreach (UnattendComponent componentsItem in passesItem.UnattendComponents)
+                                            {
+                                                XElement unattendComponentElement = new XElement(XName.Get("UnattendComponent", "http://schemas.microsoft.com/windowsazure"));
+                                                componentsSequenceElement.Add(unattendComponentElement);
+                                                
+                                                XElement componentNameElement = new XElement(XName.Get("ComponentName", "http://schemas.microsoft.com/windowsazure"));
+                                                componentNameElement.Value = componentsItem.ComponentName;
+                                                unattendComponentElement.Add(componentNameElement);
+                                                
+                                                if (componentsItem.UnattendComponentSettings != null)
+                                                {
+                                                    if (componentsItem.UnattendComponentSettings is ILazyCollection == false || ((ILazyCollection)componentsItem.UnattendComponentSettings).IsInitialized)
+                                                    {
+                                                        XElement componentSettingsSequenceElement = new XElement(XName.Get("ComponentSettings", "http://schemas.microsoft.com/windowsazure"));
+                                                        foreach (ComponentSetting componentSettingsItem in componentsItem.UnattendComponentSettings)
+                                                        {
+                                                            XElement componentSettingElement = new XElement(XName.Get("ComponentSetting", "http://schemas.microsoft.com/windowsazure"));
+                                                            componentSettingsSequenceElement.Add(componentSettingElement);
+                                                            
+                                                            XElement settingNameElement = new XElement(XName.Get("SettingName", "http://schemas.microsoft.com/windowsazure"));
+                                                            settingNameElement.Value = componentSettingsItem.SettingName;
+                                                            componentSettingElement.Add(settingNameElement);
+                                                            
+                                                            if (componentSettingsItem.Content != null)
+                                                            {
+                                                                XElement contentElement = new XElement(XName.Get("Content", "http://schemas.microsoft.com/windowsazure"));
+                                                                contentElement.Value = TypeConversion.ToBase64String(componentSettingsItem.Content);
+                                                                componentSettingElement.Add(contentElement);
+                                                            }
+                                                        }
+                                                        unattendComponentElement.Add(componentSettingsSequenceElement);
+                                                    }
+                                                }
+                                            }
+                                            unattendPassElement.Add(componentsSequenceElement);
+                                        }
+                                    }
+                                }
+                                additionalUnattendContentElement.Add(passesSequenceElement);
+                            }
+                        }
                     }
                     
                     if (parameters.ProvisioningConfiguration.HostName != null)
@@ -986,7 +1114,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1140,6 +1268,39 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 foreach (ConfigurationSet configurationSetsParameterItem in parameters.ConfigurationSets)
                 {
+                    if (configurationSetsParameterItem.AdditionalUnattendContent != null)
+                    {
+                        if (configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses != null)
+                        {
+                            foreach (UnattendPassSettings unattendPassesParameterItem in configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses)
+                            {
+                                if (unattendPassesParameterItem.PassName == null)
+                                {
+                                    throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.PassName");
+                                }
+                                if (unattendPassesParameterItem.UnattendComponents != null)
+                                {
+                                    foreach (UnattendComponent unattendComponentsParameterItem in unattendPassesParameterItem.UnattendComponents)
+                                    {
+                                        if (unattendComponentsParameterItem.ComponentName == null)
+                                        {
+                                            throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.ComponentName");
+                                        }
+                                        if (unattendComponentsParameterItem.UnattendComponentSettings != null)
+                                        {
+                                            foreach (ComponentSetting unattendComponentSettingsParameterItem in unattendComponentsParameterItem.UnattendComponentSettings)
+                                            {
+                                                if (unattendComponentSettingsParameterItem.SettingName == null)
+                                                {
+                                                    throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.UnattendComponentSettings.SettingName");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     if (configurationSetsParameterItem.DomainJoin != null)
                     {
                         if (configurationSetsParameterItem.DomainJoin.Credentials != null)
@@ -1277,7 +1438,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1477,6 +1638,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                             loadBalancerDistributionElement.Value = inputEndpointsItem.LoadBalancerDistribution;
                                             inputEndpointElement.Add(loadBalancerDistributionElement);
                                         }
+                                        
+                                        if (inputEndpointsItem.VirtualIPName != null)
+                                        {
+                                            XElement virtualIPNameElement = new XElement(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                            virtualIPNameElement.Value = inputEndpointsItem.VirtualIPName;
+                                            inputEndpointElement.Add(virtualIPNameElement);
+                                        }
                                     }
                                     configurationSetElement.Add(inputEndpointsSequenceElement);
                                 }
@@ -1583,6 +1751,20 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 networkInterfaceElement.Add(iPConfigurationsSequenceElement);
                                             }
                                         }
+                                        
+                                        if (networkInterfacesItem.NetworkSecurityGroup != null)
+                                        {
+                                            XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                            networkSecurityGroupElement.Value = networkInterfacesItem.NetworkSecurityGroup;
+                                            networkInterfaceElement.Add(networkSecurityGroupElement);
+                                        }
+                                        
+                                        if (networkInterfacesItem.IPForwarding != null)
+                                        {
+                                            XElement iPForwardingElement = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                            iPForwardingElement.Value = networkInterfacesItem.IPForwarding;
+                                            networkInterfaceElement.Add(iPForwardingElement);
+                                        }
                                     }
                                     configurationSetElement.Add(networkInterfacesSequenceElement);
                                 }
@@ -1590,9 +1772,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             
                             if (configurationSetsItem.NetworkSecurityGroup != null)
                             {
-                                XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                                networkSecurityGroupElement.Value = configurationSetsItem.NetworkSecurityGroup;
-                                configurationSetElement.Add(networkSecurityGroupElement);
+                                XElement networkSecurityGroupElement2 = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                networkSecurityGroupElement2.Value = configurationSetsItem.NetworkSecurityGroup;
+                                configurationSetElement.Add(networkSecurityGroupElement2);
+                            }
+                            
+                            if (configurationSetsItem.IPForwarding != null)
+                            {
+                                XElement iPForwardingElement2 = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                iPForwardingElement2.Value = configurationSetsItem.IPForwarding;
+                                configurationSetElement.Add(iPForwardingElement2);
                             }
                             
                             if (configurationSetsItem.ComputerName != null)
@@ -1746,6 +1935,73 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 XElement adminUsernameElement = new XElement(XName.Get("AdminUsername", "http://schemas.microsoft.com/windowsazure"));
                                 adminUsernameElement.Value = configurationSetsItem.AdminUserName;
                                 configurationSetElement.Add(adminUsernameElement);
+                            }
+                            
+                            if (configurationSetsItem.AdditionalUnattendContent != null)
+                            {
+                                XElement additionalUnattendContentElement = new XElement(XName.Get("AdditionalUnattendContent", "http://schemas.microsoft.com/windowsazure"));
+                                configurationSetElement.Add(additionalUnattendContentElement);
+                                
+                                if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses != null)
+                                {
+                                    if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses is ILazyCollection == false || ((ILazyCollection)configurationSetsItem.AdditionalUnattendContent.UnattendPasses).IsInitialized)
+                                    {
+                                        XElement passesSequenceElement = new XElement(XName.Get("Passes", "http://schemas.microsoft.com/windowsazure"));
+                                        foreach (UnattendPassSettings passesItem in configurationSetsItem.AdditionalUnattendContent.UnattendPasses)
+                                        {
+                                            XElement unattendPassElement = new XElement(XName.Get("UnattendPass", "http://schemas.microsoft.com/windowsazure"));
+                                            passesSequenceElement.Add(unattendPassElement);
+                                            
+                                            XElement passNameElement = new XElement(XName.Get("PassName", "http://schemas.microsoft.com/windowsazure"));
+                                            passNameElement.Value = passesItem.PassName;
+                                            unattendPassElement.Add(passNameElement);
+                                            
+                                            if (passesItem.UnattendComponents != null)
+                                            {
+                                                if (passesItem.UnattendComponents is ILazyCollection == false || ((ILazyCollection)passesItem.UnattendComponents).IsInitialized)
+                                                {
+                                                    XElement componentsSequenceElement = new XElement(XName.Get("Components", "http://schemas.microsoft.com/windowsazure"));
+                                                    foreach (UnattendComponent componentsItem in passesItem.UnattendComponents)
+                                                    {
+                                                        XElement unattendComponentElement = new XElement(XName.Get("UnattendComponent", "http://schemas.microsoft.com/windowsazure"));
+                                                        componentsSequenceElement.Add(unattendComponentElement);
+                                                        
+                                                        XElement componentNameElement = new XElement(XName.Get("ComponentName", "http://schemas.microsoft.com/windowsazure"));
+                                                        componentNameElement.Value = componentsItem.ComponentName;
+                                                        unattendComponentElement.Add(componentNameElement);
+                                                        
+                                                        if (componentsItem.UnattendComponentSettings != null)
+                                                        {
+                                                            if (componentsItem.UnattendComponentSettings is ILazyCollection == false || ((ILazyCollection)componentsItem.UnattendComponentSettings).IsInitialized)
+                                                            {
+                                                                XElement componentSettingsSequenceElement = new XElement(XName.Get("ComponentSettings", "http://schemas.microsoft.com/windowsazure"));
+                                                                foreach (ComponentSetting componentSettingsItem in componentsItem.UnattendComponentSettings)
+                                                                {
+                                                                    XElement componentSettingElement = new XElement(XName.Get("ComponentSetting", "http://schemas.microsoft.com/windowsazure"));
+                                                                    componentSettingsSequenceElement.Add(componentSettingElement);
+                                                                    
+                                                                    XElement settingNameElement = new XElement(XName.Get("SettingName", "http://schemas.microsoft.com/windowsazure"));
+                                                                    settingNameElement.Value = componentSettingsItem.SettingName;
+                                                                    componentSettingElement.Add(settingNameElement);
+                                                                    
+                                                                    if (componentSettingsItem.Content != null)
+                                                                    {
+                                                                        XElement contentElement = new XElement(XName.Get("Content", "http://schemas.microsoft.com/windowsazure"));
+                                                                        contentElement.Value = TypeConversion.ToBase64String(componentSettingsItem.Content);
+                                                                        componentSettingElement.Add(contentElement);
+                                                                    }
+                                                                }
+                                                                unattendComponentElement.Add(componentSettingsSequenceElement);
+                                                            }
+                                                        }
+                                                    }
+                                                    unattendPassElement.Add(componentsSequenceElement);
+                                                }
+                                            }
+                                        }
+                                        additionalUnattendContentElement.Add(passesSequenceElement);
+                                    }
+                                }
                             }
                             
                             if (configurationSetsItem.HostName != null)
@@ -2108,6 +2364,37 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     persistentVMRoleElement.Add(vMImageInputElement);
                 }
                 
+                if (parameters.DebugSettings != null)
+                {
+                    XElement debugSettingsElement = new XElement(XName.Get("DebugSettings", "http://schemas.microsoft.com/windowsazure"));
+                    persistentVMRoleElement.Add(debugSettingsElement);
+                    
+                    XElement bootDiagnosticsEnabledElement = new XElement(XName.Get("BootDiagnosticsEnabled", "http://schemas.microsoft.com/windowsazure"));
+                    bootDiagnosticsEnabledElement.Value = parameters.DebugSettings.BootDiagnosticsEnabled.ToString().ToLower();
+                    debugSettingsElement.Add(bootDiagnosticsEnabledElement);
+                    
+                    if (parameters.DebugSettings.ConsoleScreenshotBlobUri != null)
+                    {
+                        XElement consoleScreenshotBlobUriElement = new XElement(XName.Get("ConsoleScreenshotBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                        consoleScreenshotBlobUriElement.Value = parameters.DebugSettings.ConsoleScreenshotBlobUri.AbsoluteUri;
+                        debugSettingsElement.Add(consoleScreenshotBlobUriElement);
+                    }
+                    
+                    if (parameters.DebugSettings.SerialOutputBlobUri != null)
+                    {
+                        XElement serialOutputBlobUriElement = new XElement(XName.Get("SerialOutputBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                        serialOutputBlobUriElement.Value = parameters.DebugSettings.SerialOutputBlobUri.AbsoluteUri;
+                        debugSettingsElement.Add(serialOutputBlobUriElement);
+                    }
+                }
+                
+                if (parameters.LicenseType != null)
+                {
+                    XElement licenseTypeElement = new XElement(XName.Get("LicenseType", "http://schemas.microsoft.com/windowsazure"));
+                    licenseTypeElement.Value = parameters.LicenseType;
+                    persistentVMRoleElement.Add(licenseTypeElement);
+                }
+                
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/xml");
@@ -2232,6 +2519,39 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     {
                         foreach (ConfigurationSet configurationSetsParameterItem in rolesParameterItem.ConfigurationSets)
                         {
+                            if (configurationSetsParameterItem.AdditionalUnattendContent != null)
+                            {
+                                if (configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses != null)
+                                {
+                                    foreach (UnattendPassSettings unattendPassesParameterItem in configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses)
+                                    {
+                                        if (unattendPassesParameterItem.PassName == null)
+                                        {
+                                            throw new ArgumentNullException("parameters.Roles.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.PassName");
+                                        }
+                                        if (unattendPassesParameterItem.UnattendComponents != null)
+                                        {
+                                            foreach (UnattendComponent unattendComponentsParameterItem in unattendPassesParameterItem.UnattendComponents)
+                                            {
+                                                if (unattendComponentsParameterItem.ComponentName == null)
+                                                {
+                                                    throw new ArgumentNullException("parameters.Roles.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.ComponentName");
+                                                }
+                                                if (unattendComponentsParameterItem.UnattendComponentSettings != null)
+                                                {
+                                                    foreach (ComponentSetting unattendComponentSettingsParameterItem in unattendComponentsParameterItem.UnattendComponentSettings)
+                                                    {
+                                                        if (unattendComponentSettingsParameterItem.SettingName == null)
+                                                        {
+                                                            throw new ArgumentNullException("parameters.Roles.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.UnattendComponentSettings.SettingName");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             if (configurationSetsParameterItem.DomainJoin != null)
                             {
                                 if (configurationSetsParameterItem.DomainJoin.Credentials != null)
@@ -2364,7 +2684,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -2597,6 +2917,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                     loadBalancerDistributionElement.Value = inputEndpointsItem.LoadBalancerDistribution;
                                                     inputEndpointElement.Add(loadBalancerDistributionElement);
                                                 }
+                                                
+                                                if (inputEndpointsItem.VirtualIPName != null)
+                                                {
+                                                    XElement virtualIPNameElement = new XElement(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                                    virtualIPNameElement.Value = inputEndpointsItem.VirtualIPName;
+                                                    inputEndpointElement.Add(virtualIPNameElement);
+                                                }
                                             }
                                             configurationSetElement.Add(inputEndpointsSequenceElement);
                                         }
@@ -2703,6 +3030,20 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                         networkInterfaceElement.Add(iPConfigurationsSequenceElement);
                                                     }
                                                 }
+                                                
+                                                if (networkInterfacesItem.NetworkSecurityGroup != null)
+                                                {
+                                                    XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                                    networkSecurityGroupElement.Value = networkInterfacesItem.NetworkSecurityGroup;
+                                                    networkInterfaceElement.Add(networkSecurityGroupElement);
+                                                }
+                                                
+                                                if (networkInterfacesItem.IPForwarding != null)
+                                                {
+                                                    XElement iPForwardingElement = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                                    iPForwardingElement.Value = networkInterfacesItem.IPForwarding;
+                                                    networkInterfaceElement.Add(iPForwardingElement);
+                                                }
                                             }
                                             configurationSetElement.Add(networkInterfacesSequenceElement);
                                         }
@@ -2710,9 +3051,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     
                                     if (configurationSetsItem.NetworkSecurityGroup != null)
                                     {
-                                        XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                                        networkSecurityGroupElement.Value = configurationSetsItem.NetworkSecurityGroup;
-                                        configurationSetElement.Add(networkSecurityGroupElement);
+                                        XElement networkSecurityGroupElement2 = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                        networkSecurityGroupElement2.Value = configurationSetsItem.NetworkSecurityGroup;
+                                        configurationSetElement.Add(networkSecurityGroupElement2);
+                                    }
+                                    
+                                    if (configurationSetsItem.IPForwarding != null)
+                                    {
+                                        XElement iPForwardingElement2 = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                        iPForwardingElement2.Value = configurationSetsItem.IPForwarding;
+                                        configurationSetElement.Add(iPForwardingElement2);
                                     }
                                     
                                     if (configurationSetsItem.ComputerName != null)
@@ -2866,6 +3214,73 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                         XElement adminUsernameElement = new XElement(XName.Get("AdminUsername", "http://schemas.microsoft.com/windowsazure"));
                                         adminUsernameElement.Value = configurationSetsItem.AdminUserName;
                                         configurationSetElement.Add(adminUsernameElement);
+                                    }
+                                    
+                                    if (configurationSetsItem.AdditionalUnattendContent != null)
+                                    {
+                                        XElement additionalUnattendContentElement = new XElement(XName.Get("AdditionalUnattendContent", "http://schemas.microsoft.com/windowsazure"));
+                                        configurationSetElement.Add(additionalUnattendContentElement);
+                                        
+                                        if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses != null)
+                                        {
+                                            if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses is ILazyCollection == false || ((ILazyCollection)configurationSetsItem.AdditionalUnattendContent.UnattendPasses).IsInitialized)
+                                            {
+                                                XElement passesSequenceElement = new XElement(XName.Get("Passes", "http://schemas.microsoft.com/windowsazure"));
+                                                foreach (UnattendPassSettings passesItem in configurationSetsItem.AdditionalUnattendContent.UnattendPasses)
+                                                {
+                                                    XElement unattendPassElement = new XElement(XName.Get("UnattendPass", "http://schemas.microsoft.com/windowsazure"));
+                                                    passesSequenceElement.Add(unattendPassElement);
+                                                    
+                                                    XElement passNameElement = new XElement(XName.Get("PassName", "http://schemas.microsoft.com/windowsazure"));
+                                                    passNameElement.Value = passesItem.PassName;
+                                                    unattendPassElement.Add(passNameElement);
+                                                    
+                                                    if (passesItem.UnattendComponents != null)
+                                                    {
+                                                        if (passesItem.UnattendComponents is ILazyCollection == false || ((ILazyCollection)passesItem.UnattendComponents).IsInitialized)
+                                                        {
+                                                            XElement componentsSequenceElement = new XElement(XName.Get("Components", "http://schemas.microsoft.com/windowsazure"));
+                                                            foreach (UnattendComponent componentsItem in passesItem.UnattendComponents)
+                                                            {
+                                                                XElement unattendComponentElement = new XElement(XName.Get("UnattendComponent", "http://schemas.microsoft.com/windowsazure"));
+                                                                componentsSequenceElement.Add(unattendComponentElement);
+                                                                
+                                                                XElement componentNameElement = new XElement(XName.Get("ComponentName", "http://schemas.microsoft.com/windowsazure"));
+                                                                componentNameElement.Value = componentsItem.ComponentName;
+                                                                unattendComponentElement.Add(componentNameElement);
+                                                                
+                                                                if (componentsItem.UnattendComponentSettings != null)
+                                                                {
+                                                                    if (componentsItem.UnattendComponentSettings is ILazyCollection == false || ((ILazyCollection)componentsItem.UnattendComponentSettings).IsInitialized)
+                                                                    {
+                                                                        XElement componentSettingsSequenceElement = new XElement(XName.Get("ComponentSettings", "http://schemas.microsoft.com/windowsazure"));
+                                                                        foreach (ComponentSetting componentSettingsItem in componentsItem.UnattendComponentSettings)
+                                                                        {
+                                                                            XElement componentSettingElement = new XElement(XName.Get("ComponentSetting", "http://schemas.microsoft.com/windowsazure"));
+                                                                            componentSettingsSequenceElement.Add(componentSettingElement);
+                                                                            
+                                                                            XElement settingNameElement = new XElement(XName.Get("SettingName", "http://schemas.microsoft.com/windowsazure"));
+                                                                            settingNameElement.Value = componentSettingsItem.SettingName;
+                                                                            componentSettingElement.Add(settingNameElement);
+                                                                            
+                                                                            if (componentSettingsItem.Content != null)
+                                                                            {
+                                                                                XElement contentElement = new XElement(XName.Get("Content", "http://schemas.microsoft.com/windowsazure"));
+                                                                                contentElement.Value = TypeConversion.ToBase64String(componentSettingsItem.Content);
+                                                                                componentSettingElement.Add(contentElement);
+                                                                            }
+                                                                        }
+                                                                        unattendComponentElement.Add(componentSettingsSequenceElement);
+                                                                    }
+                                                                }
+                                                            }
+                                                            unattendPassElement.Add(componentsSequenceElement);
+                                                        }
+                                                    }
+                                                }
+                                                additionalUnattendContentElement.Add(passesSequenceElement);
+                                            }
+                                        }
                                     }
                                     
                                     if (configurationSetsItem.HostName != null)
@@ -3282,6 +3697,44 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 }
                             }
                         }
+                        
+                        if (roleListItem.DebugSettings != null)
+                        {
+                            XElement debugSettingsElement = new XElement(XName.Get("DebugSettings", "http://schemas.microsoft.com/windowsazure"));
+                            roleElement.Add(debugSettingsElement);
+                            
+                            XElement bootDiagnosticsEnabledElement = new XElement(XName.Get("BootDiagnosticsEnabled", "http://schemas.microsoft.com/windowsazure"));
+                            bootDiagnosticsEnabledElement.Value = roleListItem.DebugSettings.BootDiagnosticsEnabled.ToString().ToLower();
+                            debugSettingsElement.Add(bootDiagnosticsEnabledElement);
+                            
+                            if (roleListItem.DebugSettings.ConsoleScreenshotBlobUri != null)
+                            {
+                                XElement consoleScreenshotBlobUriElement = new XElement(XName.Get("ConsoleScreenshotBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                                consoleScreenshotBlobUriElement.Value = roleListItem.DebugSettings.ConsoleScreenshotBlobUri.AbsoluteUri;
+                                debugSettingsElement.Add(consoleScreenshotBlobUriElement);
+                            }
+                            
+                            if (roleListItem.DebugSettings.SerialOutputBlobUri != null)
+                            {
+                                XElement serialOutputBlobUriElement = new XElement(XName.Get("SerialOutputBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                                serialOutputBlobUriElement.Value = roleListItem.DebugSettings.SerialOutputBlobUri.AbsoluteUri;
+                                debugSettingsElement.Add(serialOutputBlobUriElement);
+                            }
+                        }
+                        
+                        if (roleListItem.LicenseType != null)
+                        {
+                            XElement licenseTypeElement = new XElement(XName.Get("LicenseType", "http://schemas.microsoft.com/windowsazure"));
+                            licenseTypeElement.Value = roleListItem.LicenseType;
+                            roleElement.Add(licenseTypeElement);
+                        }
+                        
+                        if (roleListItem.MigrationState != null)
+                        {
+                            XElement migrationStateElement = new XElement(XName.Get("MigrationState", "http://schemas.microsoft.com/windowsazure"));
+                            migrationStateElement.Value = roleListItem.MigrationState;
+                            roleElement.Add(migrationStateElement);
+                        }
                     }
                     deploymentElement.Add(roleListSequenceElement);
                 }
@@ -3545,7 +3998,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3570,6 +4023,163 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     {
                         cancellationToken.ThrowIfCancellationRequested();
                         CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    AzureOperationResponse result = null;
+                    // Deserialize Response
+                    result = new AzureOperationResponse();
+                    result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("x-ms-request-id"))
+                    {
+                        result.RequestId = httpResponse.Headers.GetValues("x-ms-request-id").FirstOrDefault();
+                    }
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// The Begin Redeploying role operation redeploys the specified
+        /// virtual machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157197.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// Required. The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// Required. The name of your deployment.
+        /// </param>
+        /// <param name='virtualMachineName'>
+        /// Required. The name of the virtual machine to redeploy.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// A standard service response including an HTTP status code and
+        /// request ID.
+        /// </returns>
+        public async Task<AzureOperationResponse> BeginRedeployingAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (serviceName == null)
+            {
+                throw new ArgumentNullException("serviceName");
+            }
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException("deploymentName");
+            }
+            if (virtualMachineName == null)
+            {
+                throw new ArgumentNullException("virtualMachineName");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                tracingParameters.Add("deploymentName", deploymentName);
+                tracingParameters.Add("virtualMachineName", virtualMachineName);
+                TracingAdapter.Enter(invocationId, this, "BeginRedeployingAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/services/hostedservices/";
+            url = url + Uri.EscapeDataString(serviceName);
+            url = url + "/deployments/";
+            url = url + Uri.EscapeDataString(deploymentName);
+            url = url + "/roleinstances/";
+            url = url + Uri.EscapeDataString(virtualMachineName);
+            url = url + "/Operations";
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Post;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = "<RedeployRoleOperation xmlns=\"http://schemas.microsoft.com/windowsazure\"><OperationType>RedeployRoleOperation</OperationType></RedeployRoleOperation>";
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/xml");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.Accepted)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
                         if (shouldTrace)
                         {
                             TracingAdapter.Error(invocationId, ex);
@@ -3697,7 +4307,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -3862,7 +4472,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4032,7 +4642,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4221,7 +4831,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4376,7 +4986,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4520,6 +5130,39 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 foreach (ConfigurationSet configurationSetsParameterItem in parameters.ConfigurationSets)
                 {
+                    if (configurationSetsParameterItem.AdditionalUnattendContent != null)
+                    {
+                        if (configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses != null)
+                        {
+                            foreach (UnattendPassSettings unattendPassesParameterItem in configurationSetsParameterItem.AdditionalUnattendContent.UnattendPasses)
+                            {
+                                if (unattendPassesParameterItem.PassName == null)
+                                {
+                                    throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.PassName");
+                                }
+                                if (unattendPassesParameterItem.UnattendComponents != null)
+                                {
+                                    foreach (UnattendComponent unattendComponentsParameterItem in unattendPassesParameterItem.UnattendComponents)
+                                    {
+                                        if (unattendComponentsParameterItem.ComponentName == null)
+                                        {
+                                            throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.ComponentName");
+                                        }
+                                        if (unattendComponentsParameterItem.UnattendComponentSettings != null)
+                                        {
+                                            foreach (ComponentSetting unattendComponentSettingsParameterItem in unattendComponentsParameterItem.UnattendComponentSettings)
+                                            {
+                                                if (unattendComponentSettingsParameterItem.SettingName == null)
+                                                {
+                                                    throw new ArgumentNullException("parameters.ConfigurationSets.AdditionalUnattendContent.UnattendPasses.UnattendComponents.UnattendComponentSettings.SettingName");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     if (configurationSetsParameterItem.DomainJoin != null)
                     {
                         if (configurationSetsParameterItem.DomainJoin.Credentials != null)
@@ -4663,7 +5306,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -4863,6 +5506,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                             loadBalancerDistributionElement.Value = inputEndpointsItem.LoadBalancerDistribution;
                                             inputEndpointElement.Add(loadBalancerDistributionElement);
                                         }
+                                        
+                                        if (inputEndpointsItem.VirtualIPName != null)
+                                        {
+                                            XElement virtualIPNameElement = new XElement(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                            virtualIPNameElement.Value = inputEndpointsItem.VirtualIPName;
+                                            inputEndpointElement.Add(virtualIPNameElement);
+                                        }
                                     }
                                     configurationSetElement.Add(inputEndpointsSequenceElement);
                                 }
@@ -4969,6 +5619,20 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 networkInterfaceElement.Add(iPConfigurationsSequenceElement);
                                             }
                                         }
+                                        
+                                        if (networkInterfacesItem.NetworkSecurityGroup != null)
+                                        {
+                                            XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                            networkSecurityGroupElement.Value = networkInterfacesItem.NetworkSecurityGroup;
+                                            networkInterfaceElement.Add(networkSecurityGroupElement);
+                                        }
+                                        
+                                        if (networkInterfacesItem.IPForwarding != null)
+                                        {
+                                            XElement iPForwardingElement = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                            iPForwardingElement.Value = networkInterfacesItem.IPForwarding;
+                                            networkInterfaceElement.Add(iPForwardingElement);
+                                        }
                                     }
                                     configurationSetElement.Add(networkInterfacesSequenceElement);
                                 }
@@ -4976,9 +5640,16 @@ namespace Microsoft.WindowsAzure.Management.Compute
                             
                             if (configurationSetsItem.NetworkSecurityGroup != null)
                             {
-                                XElement networkSecurityGroupElement = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                                networkSecurityGroupElement.Value = configurationSetsItem.NetworkSecurityGroup;
-                                configurationSetElement.Add(networkSecurityGroupElement);
+                                XElement networkSecurityGroupElement2 = new XElement(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                networkSecurityGroupElement2.Value = configurationSetsItem.NetworkSecurityGroup;
+                                configurationSetElement.Add(networkSecurityGroupElement2);
+                            }
+                            
+                            if (configurationSetsItem.IPForwarding != null)
+                            {
+                                XElement iPForwardingElement2 = new XElement(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                iPForwardingElement2.Value = configurationSetsItem.IPForwarding;
+                                configurationSetElement.Add(iPForwardingElement2);
                             }
                             
                             if (configurationSetsItem.ComputerName != null)
@@ -5132,6 +5803,73 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 XElement adminUsernameElement = new XElement(XName.Get("AdminUsername", "http://schemas.microsoft.com/windowsazure"));
                                 adminUsernameElement.Value = configurationSetsItem.AdminUserName;
                                 configurationSetElement.Add(adminUsernameElement);
+                            }
+                            
+                            if (configurationSetsItem.AdditionalUnattendContent != null)
+                            {
+                                XElement additionalUnattendContentElement = new XElement(XName.Get("AdditionalUnattendContent", "http://schemas.microsoft.com/windowsazure"));
+                                configurationSetElement.Add(additionalUnattendContentElement);
+                                
+                                if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses != null)
+                                {
+                                    if (configurationSetsItem.AdditionalUnattendContent.UnattendPasses is ILazyCollection == false || ((ILazyCollection)configurationSetsItem.AdditionalUnattendContent.UnattendPasses).IsInitialized)
+                                    {
+                                        XElement passesSequenceElement = new XElement(XName.Get("Passes", "http://schemas.microsoft.com/windowsazure"));
+                                        foreach (UnattendPassSettings passesItem in configurationSetsItem.AdditionalUnattendContent.UnattendPasses)
+                                        {
+                                            XElement unattendPassElement = new XElement(XName.Get("UnattendPass", "http://schemas.microsoft.com/windowsazure"));
+                                            passesSequenceElement.Add(unattendPassElement);
+                                            
+                                            XElement passNameElement = new XElement(XName.Get("PassName", "http://schemas.microsoft.com/windowsazure"));
+                                            passNameElement.Value = passesItem.PassName;
+                                            unattendPassElement.Add(passNameElement);
+                                            
+                                            if (passesItem.UnattendComponents != null)
+                                            {
+                                                if (passesItem.UnattendComponents is ILazyCollection == false || ((ILazyCollection)passesItem.UnattendComponents).IsInitialized)
+                                                {
+                                                    XElement componentsSequenceElement = new XElement(XName.Get("Components", "http://schemas.microsoft.com/windowsazure"));
+                                                    foreach (UnattendComponent componentsItem in passesItem.UnattendComponents)
+                                                    {
+                                                        XElement unattendComponentElement = new XElement(XName.Get("UnattendComponent", "http://schemas.microsoft.com/windowsazure"));
+                                                        componentsSequenceElement.Add(unattendComponentElement);
+                                                        
+                                                        XElement componentNameElement = new XElement(XName.Get("ComponentName", "http://schemas.microsoft.com/windowsazure"));
+                                                        componentNameElement.Value = componentsItem.ComponentName;
+                                                        unattendComponentElement.Add(componentNameElement);
+                                                        
+                                                        if (componentsItem.UnattendComponentSettings != null)
+                                                        {
+                                                            if (componentsItem.UnattendComponentSettings is ILazyCollection == false || ((ILazyCollection)componentsItem.UnattendComponentSettings).IsInitialized)
+                                                            {
+                                                                XElement componentSettingsSequenceElement = new XElement(XName.Get("ComponentSettings", "http://schemas.microsoft.com/windowsazure"));
+                                                                foreach (ComponentSetting componentSettingsItem in componentsItem.UnattendComponentSettings)
+                                                                {
+                                                                    XElement componentSettingElement = new XElement(XName.Get("ComponentSetting", "http://schemas.microsoft.com/windowsazure"));
+                                                                    componentSettingsSequenceElement.Add(componentSettingElement);
+                                                                    
+                                                                    XElement settingNameElement = new XElement(XName.Get("SettingName", "http://schemas.microsoft.com/windowsazure"));
+                                                                    settingNameElement.Value = componentSettingsItem.SettingName;
+                                                                    componentSettingElement.Add(settingNameElement);
+                                                                    
+                                                                    if (componentSettingsItem.Content != null)
+                                                                    {
+                                                                        XElement contentElement = new XElement(XName.Get("Content", "http://schemas.microsoft.com/windowsazure"));
+                                                                        contentElement.Value = TypeConversion.ToBase64String(componentSettingsItem.Content);
+                                                                        componentSettingElement.Add(contentElement);
+                                                                    }
+                                                                }
+                                                                unattendComponentElement.Add(componentSettingsSequenceElement);
+                                                            }
+                                                        }
+                                                    }
+                                                    unattendPassElement.Add(componentsSequenceElement);
+                                                }
+                                            }
+                                        }
+                                        additionalUnattendContentElement.Add(passesSequenceElement);
+                                    }
+                                }
                             }
                             
                             if (configurationSetsItem.HostName != null)
@@ -5471,6 +6209,30 @@ namespace Microsoft.WindowsAzure.Management.Compute
                     persistentVMRoleElement.Add(provisionGuestAgentElement);
                 }
                 
+                if (parameters.DebugSettings != null)
+                {
+                    XElement debugSettingsElement = new XElement(XName.Get("DebugSettings", "http://schemas.microsoft.com/windowsazure"));
+                    persistentVMRoleElement.Add(debugSettingsElement);
+                    
+                    XElement bootDiagnosticsEnabledElement = new XElement(XName.Get("BootDiagnosticsEnabled", "http://schemas.microsoft.com/windowsazure"));
+                    bootDiagnosticsEnabledElement.Value = parameters.DebugSettings.BootDiagnosticsEnabled.ToString().ToLower();
+                    debugSettingsElement.Add(bootDiagnosticsEnabledElement);
+                    
+                    if (parameters.DebugSettings.ConsoleScreenshotBlobUri != null)
+                    {
+                        XElement consoleScreenshotBlobUriElement = new XElement(XName.Get("ConsoleScreenshotBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                        consoleScreenshotBlobUriElement.Value = parameters.DebugSettings.ConsoleScreenshotBlobUri.AbsoluteUri;
+                        debugSettingsElement.Add(consoleScreenshotBlobUriElement);
+                    }
+                    
+                    if (parameters.DebugSettings.SerialOutputBlobUri != null)
+                    {
+                        XElement serialOutputBlobUriElement = new XElement(XName.Get("SerialOutputBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                        serialOutputBlobUriElement.Value = parameters.DebugSettings.SerialOutputBlobUri.AbsoluteUri;
+                        debugSettingsElement.Add(serialOutputBlobUriElement);
+                    }
+                }
+                
                 requestContent = requestDoc.ToString();
                 httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
                 httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/xml");
@@ -5637,7 +6399,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -5805,6 +6567,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                 loadBalancerDistributionElement.Value = loadBalancedEndpointsItem.LoadBalancerDistribution;
                                 inputEndpointElement.Add(loadBalancerDistributionElement);
                             }
+                            
+                            if (loadBalancedEndpointsItem.VirtualIPName != null)
+                            {
+                                XElement virtualIPNameElement = new XElement(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                virtualIPNameElement.Value = loadBalancedEndpointsItem.VirtualIPName;
+                                inputEndpointElement.Add(virtualIPNameElement);
+                            }
                         }
                     }
                 }
@@ -5942,7 +6711,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6043,7 +6812,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6154,7 +6923,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6256,7 +7025,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6360,7 +7129,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -6491,7 +7260,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -6757,6 +7526,13 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                 string loadBalancerDistributionInstance = loadBalancerDistributionElement.Value;
                                                 inputEndpointInstance.LoadBalancerDistribution = loadBalancerDistributionInstance;
                                             }
+                                            
+                                            XElement virtualIPNameElement = inputEndpointsElement.Element(XName.Get("VirtualIPName", "http://schemas.microsoft.com/windowsazure"));
+                                            if (virtualIPNameElement != null)
+                                            {
+                                                string virtualIPNameInstance = virtualIPNameElement.Value;
+                                                inputEndpointInstance.VirtualIPName = virtualIPNameInstance;
+                                            }
                                         }
                                     }
                                     
@@ -6845,14 +7621,35 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                                     }
                                                 }
                                             }
+                                            
+                                            XElement networkSecurityGroupElement = networkInterfacesElement.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                            if (networkSecurityGroupElement != null)
+                                            {
+                                                string networkSecurityGroupInstance = networkSecurityGroupElement.Value;
+                                                networkInterfaceInstance.NetworkSecurityGroup = networkSecurityGroupInstance;
+                                            }
+                                            
+                                            XElement iPForwardingElement = networkInterfacesElement.Element(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                            if (iPForwardingElement != null)
+                                            {
+                                                string iPForwardingInstance = iPForwardingElement.Value;
+                                                networkInterfaceInstance.IPForwarding = iPForwardingInstance;
+                                            }
                                         }
                                     }
                                     
-                                    XElement networkSecurityGroupElement = configurationSetsElement.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
-                                    if (networkSecurityGroupElement != null)
+                                    XElement networkSecurityGroupElement2 = configurationSetsElement.Element(XName.Get("NetworkSecurityGroup", "http://schemas.microsoft.com/windowsazure"));
+                                    if (networkSecurityGroupElement2 != null)
                                     {
-                                        string networkSecurityGroupInstance = networkSecurityGroupElement.Value;
-                                        configurationSetInstance.NetworkSecurityGroup = networkSecurityGroupInstance;
+                                        string networkSecurityGroupInstance2 = networkSecurityGroupElement2.Value;
+                                        configurationSetInstance.NetworkSecurityGroup = networkSecurityGroupInstance2;
+                                    }
+                                    
+                                    XElement iPForwardingElement2 = configurationSetsElement.Element(XName.Get("IPForwarding", "http://schemas.microsoft.com/windowsazure"));
+                                    if (iPForwardingElement2 != null)
+                                    {
+                                        string iPForwardingInstance2 = iPForwardingElement2.Value;
+                                        configurationSetInstance.IPForwarding = iPForwardingInstance2;
                                     }
                                     
                                     XElement computerNameElement = configurationSetsElement.Element(XName.Get("ComputerName", "http://schemas.microsoft.com/windowsazure"));
@@ -7018,6 +7815,71 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     {
                                         string adminUsernameInstance = adminUsernameElement.Value;
                                         configurationSetInstance.AdminUserName = adminUsernameInstance;
+                                    }
+                                    
+                                    XElement additionalUnattendContentElement = configurationSetsElement.Element(XName.Get("AdditionalUnattendContent", "http://schemas.microsoft.com/windowsazure"));
+                                    if (additionalUnattendContentElement != null)
+                                    {
+                                        AdditionalUnattendContentSettings additionalUnattendContentInstance = new AdditionalUnattendContentSettings();
+                                        configurationSetInstance.AdditionalUnattendContent = additionalUnattendContentInstance;
+                                        
+                                        XElement passesSequenceElement = additionalUnattendContentElement.Element(XName.Get("Passes", "http://schemas.microsoft.com/windowsazure"));
+                                        if (passesSequenceElement != null)
+                                        {
+                                            foreach (XElement passesElement in passesSequenceElement.Elements(XName.Get("UnattendPass", "http://schemas.microsoft.com/windowsazure")))
+                                            {
+                                                UnattendPassSettings unattendPassInstance = new UnattendPassSettings();
+                                                additionalUnattendContentInstance.UnattendPasses.Add(unattendPassInstance);
+                                                
+                                                XElement passNameElement = passesElement.Element(XName.Get("PassName", "http://schemas.microsoft.com/windowsazure"));
+                                                if (passNameElement != null)
+                                                {
+                                                    string passNameInstance = passNameElement.Value;
+                                                    unattendPassInstance.PassName = passNameInstance;
+                                                }
+                                                
+                                                XElement componentsSequenceElement = passesElement.Element(XName.Get("Components", "http://schemas.microsoft.com/windowsazure"));
+                                                if (componentsSequenceElement != null)
+                                                {
+                                                    foreach (XElement componentsElement in componentsSequenceElement.Elements(XName.Get("UnattendComponent", "http://schemas.microsoft.com/windowsazure")))
+                                                    {
+                                                        UnattendComponent unattendComponentInstance = new UnattendComponent();
+                                                        unattendPassInstance.UnattendComponents.Add(unattendComponentInstance);
+                                                        
+                                                        XElement componentNameElement = componentsElement.Element(XName.Get("ComponentName", "http://schemas.microsoft.com/windowsazure"));
+                                                        if (componentNameElement != null)
+                                                        {
+                                                            string componentNameInstance = componentNameElement.Value;
+                                                            unattendComponentInstance.ComponentName = componentNameInstance;
+                                                        }
+                                                        
+                                                        XElement componentSettingsSequenceElement = componentsElement.Element(XName.Get("ComponentSettings", "http://schemas.microsoft.com/windowsazure"));
+                                                        if (componentSettingsSequenceElement != null)
+                                                        {
+                                                            foreach (XElement componentSettingsElement in componentSettingsSequenceElement.Elements(XName.Get("ComponentSetting", "http://schemas.microsoft.com/windowsazure")))
+                                                            {
+                                                                ComponentSetting componentSettingInstance = new ComponentSetting();
+                                                                unattendComponentInstance.UnattendComponentSettings.Add(componentSettingInstance);
+                                                                
+                                                                XElement settingNameElement = componentSettingsElement.Element(XName.Get("SettingName", "http://schemas.microsoft.com/windowsazure"));
+                                                                if (settingNameElement != null)
+                                                                {
+                                                                    string settingNameInstance = settingNameElement.Value;
+                                                                    componentSettingInstance.SettingName = settingNameInstance;
+                                                                }
+                                                                
+                                                                XElement contentElement = componentSettingsElement.Element(XName.Get("Content", "http://schemas.microsoft.com/windowsazure"));
+                                                                if (contentElement != null)
+                                                                {
+                                                                    string contentInstance = TypeConversion.FromBase64String(contentElement.Value);
+                                                                    componentSettingInstance.Content = contentInstance;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                     
                                     XElement hostNameElement = configurationSetsElement.Element(XName.Get("HostName", "http://schemas.microsoft.com/windowsazure"));
@@ -7247,6 +8109,55 @@ namespace Microsoft.WindowsAzure.Management.Compute
                                     oSVirtualHardDiskInstance.ResizedSizeInGB = resizedSizeInGBInstance;
                                 }
                             }
+                            
+                            XElement provisionGuestAgentElement = persistentVMRoleElement.Element(XName.Get("ProvisionGuestAgent", "http://schemas.microsoft.com/windowsazure"));
+                            if (provisionGuestAgentElement != null && !string.IsNullOrEmpty(provisionGuestAgentElement.Value))
+                            {
+                                bool provisionGuestAgentInstance = bool.Parse(provisionGuestAgentElement.Value);
+                                result.ProvisionGuestAgent = provisionGuestAgentInstance;
+                            }
+                            
+                            XElement debugSettingsElement = persistentVMRoleElement.Element(XName.Get("DebugSettings", "http://schemas.microsoft.com/windowsazure"));
+                            if (debugSettingsElement != null)
+                            {
+                                DebugSettings debugSettingsInstance = new DebugSettings();
+                                result.DebugSettings = debugSettingsInstance;
+                                
+                                XElement bootDiagnosticsEnabledElement = debugSettingsElement.Element(XName.Get("BootDiagnosticsEnabled", "http://schemas.microsoft.com/windowsazure"));
+                                if (bootDiagnosticsEnabledElement != null)
+                                {
+                                    bool bootDiagnosticsEnabledInstance = bool.Parse(bootDiagnosticsEnabledElement.Value);
+                                    debugSettingsInstance.BootDiagnosticsEnabled = bootDiagnosticsEnabledInstance;
+                                }
+                                
+                                XElement consoleScreenshotBlobUriElement = debugSettingsElement.Element(XName.Get("ConsoleScreenshotBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                                if (consoleScreenshotBlobUriElement != null)
+                                {
+                                    Uri consoleScreenshotBlobUriInstance = TypeConversion.TryParseUri(consoleScreenshotBlobUriElement.Value);
+                                    debugSettingsInstance.ConsoleScreenshotBlobUri = consoleScreenshotBlobUriInstance;
+                                }
+                                
+                                XElement serialOutputBlobUriElement = debugSettingsElement.Element(XName.Get("SerialOutputBlobUri", "http://schemas.microsoft.com/windowsazure"));
+                                if (serialOutputBlobUriElement != null)
+                                {
+                                    Uri serialOutputBlobUriInstance = TypeConversion.TryParseUri(serialOutputBlobUriElement.Value);
+                                    debugSettingsInstance.SerialOutputBlobUri = serialOutputBlobUriInstance;
+                                }
+                            }
+                            
+                            XElement licenseTypeElement = persistentVMRoleElement.Element(XName.Get("LicenseType", "http://schemas.microsoft.com/windowsazure"));
+                            if (licenseTypeElement != null)
+                            {
+                                string licenseTypeInstance = licenseTypeElement.Value;
+                                result.LicenseType = licenseTypeInstance;
+                            }
+                            
+                            XElement migrationStateElement = persistentVMRoleElement.Element(XName.Get("MigrationState", "http://schemas.microsoft.com/windowsazure"));
+                            if (migrationStateElement != null)
+                            {
+                                string migrationStateInstance = migrationStateElement.Value;
+                                result.MigrationState = migrationStateInstance;
+                            }
                         }
                         
                     }
@@ -7372,7 +8283,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
                 httpRequest.RequestUri = new Uri(url);
                 
                 // Set Headers
-                httpRequest.Headers.Add("x-ms-version", "2015-04-01");
+                httpRequest.Headers.Add("x-ms-version", "2016-06-01");
                 
                 // Set Credentials
                 cancellationToken.ThrowIfCancellationRequested();
@@ -7445,6 +8356,105 @@ namespace Microsoft.WindowsAzure.Management.Compute
         }
         
         /// <summary>
+        /// The Redeploy role operation redeploys the specified virtual
+        /// machine.  (see
+        /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157197.aspx
+        /// for more information)
+        /// </summary>
+        /// <param name='serviceName'>
+        /// Required. The name of your service.
+        /// </param>
+        /// <param name='deploymentName'>
+        /// Required. The name of your deployment.
+        /// </param>
+        /// <param name='virtualMachineName'>
+        /// Required. The name of the virtual machine to redeploy.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response body contains the status of the specified asynchronous
+        /// operation, indicating whether it has succeeded, is inprogress, or
+        /// has failed. Note that this status is distinct from the HTTP status
+        /// code returned for the Get Operation Status operation itself. If
+        /// the asynchronous operation succeeded, the response body includes
+        /// the HTTP status code for the successful request. If the
+        /// asynchronous operation failed, the response body includes the HTTP
+        /// status code for the failed request and error information regarding
+        /// the failure.
+        /// </returns>
+        public async Task<OperationStatusResponse> RedeployAsync(string serviceName, string deploymentName, string virtualMachineName, CancellationToken cancellationToken)
+        {
+            ComputeManagementClient client = this.Client;
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("serviceName", serviceName);
+                tracingParameters.Add("deploymentName", deploymentName);
+                tracingParameters.Add("virtualMachineName", virtualMachineName);
+                TracingAdapter.Enter(invocationId, this, "RedeployAsync", tracingParameters);
+            }
+            
+            cancellationToken.ThrowIfCancellationRequested();
+            AzureOperationResponse response = await client.VirtualMachines.BeginRedeployingAsync(serviceName, deploymentName, virtualMachineName, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            OperationStatusResponse result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+            int delayInSeconds = 30;
+            if (client.LongRunningOperationInitialTimeout >= 0)
+            {
+                delayInSeconds = client.LongRunningOperationInitialTimeout;
+            }
+            while (result.Status == OperationStatus.InProgress)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                result = await client.GetOperationStatusAsync(response.RequestId, cancellationToken).ConfigureAwait(false);
+                delayInSeconds = 30;
+                if (client.LongRunningOperationRetryTimeout >= 0)
+                {
+                    delayInSeconds = client.LongRunningOperationRetryTimeout;
+                }
+            }
+            
+            if (shouldTrace)
+            {
+                TracingAdapter.Exit(invocationId, result);
+            }
+            
+            if (result.Status != OperationStatus.Succeeded)
+            {
+                if (result.Error != null)
+                {
+                    CloudException ex = new CloudException(result.Error.Code + " : " + result.Error.Message);
+                    ex.Error = new CloudError();
+                    ex.Error.Code = result.Error.Code;
+                    ex.Error.Message = result.Error.Message;
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Error(invocationId, ex);
+                    }
+                    throw ex;
+                }
+                else
+                {
+                    CloudException ex = new CloudException("");
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Error(invocationId, ex);
+                    }
+                    throw ex;
+                }
+            }
+            
+            return result;
+        }
+        
+        /// <summary>
         /// The Restart role operation restarts the specified virtual machine.
         /// (see
         /// http://msdn.microsoft.com/en-us/library/windowsazure/jj157197.aspx
@@ -7497,7 +8507,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7600,7 +8610,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7697,7 +8707,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7795,7 +8805,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7892,7 +8902,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -7996,7 +9006,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);
@@ -8096,7 +9106,7 @@ namespace Microsoft.WindowsAzure.Management.Compute
             {
                 delayInSeconds = client.LongRunningOperationInitialTimeout;
             }
-            while ((result.Status != OperationStatus.InProgress) == false)
+            while (result.Status == OperationStatus.InProgress)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 await TaskEx.Delay(delayInSeconds * 1000, cancellationToken).ConfigureAwait(false);

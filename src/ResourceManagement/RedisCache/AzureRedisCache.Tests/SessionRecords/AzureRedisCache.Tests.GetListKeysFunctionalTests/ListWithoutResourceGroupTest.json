@@ -1,7 +1,8 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/providers/Microsoft.Cache/Redis/?api-version=2014-04-01-preview",
+      "RequestUri": "/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/providers/Microsoft.Cache/Redis/?api-version=2015-08-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvMTliNTIwZTQtMzlhNy00ZmFjLWIxZGEtZDk0MGYyZDM5YTM4L3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2FjaGUvUmVkaXMvP2FwaS12ZXJzaW9uPTIwMTUtMDgtMDE=",
       "RequestMethod": "GET",
       "RequestBody": "",
       "RequestHeaders": {
@@ -9,26 +10,35 @@
           "Microsoft.Azure.Management.Redis.RedisManagementClient/1.0.0.0"
         ]
       },
-      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/redisruntimetestrg/providers/Microsoft.Cache/Redis/redisruntimetest004\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"redisruntimetest004\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"2.8\",\r\n        \"sku\": {\r\n          \"name\": \"Standard\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"maxMemoryPolicy\": null,\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"redisruntimetest004.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/redisruntimetestrg/providers/Microsoft.Cache/Redis/quotacheck\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"quotacheck\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"2.8\",\r\n        \"sku\": {\r\n          \"name\": \"Basic\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"maxMemoryPolicy\": null,\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"quotacheck.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/redisruntimetestrg/providers/Microsoft.Cache/Redis/test004\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"test004\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"2.8\",\r\n        \"sku\": {\r\n          \"name\": \"Basic\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"maxMemoryPolicy\": null,\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"test004.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/hydra19407/providers/Microsoft.Cache/Redis/hydracache1\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"hydracache1\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"2.8\",\r\n        \"sku\": {\r\n          \"name\": \"Basic\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"maxMemoryPolicy\": null,\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"hydracache1.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/f435d8e1-f7a0-4f79-adf7-b1a564728140/resourceGroups/redisruntimetestrg/providers/Microsoft.Cache/Redis/redisruntimetest006\",\r\n      \"location\": \"North Europe\",\r\n      \"name\": \"redisruntimetest006\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"2.8\",\r\n        \"sku\": {\r\n          \"name\": \"Standard\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"maxMemoryPolicy\": null,\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"redisruntimetest006.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    }\r\n  ]\r\n}",
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/resourceGroups/SunnySDK25/providers/Microsoft.Cache/Redis/sunnysdk25-centralus\",\r\n      \"location\": \"Central US\",\r\n      \"name\": \"sunnysdk25-centralus\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"3.0\",\r\n        \"sku\": {\r\n          \"name\": \"Standard\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 2\r\n        },\r\n        \"enableNonSslPort\": true,\r\n        \"redisConfiguration\": {\r\n          \"maxclients\": \"2000\",\r\n          \"maxmemory-reserved\": \"100\",\r\n          \"maxmemory-policy\": \"allkeys-lru\",\r\n          \"maxmemory-delta\": \"100\"\r\n        },\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"sunnysdk25-centralus.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/resourceGroups/hydra16259/providers/Microsoft.Cache/Redis/hydracache-1\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"hydracache-1\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"3.0\",\r\n        \"sku\": {\r\n          \"name\": \"Basic\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"enableNonSslPort\": false,\r\n        \"redisConfiguration\": {\r\n          \"maxclients\": \"256\",\r\n          \"maxmemory-reserved\": \"2\",\r\n          \"maxmemory-delta\": \"2\"\r\n        },\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"hydracache-1.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/resourceGroups/SunnySDK25/providers/Microsoft.Cache/Redis/sunnysdk25-centralus\",\r\n      \"location\": \"Central US\",\r\n      \"name\": \"sunnysdk25-centralus\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"3.0\",\r\n        \"sku\": {\r\n          \"name\": \"Standard\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 2\r\n        },\r\n        \"enableNonSslPort\": true,\r\n        \"redisConfiguration\": {\r\n          \"maxclients\": \"2000\",\r\n          \"maxmemory-reserved\": \"100\",\r\n          \"maxmemory-policy\": \"allkeys-lru\",\r\n          \"maxmemory-delta\": \"100\"\r\n        },\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"sunnysdk25-centralus.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/subscriptions/19b520e4-39a7-4fac-b1da-d940f2d39a38/resourceGroups/hydra16259/providers/Microsoft.Cache/Redis/hydracache-1\",\r\n      \"location\": \"North Central US\",\r\n      \"name\": \"hydracache-1\",\r\n      \"type\": \"Microsoft.Cache/Redis\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"redisVersion\": \"3.0\",\r\n        \"sku\": {\r\n          \"name\": \"Basic\",\r\n          \"family\": \"C\",\r\n          \"capacity\": 0\r\n        },\r\n        \"enableNonSslPort\": false,\r\n        \"redisConfiguration\": {\r\n          \"maxclients\": \"256\",\r\n          \"maxmemory-reserved\": \"2\",\r\n          \"maxmemory-delta\": \"2\"\r\n        },\r\n        \"accessKeys\": null,\r\n        \"hostName\": \"hydracache-1.cache.icbbvt.windows-int.net\",\r\n        \"port\": 6379,\r\n        \"sslPort\": 6380\r\n      }\r\n    }\r\n  ]\r\n}",
       "ResponseHeaders": {
+        "Content-Length": [
+          "2351"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
         "Pragma": [
           "no-cache"
         ],
         "x-ms-original-request-ids": [
-          "454a8469-023d-408d-bc97-e6830f09c17f",
-          "0ba4e12f-75f3-4c1f-874d-71f241f578fc"
+          "3de27f91-3c78-4ed3-bae3-212f82fcc66f",
+          "7f95c5f2-7a47-448e-90a4-616d9deba789"
         ],
         "x-ms-ratelimit-remaining-subscription-reads": [
-          "31721"
+          "14946"
         ],
         "x-ms-request-id": [
-          "c3435e64-31c1-4e20-a37d-b273ca409646"
+          "90e3649f-b75b-44f6-b0dc-801385e4ffd0"
         ],
         "x-ms-correlation-request-id": [
-          "c3435e64-31c1-4e20-a37d-b273ca409646"
+          "90e3649f-b75b-44f6-b0dc-801385e4ffd0"
         ],
         "x-ms-routing-request-id": [
-          "CENTRALUS:20140902T222408Z:c3435e64-31c1-4e20-a37d-b273ca409646"
+          "CENTRALUS:20151014T014558Z:90e3649f-b75b-44f6-b0dc-801385e4ffd0"
         ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
@@ -37,7 +47,7 @@
           "no-cache"
         ],
         "Date": [
-          "Tue, 02 Sep 2014 22:24:07 GMT"
+          "Wed, 14 Oct 2015 01:45:57 GMT"
         ]
       },
       "StatusCode": 200
@@ -45,6 +55,6 @@
   ],
   "Names": {},
   "Variables": {
-    "SubscriptionId": "f435d8e1-f7a0-4f79-adf7-b1a564728140"
+    "SubscriptionId": "19b520e4-39a7-4fac-b1da-d940f2d39a38"
   }
 }

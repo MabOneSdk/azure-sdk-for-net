@@ -110,20 +110,17 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Management.KeyVault, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>$(LibraryNugetPackageFolder)\Microsoft.Azure.Management.KeyVault.1.0.0\lib\net40\Microsoft.Azure.Management.KeyVault.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.Azure.Graph.RBAC">
       <HintPath>$(LibraryNugetPackageFolder)\Microsoft.Azure.Graph.RBAC.1.7.0-preview\lib\net40\Microsoft.Azure.Graph.RBAC.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ResourceManagement\KeyVaultManagement\KeyVaultManagement\KeyVaultManagement.csproj">
-      <Project>{92ade435-b835-447d-8b5b-1f4a52f8df39}</Project>
-      <Name>KeyVaultManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ResourceManagement\Resource\ResourceManagement\ResourceManagement.csproj">
-      <Project>{165ef660-235b-45af-83cb-0d32bef4c1a2}</Project>
-      <Name>ResourceManagement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\TestDependencies\TestDependencies.csproj">
       <Project>{40f35645-00ee-4df2-b66e-7624546b66df}</Project>
       <Name>TestDependencies</Name>
@@ -133,4 +130,9 @@
       <Name>KeyVault</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>

@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Management.Insights
                 url = url + Uri.EscapeDataString(parameters.Properties.Name);
             }
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -503,29 +503,62 @@ namespace Microsoft.Azure.Management.Insights
                         }
                     }
                     
-                    if (parameters.Properties.Action != null)
+                    if (parameters.Properties.Actions != null)
                     {
-                        JObject actionValue = new JObject();
-                        propertiesValue["action"] = actionValue;
-                        if (parameters.Properties.Action is RuleEmailAction)
+                        if (parameters.Properties.Actions is ILazyCollection == false || ((ILazyCollection)parameters.Properties.Actions).IsInitialized)
                         {
-                            actionValue["odata.type"] = parameters.Properties.Action.GetType().FullName;
-                            RuleEmailAction derived10 = ((RuleEmailAction)parameters.Properties.Action);
-                            
-                            actionValue["sendToServiceOwners"] = derived10.SendToServiceOwners;
-                            
-                            if (derived10.CustomEmails != null)
+                            JArray actionsArray = new JArray();
+                            foreach (RuleAction actionsItem in parameters.Properties.Actions)
                             {
-                                if (derived10.CustomEmails is ILazyCollection == false || ((ILazyCollection)derived10.CustomEmails).IsInitialized)
+                                JObject ruleActionValue = new JObject();
+                                actionsArray.Add(ruleActionValue);
+                                if (actionsItem is RuleEmailAction)
                                 {
-                                    JArray customEmailsArray = new JArray();
-                                    foreach (string customEmailsItem in derived10.CustomEmails)
+                                    ruleActionValue["odata.type"] = actionsItem.GetType().FullName;
+                                    RuleEmailAction derived10 = ((RuleEmailAction)actionsItem);
+                                    
+                                    ruleActionValue["sendToServiceOwners"] = derived10.SendToServiceOwners;
+                                    
+                                    if (derived10.CustomEmails != null)
                                     {
-                                        customEmailsArray.Add(customEmailsItem);
+                                        if (derived10.CustomEmails is ILazyCollection == false || ((ILazyCollection)derived10.CustomEmails).IsInitialized)
+                                        {
+                                            JArray customEmailsArray = new JArray();
+                                            foreach (string customEmailsItem in derived10.CustomEmails)
+                                            {
+                                                customEmailsArray.Add(customEmailsItem);
+                                            }
+                                            ruleActionValue["customEmails"] = customEmailsArray;
+                                        }
                                     }
-                                    actionValue["customEmails"] = customEmailsArray;
+                                }
+                                if (actionsItem is RuleWebhookAction)
+                                {
+                                    ruleActionValue["odata.type"] = actionsItem.GetType().FullName;
+                                    RuleWebhookAction derived11 = ((RuleWebhookAction)actionsItem);
+                                    
+                                    if (derived11.ServiceUri != null)
+                                    {
+                                        ruleActionValue["serviceUri"] = derived11.ServiceUri;
+                                    }
+                                    
+                                    if (derived11.Properties != null)
+                                    {
+                                        if (derived11.Properties is ILazyCollection == false || ((ILazyCollection)derived11.Properties).IsInitialized)
+                                        {
+                                            JObject propertiesDictionary = new JObject();
+                                            foreach (KeyValuePair<string, string> pair2 in derived11.Properties)
+                                            {
+                                                string propertiesKey = pair2.Key;
+                                                string propertiesValue2 = pair2.Value;
+                                                propertiesDictionary[propertiesKey] = propertiesValue2;
+                                            }
+                                            ruleActionValue["properties"] = propertiesDictionary;
+                                        }
+                                    }
                                 }
                             }
+                            propertiesValue["actions"] = actionsArray;
                         }
                     }
                     
@@ -659,7 +692,7 @@ namespace Microsoft.Azure.Management.Insights
             url = url + "/providers/microsoft.insights/alertrules/";
             url = url + Uri.EscapeDataString(ruleName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -824,7 +857,7 @@ namespace Microsoft.Azure.Management.Insights
             url = url + "/incidents/";
             url = url + Uri.EscapeDataString(incidentName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1016,7 +1049,7 @@ namespace Microsoft.Azure.Management.Insights
             url = url + "/providers/microsoft.insights/alertrules/";
             url = url + Uri.EscapeDataString(ruleName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1583,30 +1616,56 @@ namespace Microsoft.Azure.Management.Insights
                                     }
                                 }
                                 
-                                JToken actionValue = propertiesValue["action"];
-                                if (actionValue != null && actionValue.Type != JTokenType.Null)
+                                JToken actionsArray = propertiesValue["actions"];
+                                if (actionsArray != null && actionsArray.Type != JTokenType.Null)
                                 {
-                                    string typeName5 = ((string)actionValue["odata.type"]);
-                                    if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleEmailAction")
+                                    foreach (JToken actionsValue in ((JArray)actionsArray))
                                     {
-                                        RuleEmailAction ruleEmailActionInstance = new RuleEmailAction();
-                                        
-                                        JToken sendToServiceOwnersValue = actionValue["sendToServiceOwners"];
-                                        if (sendToServiceOwnersValue != null && sendToServiceOwnersValue.Type != JTokenType.Null)
+                                        string typeName5 = ((string)actionsValue["odata.type"]);
+                                        if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleEmailAction")
                                         {
-                                            bool sendToServiceOwnersInstance = ((bool)sendToServiceOwnersValue);
-                                            ruleEmailActionInstance.SendToServiceOwners = sendToServiceOwnersInstance;
-                                        }
-                                        
-                                        JToken customEmailsArray = actionValue["customEmails"];
-                                        if (customEmailsArray != null && customEmailsArray.Type != JTokenType.Null)
-                                        {
-                                            foreach (JToken customEmailsValue in ((JArray)customEmailsArray))
+                                            RuleEmailAction ruleEmailActionInstance = new RuleEmailAction();
+                                            
+                                            JToken sendToServiceOwnersValue = actionsValue["sendToServiceOwners"];
+                                            if (sendToServiceOwnersValue != null && sendToServiceOwnersValue.Type != JTokenType.Null)
                                             {
-                                                ruleEmailActionInstance.CustomEmails.Add(((string)customEmailsValue));
+                                                bool sendToServiceOwnersInstance = ((bool)sendToServiceOwnersValue);
+                                                ruleEmailActionInstance.SendToServiceOwners = sendToServiceOwnersInstance;
                                             }
+                                            
+                                            JToken customEmailsArray = actionsValue["customEmails"];
+                                            if (customEmailsArray != null && customEmailsArray.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken customEmailsValue in ((JArray)customEmailsArray))
+                                                {
+                                                    ruleEmailActionInstance.CustomEmails.Add(((string)customEmailsValue));
+                                                }
+                                            }
+                                            propertiesInstance.Actions.Add(ruleEmailActionInstance);
                                         }
-                                        propertiesInstance.Action = ruleEmailActionInstance;
+                                        if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction")
+                                        {
+                                            RuleWebhookAction ruleWebhookActionInstance = new RuleWebhookAction();
+                                            
+                                            JToken serviceUriValue = actionsValue["serviceUri"];
+                                            if (serviceUriValue != null && serviceUriValue.Type != JTokenType.Null)
+                                            {
+                                                string serviceUriInstance = ((string)serviceUriValue);
+                                                ruleWebhookActionInstance.ServiceUri = serviceUriInstance;
+                                            }
+                                            
+                                            JToken propertiesSequenceElement = ((JToken)actionsValue["properties"]);
+                                            if (propertiesSequenceElement != null && propertiesSequenceElement.Type != JTokenType.Null)
+                                            {
+                                                foreach (JProperty property2 in propertiesSequenceElement)
+                                                {
+                                                    string propertiesKey = ((string)property2.Name);
+                                                    string propertiesValue2 = ((string)property2.Value);
+                                                    ruleWebhookActionInstance.Properties.Add(propertiesKey, propertiesValue2);
+                                                }
+                                            }
+                                            propertiesInstance.Actions.Add(ruleWebhookActionInstance);
+                                        }
                                     }
                                 }
                                 
@@ -1698,7 +1757,7 @@ namespace Microsoft.Azure.Management.Insights
             url = url + Uri.EscapeDataString(ruleName);
             url = url + "/incidents";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1895,7 +1954,7 @@ namespace Microsoft.Azure.Management.Insights
             url = url + Uri.EscapeDataString(resourceGroupName);
             url = url + "/providers/microsoft.insights/alertrules";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             List<string> odataFilter = new List<string>();
             if (targetResourceUri != null)
             {
@@ -2482,30 +2541,56 @@ namespace Microsoft.Azure.Management.Insights
                                             }
                                         }
                                         
-                                        JToken actionValue = propertiesValue["action"];
-                                        if (actionValue != null && actionValue.Type != JTokenType.Null)
+                                        JToken actionsArray = propertiesValue["actions"];
+                                        if (actionsArray != null && actionsArray.Type != JTokenType.Null)
                                         {
-                                            string typeName5 = ((string)actionValue["odata.type"]);
-                                            if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleEmailAction")
+                                            foreach (JToken actionsValue in ((JArray)actionsArray))
                                             {
-                                                RuleEmailAction ruleEmailActionInstance = new RuleEmailAction();
-                                                
-                                                JToken sendToServiceOwnersValue = actionValue["sendToServiceOwners"];
-                                                if (sendToServiceOwnersValue != null && sendToServiceOwnersValue.Type != JTokenType.Null)
+                                                string typeName5 = ((string)actionsValue["odata.type"]);
+                                                if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleEmailAction")
                                                 {
-                                                    bool sendToServiceOwnersInstance = ((bool)sendToServiceOwnersValue);
-                                                    ruleEmailActionInstance.SendToServiceOwners = sendToServiceOwnersInstance;
-                                                }
-                                                
-                                                JToken customEmailsArray = actionValue["customEmails"];
-                                                if (customEmailsArray != null && customEmailsArray.Type != JTokenType.Null)
-                                                {
-                                                    foreach (JToken customEmailsValue in ((JArray)customEmailsArray))
+                                                    RuleEmailAction ruleEmailActionInstance = new RuleEmailAction();
+                                                    
+                                                    JToken sendToServiceOwnersValue = actionsValue["sendToServiceOwners"];
+                                                    if (sendToServiceOwnersValue != null && sendToServiceOwnersValue.Type != JTokenType.Null)
                                                     {
-                                                        ruleEmailActionInstance.CustomEmails.Add(((string)customEmailsValue));
+                                                        bool sendToServiceOwnersInstance = ((bool)sendToServiceOwnersValue);
+                                                        ruleEmailActionInstance.SendToServiceOwners = sendToServiceOwnersInstance;
                                                     }
+                                                    
+                                                    JToken customEmailsArray = actionsValue["customEmails"];
+                                                    if (customEmailsArray != null && customEmailsArray.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JToken customEmailsValue in ((JArray)customEmailsArray))
+                                                        {
+                                                            ruleEmailActionInstance.CustomEmails.Add(((string)customEmailsValue));
+                                                        }
+                                                    }
+                                                    propertiesInstance.Actions.Add(ruleEmailActionInstance);
                                                 }
-                                                propertiesInstance.Action = ruleEmailActionInstance;
+                                                if (typeName5 == "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction")
+                                                {
+                                                    RuleWebhookAction ruleWebhookActionInstance = new RuleWebhookAction();
+                                                    
+                                                    JToken serviceUriValue = actionsValue["serviceUri"];
+                                                    if (serviceUriValue != null && serviceUriValue.Type != JTokenType.Null)
+                                                    {
+                                                        string serviceUriInstance = ((string)serviceUriValue);
+                                                        ruleWebhookActionInstance.ServiceUri = serviceUriInstance;
+                                                    }
+                                                    
+                                                    JToken propertiesSequenceElement = ((JToken)actionsValue["properties"]);
+                                                    if (propertiesSequenceElement != null && propertiesSequenceElement.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JProperty property2 in propertiesSequenceElement)
+                                                        {
+                                                            string propertiesKey = ((string)property2.Name);
+                                                            string propertiesValue2 = ((string)property2.Value);
+                                                            ruleWebhookActionInstance.Properties.Add(propertiesKey, propertiesValue2);
+                                                        }
+                                                    }
+                                                    propertiesInstance.Actions.Add(ruleWebhookActionInstance);
+                                                }
                                             }
                                         }
                                         
@@ -2602,7 +2687,7 @@ namespace Microsoft.Azure.Management.Insights
                 url = url + Uri.EscapeDataString(parameters.Properties.Name);
             }
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01");
+            queryParameters.Add("api-version=2016-03-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -2988,29 +3073,62 @@ namespace Microsoft.Azure.Management.Insights
                         }
                     }
                     
-                    if (parameters.Properties.Action != null)
+                    if (parameters.Properties.Actions != null)
                     {
-                        JObject actionValue = new JObject();
-                        propertiesValue["action"] = actionValue;
-                        if (parameters.Properties.Action is RuleEmailAction)
+                        if (parameters.Properties.Actions is ILazyCollection == false || ((ILazyCollection)parameters.Properties.Actions).IsInitialized)
                         {
-                            actionValue["odata.type"] = parameters.Properties.Action.GetType().FullName;
-                            RuleEmailAction derived10 = ((RuleEmailAction)parameters.Properties.Action);
-                            
-                            actionValue["sendToServiceOwners"] = derived10.SendToServiceOwners;
-                            
-                            if (derived10.CustomEmails != null)
+                            JArray actionsArray = new JArray();
+                            foreach (RuleAction actionsItem in parameters.Properties.Actions)
                             {
-                                if (derived10.CustomEmails is ILazyCollection == false || ((ILazyCollection)derived10.CustomEmails).IsInitialized)
+                                JObject ruleActionValue = new JObject();
+                                actionsArray.Add(ruleActionValue);
+                                if (actionsItem is RuleEmailAction)
                                 {
-                                    JArray customEmailsArray = new JArray();
-                                    foreach (string customEmailsItem in derived10.CustomEmails)
+                                    ruleActionValue["odata.type"] = actionsItem.GetType().FullName;
+                                    RuleEmailAction derived10 = ((RuleEmailAction)actionsItem);
+                                    
+                                    ruleActionValue["sendToServiceOwners"] = derived10.SendToServiceOwners;
+                                    
+                                    if (derived10.CustomEmails != null)
                                     {
-                                        customEmailsArray.Add(customEmailsItem);
+                                        if (derived10.CustomEmails is ILazyCollection == false || ((ILazyCollection)derived10.CustomEmails).IsInitialized)
+                                        {
+                                            JArray customEmailsArray = new JArray();
+                                            foreach (string customEmailsItem in derived10.CustomEmails)
+                                            {
+                                                customEmailsArray.Add(customEmailsItem);
+                                            }
+                                            ruleActionValue["customEmails"] = customEmailsArray;
+                                        }
                                     }
-                                    actionValue["customEmails"] = customEmailsArray;
+                                }
+                                if (actionsItem is RuleWebhookAction)
+                                {
+                                    ruleActionValue["odata.type"] = actionsItem.GetType().FullName;
+                                    RuleWebhookAction derived11 = ((RuleWebhookAction)actionsItem);
+                                    
+                                    if (derived11.ServiceUri != null)
+                                    {
+                                        ruleActionValue["serviceUri"] = derived11.ServiceUri;
+                                    }
+                                    
+                                    if (derived11.Properties != null)
+                                    {
+                                        if (derived11.Properties is ILazyCollection == false || ((ILazyCollection)derived11.Properties).IsInitialized)
+                                        {
+                                            JObject propertiesDictionary = new JObject();
+                                            foreach (KeyValuePair<string, string> pair2 in derived11.Properties)
+                                            {
+                                                string propertiesKey = pair2.Key;
+                                                string propertiesValue2 = pair2.Value;
+                                                propertiesDictionary[propertiesKey] = propertiesValue2;
+                                            }
+                                            ruleActionValue["properties"] = propertiesDictionary;
+                                        }
+                                    }
                                 }
                             }
+                            propertiesValue["actions"] = actionsArray;
                         }
                     }
                     

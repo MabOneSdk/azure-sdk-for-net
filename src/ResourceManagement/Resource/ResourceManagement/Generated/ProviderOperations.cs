@@ -101,7 +101,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + "/providers/";
             url = url + Uri.EscapeDataString(resourceProviderNamespace);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -317,7 +317,7 @@ namespace Microsoft.Azure.Management.Resources
             {
                 queryParameters.Add("$top=" + Uri.EscapeDataString(parameters.Top.Value.ToString()));
             }
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -468,11 +468,11 @@ namespace Microsoft.Azure.Management.Resources
                                 }
                             }
                             
-                            JToken odatanextLinkValue = responseDoc["@odata.nextLink"];
-                            if (odatanextLinkValue != null && odatanextLinkValue.Type != JTokenType.Null)
+                            JToken nextLinkValue = responseDoc["nextLink"];
+                            if (nextLinkValue != null && nextLinkValue.Type != JTokenType.Null)
                             {
-                                string odatanextLinkInstance = ((string)odatanextLinkValue);
-                                result.NextLink = odatanextLinkInstance;
+                                string nextLinkInstance = ((string)nextLinkValue);
+                                result.NextLink = nextLinkInstance;
                             }
                         }
                         
@@ -676,11 +676,11 @@ namespace Microsoft.Azure.Management.Resources
                                 }
                             }
                             
-                            JToken odatanextLinkValue = responseDoc["@odata.nextLink"];
-                            if (odatanextLinkValue != null && odatanextLinkValue.Type != JTokenType.Null)
+                            JToken nextLinkValue = responseDoc["nextLink"];
+                            if (nextLinkValue != null && nextLinkValue.Type != JTokenType.Null)
                             {
-                                string odatanextLinkInstance = ((string)odatanextLinkValue);
-                                result.NextLink = odatanextLinkInstance;
+                                string nextLinkInstance = ((string)nextLinkValue);
+                                result.NextLink = nextLinkInstance;
                             }
                         }
                         
@@ -756,7 +756,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + Uri.EscapeDataString(resourceProviderNamespace);
             url = url + "/register";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -973,7 +973,7 @@ namespace Microsoft.Azure.Management.Resources
             url = url + Uri.EscapeDataString(resourceProviderNamespace);
             url = url + "/unregister";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2014-04-01-preview");
+            queryParameters.Add("api-version=2016-02-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);

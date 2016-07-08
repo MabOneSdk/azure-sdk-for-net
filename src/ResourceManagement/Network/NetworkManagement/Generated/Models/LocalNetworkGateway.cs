@@ -41,15 +41,15 @@ namespace Microsoft.Azure.Management.Network.Models
             set { this._gatewayIpAddress = value; }
         }
         
-        private AddressSpace _localNetworkSiteAddressSpace;
+        private AddressSpace _localNetworkAddressSpace;
         
         /// <summary>
         /// Optional. Local network site Address space
         /// </summary>
-        public AddressSpace LocalNetworkSiteAddressSpace
+        public AddressSpace LocalNetworkAddressSpace
         {
-            get { return this._localNetworkSiteAddressSpace; }
-            set { this._localNetworkSiteAddressSpace = value; }
+            get { return this._localNetworkAddressSpace; }
+            set { this._localNetworkAddressSpace = value; }
         }
         
         private string _provisioningState;
@@ -62,6 +62,18 @@ namespace Microsoft.Azure.Management.Network.Models
         {
             get { return this._provisioningState; }
             set { this._provisioningState = value; }
+        }
+        
+        private string _resourceGuid;
+        
+        /// <summary>
+        /// Optional. Gets or sets resource guid property of the
+        /// LocalNetworkGateway resource
+        /// </summary>
+        public string ResourceGuid
+        {
+            get { return this._resourceGuid; }
+            set { this._resourceGuid = value; }
         }
         
         /// <summary>

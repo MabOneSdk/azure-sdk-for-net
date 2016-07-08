@@ -14,6 +14,8 @@
 //
 
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -27,20 +29,26 @@ namespace Microsoft.Azure.Insights
     /// The expression parser creates an Expression that represents an expression in disjunctive-normal-form
     /// Each Expression contains a set of Subexpressions (the conjunctions) with the total expression being the disjunction of them
     /// </summary>
-    internal static class MetricFilterExpressionParser
+    [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+    public static class MetricFilterExpressionParser
     {
-        private static Dictionary<Type, IEnumerable<PropertyInfo>> ExpressionElementPropertyCache = new Dictionary<Type, IEnumerable<PropertyInfo>>();
-        private static Dictionary<Type, IEnumerable<Tuple<PropertyInfo, ExpressionElementCollectionPropertyAttribute>>> ExpressionElementCollectionPropertyCache =
-            new Dictionary<Type, IEnumerable<Tuple<PropertyInfo, ExpressionElementCollectionPropertyAttribute>>>();
+        private static ConcurrentDictionary<Type, IEnumerable<PropertyInfo>> ExpressionElementPropertyCache = new ConcurrentDictionary<Type, IEnumerable<PropertyInfo>>();
+        private static ConcurrentDictionary<Type, IEnumerable<Tuple<PropertyInfo, ExpressionElementCollectionPropertyAttribute>>> ExpressionElementCollectionPropertyCache =
+            new ConcurrentDictionary<Type, IEnumerable<Tuple<PropertyInfo, ExpressionElementCollectionPropertyAttribute>>>();
+
+        // Typical Expression: (Name.value eq 'a' or Name.value eq 'b' or 'Name.value eq 'c') and timegrain eq duration'PT1M' and starttime eq 2016-03-31T00:00:00Z and endtime eq 2016-04-01T00:00:00Z
+        // This expression should reach a parsing recursion depth of 6-9 (each set of () will add 3), and a interpreting recursion depth of 6 (each clause will add 1).
+        // More complex expressions reasonably exist, but in general the depth of a legitimate expression should not exceed 20 for parsing and n+3 for interpreting, where n is the number of metrics
+        private const int MaxRecursionDepth = 1000;
 
         [AttributeUsage(AttributeTargets.Property)]
-        private class ExpressionElementPropertyAttribute : Attribute
-        { 
+        private sealed class ExpressionElementPropertyAttribute : Attribute
+        {
         }
 
         // This attribute marks relevant properties of ExpressionElements that are actually collections of elements
         [AttributeUsage(AttributeTargets.Property)]
-        private class ExpressionElementCollectionPropertyAttribute : Attribute
+        private sealed class ExpressionElementCollectionPropertyAttribute : Attribute
         {
             // The Union and Intersect methods must be static
             private const BindingFlags Flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -396,7 +404,7 @@ namespace Microsoft.Azure.Insights
                 };
             }
 
-            internal MetricFilter ToMetricFilter()
+            internal MetricFilter ToMetricFilter(bool validate = true)
             {
                 int numSubexpressions = this.ExpressionElements.Count;
 
@@ -418,32 +426,32 @@ namespace Microsoft.Azure.Insights
                 SubExpression expression = this.ExpressionElements[0];
 
                 // Timegrain is required
-                if (expression.TimeGrain == null)
+                if (validate && expression.TimeGrain == null)
                 {
                     throw new InvalidOperationException("TimeGrain constraint is required");
                 }
 
                 // Starttime is required
-                if (expression.StartTime == null)
+                if (validate && expression.StartTime == null)
                 {
                     throw new InvalidOperationException("StartTime constraint is required");
                 }
 
                 // Endtime is required
-                if (expression.EndTime == null)
+                if (validate && expression.EndTime == null)
                 {
                     throw new InvalidOperationException("EndTime constraint is required");
                 }
 
                 // Names is optional (null means no constraint)
-                if (expression.MetricDimensions != null)
+                if (validate && expression.MetricDimensions != null)
                 {
                     // Empty means name constraint cannot be satisfied
                     if (!expression.MetricDimensions.ExpressionElements.Any())
                     {
                         throw new InvalidOperationException("Constraint on Name is impossible to satisfy");
                     }
-                    
+
                     foreach (MetricDimensionExpression metricDimension in expression.MetricDimensions.ExpressionElements)
                     {
                         // Metric Name is required
@@ -482,13 +490,13 @@ namespace Microsoft.Azure.Insights
 
                 return new MetricFilter()
                 {
-                    TimeGrain = XmlConvert.ToTimeSpan(expression.TimeGrain),
-                    StartTime = DateTime.Parse(expression.StartTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal),
-                    EndTime = DateTime.Parse(expression.EndTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal),
+                    TimeGrain = expression.TimeGrain == null ? default(TimeSpan) : XmlConvert.ToTimeSpan(expression.TimeGrain),
+                    StartTime = expression.StartTime == null ? default(DateTime) : DateTime.Parse(expression.StartTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal),
+                    EndTime = expression.EndTime == null ? default(DateTime) : DateTime.Parse(expression.EndTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal),
                     DimensionFilters = expression.MetricDimensions == null ? null : expression.MetricDimensions.ExpressionElements.Select(md => new MetricDimension()
                     {
                         Name = md.Name,
-                        Dimensions = md.Dimensions == null ? null : md.Dimensions.ExpressionElements.Select(d => new FilterDimension()
+                        Dimensions = md.Dimensions == null ? null : md.Dimensions.ExpressionElements.Select(d => new MetricFilterDimension()
                         {
                             Name = d.Name,
                             Values = d.Values
@@ -605,12 +613,14 @@ namespace Microsoft.Azure.Insights
 
         private class MetricDimensionExpressionSet : ExpressionElementSet<MetricDimensionExpressionSet, MetricDimensionExpression>
         {
-            public MetricDimensionExpressionSet() : base()
+            public MetricDimensionExpressionSet()
+                : base()
             {
             }
 
             // used for creating the most basic filters the expected usage will only have one non-null parameter
-            internal MetricDimensionExpressionSet(string metricName, string dimensionName, string dimensionValue) : base()
+            internal MetricDimensionExpressionSet(string metricName, string dimensionName, string dimensionValue)
+                : base()
             {
                 this.ExpressionElements.Add(new MetricDimensionExpression()
                 {
@@ -684,12 +694,14 @@ namespace Microsoft.Azure.Insights
 
         private class DimensionExpressionSet : ExpressionElementSet<DimensionExpressionSet, DimensionExpression>
         {
-            public DimensionExpressionSet() : base()
+            public DimensionExpressionSet()
+                : base()
             {
             }
 
             // used for creating the most basic filters the expected usage will only have one non-null parameter
-            internal DimensionExpressionSet(string dimensionName, string dimensionValue) : base()
+            internal DimensionExpressionSet(string dimensionName, string dimensionValue)
+                : base()
             {
                 this.ExpressionElements.Add(new DimensionExpression()
                 {
@@ -795,6 +807,7 @@ namespace Microsoft.Azure.Insights
                 this.Tokens.RemoveAt(0);
             }
 
+            [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
             private List<MetricFilterExpressionToken> TokenizeFilterString(string filterString)
             {
                 List<MetricFilterExpressionToken> tokenList = new List<MetricFilterExpressionToken>();
@@ -848,7 +861,7 @@ namespace Microsoft.Azure.Insights
                         {
                             case '\'':
                                 StringBuilder sb = new StringBuilder();
-                                
+
                                 // slight variation here to avoid capturing opening quote
                                 for (pos++; pos < filterString.Length && (c = filterString[pos]) != '\''; pos++)
                                 {
@@ -924,11 +937,12 @@ namespace Microsoft.Azure.Insights
         /// Generates a MetricFilter object from the given filter string
         /// </summary>
         /// <param name="query">the ($filter) query string</param>
+        /// <param name="validate">True to validate fields. Fase to skip validation.</param>
         /// <returns>A MetricFilter object representing the query</returns>
-        public static MetricFilter Parse(string query)
+        public static MetricFilter Parse(string query, bool validate = true)
         {
             // Tokenize, parse, interpret, then translate to MetricFilter
-            return InterpretFilterExpressionTree(ParseFilterExpressionTree(new MetricFilterExpressionTokenizer(query.Trim()))).ToMetricFilter();
+            return InterpretFilterExpressionTree(ParseFilterExpressionTree(new MetricFilterExpressionTokenizer(query.Trim()))).ToMetricFilter(validate);
         }
 
         /**
@@ -961,11 +975,18 @@ namespace Microsoft.Azure.Insights
         }
 
         // Parse Filter Expression (disjunction) corresponds to E -> T OR E | T
-        private static MetricFilterExpressionTree ParseFilterExpression(MetricFilterExpressionTokenizer tokenizer)
+        private static MetricFilterExpressionTree ParseFilterExpression(MetricFilterExpressionTokenizer tokenizer, int depth = 0)
         {
-            MetricFilterExpressionTree node = ParseFilterTerm(tokenizer);
+            // increment depth and break if too deep
+            if (depth++ > MetricFilterExpressionParser.MaxRecursionDepth)
+            {
+                throw new InvalidOperationException("Filter expression is too complex. Simplify filter expression");
+            }
 
-            // E -> T
+            // 'T OR E' and 'T' both match 'T' first
+            MetricFilterExpressionTree node = ParseFilterTerm(tokenizer, depth);
+
+            // E -> T (rather than E -> T OR E)
             if (tokenizer.IsEmpty)
             {
                 return node;
@@ -981,7 +1002,7 @@ namespace Microsoft.Azure.Insights
                 {
                     IsConjunction = false,
                     LeftExpression = node,
-                    RightExpression = ParseFilterExpression(tokenizer)
+                    RightExpression = ParseFilterExpression(tokenizer, depth)
                 };
             }
 
@@ -989,10 +1010,16 @@ namespace Microsoft.Azure.Insights
         }
 
         // Parse Filter Term (conjunction) corresponds to T -> F AND T | F
-        private static MetricFilterExpressionTree ParseFilterTerm(MetricFilterExpressionTokenizer tokenizer)
+        private static MetricFilterExpressionTree ParseFilterTerm(MetricFilterExpressionTokenizer tokenizer, int depth)
         {
+            // increment depth and break if too deep
+            if (depth++ > MetricFilterExpressionParser.MaxRecursionDepth)
+            {
+                throw new InvalidOperationException("Filter expression is too complex. Simplify filter expression");
+            }
+
             // Match Clause
-            MetricFilterExpressionTree node = ParseFilterClause(tokenizer);
+            MetricFilterExpressionTree node = ParseFilterClause(tokenizer, depth);
 
             // T -> F
             if (tokenizer.IsEmpty)
@@ -1010,7 +1037,7 @@ namespace Microsoft.Azure.Insights
                 {
                     IsConjunction = true,
                     LeftExpression = node,
-                    RightExpression = ParseFilterTerm(tokenizer)
+                    RightExpression = ParseFilterTerm(tokenizer, depth)
                 };
             }
 
@@ -1018,8 +1045,14 @@ namespace Microsoft.Azure.Insights
         }
 
         // Parse filter clause (or parenthesized expression) corresponds to F -> ID EQ VALUE | (E)
-        private static MetricFilterExpressionTree ParseFilterClause(MetricFilterExpressionTokenizer tokenizer)
+        private static MetricFilterExpressionTree ParseFilterClause(MetricFilterExpressionTokenizer tokenizer, int depth)
         {
+            // increment depth and break if too deep
+            if (depth++ > MetricFilterExpressionParser.MaxRecursionDepth)
+            {
+                throw new InvalidOperationException("Filter expression is too complex. Simplify filter expression");
+            }
+
             if (tokenizer == null || tokenizer.IsEmpty)
             {
                 throw GenerateFilterParseException(null, MetricFilterExpressionToken.TokenType.Identifier);
@@ -1063,7 +1096,7 @@ namespace Microsoft.Azure.Insights
                     tokenizer.Advance();
 
                     // Match Expression
-                    MetricFilterExpressionTree node = ParseFilterExpression(tokenizer);
+                    MetricFilterExpressionTree node = ParseFilterExpression(tokenizer, depth);
 
                     // Verify and consume )
                     if (tokenizer.IsEmpty || tokenizer.Current.Type != MetricFilterExpressionToken.TokenType.CloseParen)
@@ -1080,8 +1113,14 @@ namespace Microsoft.Azure.Insights
         }
 
         // Build MetricFilter from expression tree by depth-first evaluation
-        private static MetricFilterExpression InterpretFilterExpressionTree(MetricFilterExpressionTree tree)
+        private static MetricFilterExpression InterpretFilterExpressionTree(MetricFilterExpressionTree tree, int depth = 0)
         {
+            // increment depth and break if too deep
+            if (depth++ > MetricFilterExpressionParser.MaxRecursionDepth)
+            {
+                throw new InvalidOperationException("Filter expression is too complex. Simplify filter expression");
+            }
+
             if (tree == null)
             {
                 return null;
@@ -1109,8 +1148,8 @@ namespace Microsoft.Azure.Insights
 
             // Tree Node: Combine children
             return tree.IsConjunction
-                ? InterpretFilterExpressionTree(tree.LeftExpression).And(InterpretFilterExpressionTree(tree.RightExpression)) as MetricFilterExpression
-                : InterpretFilterExpressionTree(tree.LeftExpression).Or(InterpretFilterExpressionTree(tree.RightExpression)) as MetricFilterExpression;
+                ? InterpretFilterExpressionTree(tree.LeftExpression, depth).And(InterpretFilterExpressionTree(tree.RightExpression, depth)) as MetricFilterExpression
+                : InterpretFilterExpressionTree(tree.LeftExpression, depth).Or(InterpretFilterExpressionTree(tree.RightExpression, depth)) as MetricFilterExpression;
         }
 
         private static FilterParameter ParseParameter(string value)

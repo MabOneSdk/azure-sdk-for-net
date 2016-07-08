@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -26,6 +27,8 @@ using Hyak.Common;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.KeyVault.WebKey;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace Sample.Microsoft.HelloKeyVault
 {
@@ -33,7 +36,6 @@ namespace Sample.Microsoft.HelloKeyVault
     {
         static KeyVaultClient keyVaultClient;
         static InputValidator inputValidator;
-        static ClientCredential clientCredential;
 
         static void Main(string[] args)
         {
@@ -49,10 +51,15 @@ namespace Sample.Microsoft.HelloKeyVault
             TracingAdapter.IsEnabled = inputValidator.GetTracingEnabled();
 
             var clientId = ConfigurationManager.AppSettings["AuthClientId"];
-            var clientSecret = ConfigurationManager.AppSettings["AuthClientSecret"];
-            clientCredential = new ClientCredential(clientId, clientSecret);
 
-            keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetAccessToken), GetHttpClient());
+            var cerificateThumbprint = ConfigurationManager.AppSettings["AuthCertThumbprint"];
+
+            var certificate = FindCertificateByThumbprint(cerificateThumbprint);
+            var assertionCert = new ClientAssertionCertificate(clientId, certificate);
+
+            keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback( 
+                   (authority, resource, scope) => GetAccessToken(authority, resource, scope, assertionCert)), 
+                   GetHttpClient());
 
             // SECURITY: DO NOT USE IN PRODUCTION CODE; FOR TEST PURPOSES ONLY
             //ServicePointManager.ServerCertificateValidationCallback += ( sender, cert, chain, sslPolicyErrors ) => true;
@@ -101,6 +108,14 @@ namespace Sample.Microsoft.HelloKeyVault
 
                         case KeyOperationType.ENCRYPT_DECRYPT:
                             EncryptDecrypt(keyBundle);
+                            break;
+
+                        case KeyOperationType.ENCRYPT:
+                            Encrypt(keyBundle);
+                            break;
+
+                        case KeyOperationType.DECRYPT:
+                            Decrypt(keyBundle);
                             break;
 
                         case KeyOperationType.WRAP_UNWRAP:
@@ -412,7 +427,7 @@ namespace Sample.Microsoft.HelloKeyVault
             var newVaultAddress = inputValidator.GetVaultAddress();
 
             // Delete any existing key in that vault.
-            keyVaultClient.DeleteKeyAsync(vaultAddress, keyName).GetAwaiter().GetResult(); ;
+            keyVaultClient.DeleteKeyAsync(vaultAddress, keyName).GetAwaiter().GetResult();
 
             // Restore the backed up value into the vault
             var restoredKey = keyVaultClient.RestoreKeyAsync(newVaultAddress, backupKeyValue).GetAwaiter().GetResult();
@@ -435,7 +450,7 @@ namespace Sample.Microsoft.HelloKeyVault
             keyName = (keyName == string.Empty) ? inputValidator.GetKeyName() : keyName;
 
             // Delete the key with the specified ID
-            var keyBundle = keyVaultClient.DeleteKeyAsync(vaultAddress, keyName).GetAwaiter().GetResult(); ;
+            var keyBundle = keyVaultClient.DeleteKeyAsync(vaultAddress, keyName).GetAwaiter().GetResult();
             Console.Out.WriteLine(string.Format("Key {0} is deleted successfully!", keyBundle.Key.Kid));
         }
 
@@ -471,14 +486,14 @@ namespace Sample.Microsoft.HelloKeyVault
 
             // Unwrap the symmetric key
             var unwrappedKey = keyVaultClient.UnwrapKeyAsync(wrappedKey.Kid, algorithm, wrappedKey.Result).GetAwaiter().GetResult();
-            Console.Out.WriteLine(string.Format("The unwrapped key is {0} the same as the original key!",
-                symmetricKey.SequenceEqual(unwrappedKey.Result) ? "" : "not "));
+            Console.Out.WriteLine(string.Format("The unwrapped key is{0}the same as the original key!",
+                symmetricKey.SequenceEqual(unwrappedKey.Result) ? " " : " not "));
         }
 
         /// <summary>
         /// Encrypts a plain text and then decrypts the encrypted text
         /// </summary>
-        /// <param name="keyId"> a global key identifier of the key to get </param>
+        /// <param name="key"> key to use for the encryption & decryption operations </param>
         private static void EncryptDecrypt(KeyBundle key)
         {
             KeyOperationResult operationResult;
@@ -487,6 +502,23 @@ namespace Sample.Microsoft.HelloKeyVault
             var plainText = inputValidator.GetPlainText();
 
             string keyVersion = inputValidator.GetKeyVersion();
+
+            operationResult = _encrypt(key, keyVersion, algorithm, plainText);
+            
+            Console.Out.WriteLine(string.Format("The text is encrypted using key id {0} and algorithm {1}", operationResult.Kid, algorithm));
+
+            // Decrypt the encrypted data
+            var decryptedText = keyVaultClient.DecryptAsync(operationResult.Kid, algorithm, operationResult.Result).GetAwaiter().GetResult();
+
+            Console.Out.WriteLine(string.Format("The decrypted text is{0}the same as the original key!",
+                plainText.SequenceEqual(decryptedText.Result) ? " " : " not "));
+            Console.Out.WriteLine(string.Format("The decrypted text is: {0}",
+                Encoding.UTF8.GetString(decryptedText.Result)));
+        }
+
+        private static KeyOperationResult _encrypt(KeyBundle key, string keyVersion, string algorithm, byte[] plainText)
+        {
+            KeyOperationResult operationResult;
 
             if (keyVersion != string.Empty)
             {
@@ -504,15 +536,49 @@ namespace Sample.Microsoft.HelloKeyVault
                 operationResult = keyVaultClient.EncryptAsync(keyId, algorithm, plainText).GetAwaiter().GetResult();
             }
 
+            return operationResult;
+        }
+
+        /// <summary>
+        /// Encrypts plaintext
+        /// </summary>
+        /// <param name="key"> key to use for the encryption </param>
+        private static void Encrypt(KeyBundle key)
+        {
+            KeyOperationResult  operationResult;
+
+            var algorithm = inputValidator.GetEncryptionAlgorithm();
+            var plainText = inputValidator.GetPlainText();
+
+            string keyVersion = inputValidator.GetKeyVersion();
+
+            operationResult = _encrypt(key, keyVersion, algorithm, plainText);
+            
+            File.WriteAllText("cipherText.txt", Convert.ToBase64String(operationResult.Result));
+
             Console.Out.WriteLine(string.Format("The text is encrypted using key id {0} and algorithm {1}", operationResult.Kid, algorithm));
+            Console.Out.WriteLine(string.Format("Encrypted text, base-64 encoded: {0}", Convert.ToBase64String(operationResult.Result)));
+        }
+
+        /// <summary>
+        /// Decrypts cipherText
+        /// </summary>
+        /// <param name="key"> key to use for the decryption </param>
+        private static void Decrypt(KeyBundle key)
+        {
+            KeyOperationResult operationResult;
+
+            var algorithm = inputValidator.GetEncryptionAlgorithm();
+            var cipherText = inputValidator.GetCipherText();
+
+            KeyBundle   localKey;
+
+            localKey = (key ?? GetKey(null));
 
             // Decrypt the encrypted data
-            var decryptedText = keyVaultClient.DecryptAsync(operationResult.Kid, algorithm, operationResult.Result).GetAwaiter().GetResult();
+            operationResult = keyVaultClient.DecryptAsync(localKey.KeyIdentifier.ToString(), algorithm, cipherText).GetAwaiter().GetResult();
 
-            Console.Out.WriteLine(string.Format("The decrypted text is {0}the same as the original key!",
-                plainText.SequenceEqual(decryptedText.Result) ? "" : "not "));
-            Console.Out.WriteLine(string.Format("The decrypted text is {0}",
-                Encoding.UTF8.GetString(decryptedText.Result)));
+            Console.Out.WriteLine(string.Format("The decrypted text is: {0}", Encoding.UTF8.GetString(operationResult.Result)));
         }
 
         /// <summary>
@@ -615,10 +681,10 @@ namespace Sample.Microsoft.HelloKeyVault
         /// <param name="resource"> Resource </param>
         /// <param name="scope"> scope </param>
         /// <returns> token </returns>
-        public static async Task<string> GetAccessToken(string authority, string resource, string scope)
+        public static async Task<string> GetAccessToken(string authority, string resource, string scope, ClientAssertionCertificate assertionCert)
         {            
             var context = new AuthenticationContext(authority, TokenCache.DefaultShared);
-            var result = await context.AcquireTokenAsync(resource, clientCredential);
+            var result = await context.AcquireTokenAsync(resource, assertionCert);
 
             return result.AccessToken;
         }
@@ -632,5 +698,32 @@ namespace Sample.Microsoft.HelloKeyVault
         {
             return (HttpClientFactory.Create(new InjectHostHeaderHttpMessageHandler()));
         }
+
+        /// <summary>
+        /// Helper function to load an X509 certificate
+        /// </summary>
+        /// <param name="certificateThumbprint">Thumbprint of the certificate to be loaded</param>
+        /// <returns>X509 Certificate</returns>
+        public static X509Certificate2 FindCertificateByThumbprint(string certificateThumbprint)
+        {
+            if (certificateThumbprint == null)
+                throw new System.ArgumentNullException("certificateThumbprint");
+
+            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            try
+            {
+                store.Open(OpenFlags.ReadOnly);
+                X509Certificate2Collection col = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false); // Don't validate certs, since the test root isn't installed.
+                if (col == null || col.Count == 0)
+                    throw new System.Exception(
+                        string.Format("Could not find the certificate with thumbprint {0} in the Local Machine's Personal certificate store.", certificateThumbprint));
+                return col[0];
+            }
+            finally
+            {
+                store.Close();
+            }
+        }
+        
     }
 }

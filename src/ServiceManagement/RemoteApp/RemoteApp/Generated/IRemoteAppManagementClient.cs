@@ -22,9 +22,9 @@
 using System;
 using System.Linq;
 using Microsoft.Azure;
-using Microsoft.Azure.Management.RemoteApp;
+using Microsoft.WindowsAzure.Management.RemoteApp;
 
-namespace Microsoft.Azure.Management.RemoteApp
+namespace Microsoft.WindowsAzure.Management.RemoteApp
 {
     /// <summary>
     /// RmoteApp management client
@@ -125,6 +125,14 @@ namespace Microsoft.Azure.Management.RemoteApp
         /// Operations to create, modify, list, and delete template images.
         /// </summary>
         ITemplateImageOperations TemplateImages
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// RemoteApp user disk operations.
+        /// </summary>
+        IUserDiskOperations UserDisks
         {
             get; 
         }

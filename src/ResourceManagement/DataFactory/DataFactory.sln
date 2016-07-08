@@ -9,9 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataFactoryManagement", "Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataFactory.Tests", "DataFactory.Tests\DataFactory.Tests.csproj", "{A5219BFF-17A1-4B7D-9DFE-6E280B164F7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceManagement", "..\Resource\ResourceManagement\ResourceManagement.csproj", "{165EF660-235B-45AF-83CB-0D32BEF4C1A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management", "..\..\ServiceManagement\Management\Management\Management.csproj", "{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A072201-5EC1-4A30-A814-5E4D5FCD4DCB}"
+	ProjectSection(SolutionItems) = preProject
+		codecoverage.runsettings = codecoverage.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,24 +52,11 @@ Global
 		{A5219BFF-17A1-4B7D-9DFE-6E280B164F7D}.Net45-Release|Any CPU.Build.0 = Net45-Release|Any CPU
 		{A5219BFF-17A1-4B7D-9DFE-6E280B164F7D}.Portable-Debug|Any CPU.ActiveCfg = Portable-Debug|Any CPU
 		{A5219BFF-17A1-4B7D-9DFE-6E280B164F7D}.Portable-Release|Any CPU.ActiveCfg = Portable-Release|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net40-Debug|Any CPU.ActiveCfg = Net40-Debug|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net40-Release|Any CPU.ActiveCfg = Net40-Release|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net45-Debug|Any CPU.ActiveCfg = Net45-Debug|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net45-Debug|Any CPU.Build.0 = Net45-Debug|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net45-Release|Any CPU.ActiveCfg = Net45-Release|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Net45-Release|Any CPU.Build.0 = Net45-Release|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Portable-Debug|Any CPU.ActiveCfg = Portable-Debug|Any CPU
-		{165EF660-235B-45AF-83CB-0D32BEF4C1A2}.Portable-Release|Any CPU.ActiveCfg = Portable-Release|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net40-Debug|Any CPU.ActiveCfg = Net40-Debug|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net40-Release|Any CPU.ActiveCfg = Net40-Release|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net45-Debug|Any CPU.ActiveCfg = Net45-Debug|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net45-Debug|Any CPU.Build.0 = Net45-Debug|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net45-Release|Any CPU.ActiveCfg = Net45-Release|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Net45-Release|Any CPU.Build.0 = Net45-Release|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Portable-Debug|Any CPU.ActiveCfg = Portable-Debug|Any CPU
-		{2B6D304F-5DC0-4052-A8AB-80E53C291E5F}.Portable-Release|Any CPU.ActiveCfg = Portable-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = ..\..\..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;..\..\..\packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
 	EndGlobalSection
 EndGlobal

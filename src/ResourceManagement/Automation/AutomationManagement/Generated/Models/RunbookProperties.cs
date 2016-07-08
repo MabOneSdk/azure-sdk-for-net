@@ -65,6 +65,18 @@ namespace Microsoft.Azure.Management.Automation.Models
             set { this._lastModifiedBy = value; }
         }
         
+        private int _logActivityTrace;
+        
+        /// <summary>
+        /// Optional. Gets or sets the option to log activity trace of the
+        /// runbook.
+        /// </summary>
+        public int LogActivityTrace
+        {
+            get { return this._logActivityTrace; }
+            set { this._logActivityTrace = value; }
+        }
+        
         private bool _logProgress;
         
         /// <summary>
@@ -85,6 +97,17 @@ namespace Microsoft.Azure.Management.Automation.Models
         {
             get { return this._logVerbose; }
             set { this._logVerbose = value; }
+        }
+        
+        private IList<string> _outputTypes;
+        
+        /// <summary>
+        /// Optional. Gets or sets the runbook output types.
+        /// </summary>
+        public IList<string> OutputTypes
+        {
+            get { return this._outputTypes; }
+            set { this._outputTypes = value; }
         }
         
         private IDictionary<string, RunbookParameter> _parameters;
@@ -147,6 +170,7 @@ namespace Microsoft.Azure.Management.Automation.Models
         /// </summary>
         public RunbookProperties()
         {
+            this.OutputTypes = new LazyList<string>();
             this.Parameters = new LazyDictionary<string, RunbookParameter>();
         }
     }
