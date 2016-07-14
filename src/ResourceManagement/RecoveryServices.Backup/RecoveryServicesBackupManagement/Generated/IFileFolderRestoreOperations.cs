@@ -23,7 +23,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure;
 using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup
@@ -70,9 +69,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// Base recovery job response for all the asynchronous operations.
         /// </returns>
-        Task<AzureOperationResponse> RevokeAsync(FileFolderRestoreParameters parameters, CancellationToken cancellationToken);
+        Task<BaseRecoveryServicesJobResponse> RevokeAsync(FileFolderRestoreParameters parameters, CancellationToken cancellationToken);
     }
 }

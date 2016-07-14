@@ -220,15 +220,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 propertiesValue["recoveryPointId"] = derived.RecoveryPointId;
                             }
                             
+                            if (derived.VirtualMachineId != null)
+                            {
+                                propertiesValue["virtualMachineId"] = derived.VirtualMachineId;
+                            }
+                            
                             if (derived.InitiatorName != null)
                             {
                                 propertiesValue["initiatorName"] = derived.InitiatorName;
                             }
                             
-                            if (derived.RenewExistingRegistration != null)
-                            {
-                                propertiesValue["renewExistingRegistration"] = derived.RenewExistingRegistration;
-                            }
+                            propertiesValue["renewExistingRegistration"] = derived.RenewExistingRegistration;
                         }
                     }
                 }
@@ -310,6 +312,18 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                         
                     }
                     result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("Location"))
+                    {
+                        result.Location = httpResponse.Headers.GetValues("Location").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("Retry-After"))
+                    {
+                        result.RetryAfter = httpResponse.Headers.GetValues("Retry-After").FirstOrDefault();
+                    }
                     
                     if (shouldTrace)
                     {
@@ -349,10 +363,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// Base recovery job response for all the asynchronous operations.
         /// </returns>
-        public async Task<AzureOperationResponse> RevokeAsync(FileFolderRestoreParameters parameters, CancellationToken cancellationToken)
+        public async Task<BaseRecoveryServicesJobResponse> RevokeAsync(FileFolderRestoreParameters parameters, CancellationToken cancellationToken)
         {
             // Validate
             if (parameters == null)
@@ -480,10 +493,22 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                     }
                     
                     // Create Result
-                    AzureOperationResponse result = null;
+                    BaseRecoveryServicesJobResponse result = null;
                     // Deserialize Response
-                    result = new AzureOperationResponse();
+                    result = new BaseRecoveryServicesJobResponse();
                     result.StatusCode = statusCode;
+                    if (httpResponse.Headers.Contains("Azure-AsyncOperation"))
+                    {
+                        result.AzureAsyncOperation = httpResponse.Headers.GetValues("Azure-AsyncOperation").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("Location"))
+                    {
+                        result.Location = httpResponse.Headers.GetValues("Location").FirstOrDefault();
+                    }
+                    if (httpResponse.Headers.Contains("Retry-After"))
+                    {
+                        result.RetryAfter = httpResponse.Headers.GetValues("Retry-After").FirstOrDefault();
+                    }
                     
                     if (shouldTrace)
                     {

@@ -23,7 +23,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure;
 using Microsoft.Azure.Management.RecoveryServices.Backup;
 using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 
@@ -103,10 +102,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// APIs.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// Base recovery job response for all the asynchronous operations.
         /// </returns>
-        public static AzureOperationResponse Revoke(this IFileFolderRestoreOperations operations, FileFolderRestoreParameters parameters)
+        public static BaseRecoveryServicesJobResponse Revoke(this IFileFolderRestoreOperations operations, FileFolderRestoreParameters parameters)
         {
             return Task.Factory.StartNew((object s) => 
             {
@@ -131,10 +129,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// APIs.
         /// </param>
         /// <returns>
-        /// A standard service response including an HTTP status code and
-        /// request ID.
+        /// Base recovery job response for all the asynchronous operations.
         /// </returns>
-        public static Task<AzureOperationResponse> RevokeAsync(this IFileFolderRestoreOperations operations, FileFolderRestoreParameters parameters)
+        public static Task<BaseRecoveryServicesJobResponse> RevokeAsync(this IFileFolderRestoreOperations operations, FileFolderRestoreParameters parameters)
         {
             return operations.RevokeAsync(parameters, CancellationToken.None);
         }

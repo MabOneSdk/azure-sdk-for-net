@@ -53,16 +53,28 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._recoveryPointId = value; }
         }
         
-        private string _renewExistingRegistration;
+        private bool _renewExistingRegistration;
         
         /// <summary>
         /// Optional. Whether to renew existing registration with the iSCSI
         /// server.
         /// </summary>
-        public string RenewExistingRegistration
+        public bool RenewExistingRegistration
         {
             get { return this._renewExistingRegistration; }
             set { this._renewExistingRegistration = value; }
+        }
+        
+        private string _virtualMachineId;
+        
+        /// <summary>
+        /// Optional. Fully qualified ARM ID of the virtual machine whose the
+        /// files / folders have to be restored.
+        /// </summary>
+        public string VirtualMachineId
+        {
+            get { return this._virtualMachineId; }
+            set { this._virtualMachineId = value; }
         }
         
         /// <summary>
