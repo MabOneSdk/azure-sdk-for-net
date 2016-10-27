@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + Uri.EscapeDataString(jobName);
             url = url + "/cancel";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -429,7 +429,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupJobsExport";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.Status != null)
             {
@@ -674,7 +674,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/backupJobs/";
             url = url + Uri.EscapeDataString(jobName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1012,6 +1012,394 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                     }
                                     itemInstance.Properties = azureIaaSVMJobInstance;
                                 }
+                                if (typeName == "MabJob")
+                                {
+                                    MabJob mabJobInstance = new MabJob();
+                                    
+                                    JToken durationValue3 = propertiesValue["duration"];
+                                    if (durationValue3 != null && durationValue3.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance3 = TimeSpan.Parse(((string)durationValue3), CultureInfo.InvariantCulture);
+                                        mabJobInstance.Duration = durationInstance3;
+                                    }
+                                    
+                                    JToken mabServerNameValue = propertiesValue["mabServerName"];
+                                    if (mabServerNameValue != null && mabServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerNameInstance = ((string)mabServerNameValue);
+                                        mabJobInstance.MabServerName = mabServerNameInstance;
+                                    }
+                                    
+                                    JToken mabServerTypeValue = propertiesValue["mabServerType"];
+                                    if (mabServerTypeValue != null && mabServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerTypeInstance = ((string)mabServerTypeValue);
+                                        mabJobInstance.MabServerType = mabServerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue = propertiesValue["workloadType"];
+                                    if (workloadTypeValue != null && workloadTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance = ((string)workloadTypeValue);
+                                        mabJobInstance.WorkloadType = workloadTypeInstance;
+                                    }
+                                    
+                                    JToken actionsInfoArray2 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray2 != null && actionsInfoArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue2 in ((JArray)actionsInfoArray2))
+                                        {
+                                            mabJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue2), true)));
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray2 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray2 != null && errorDetailsArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue2 in ((JArray)errorDetailsArray2))
+                                        {
+                                            MabErrorInfo mabErrorInfoInstance = new MabErrorInfo();
+                                            mabJobInstance.ErrorDetails.Add(mabErrorInfoInstance);
+                                            
+                                            JToken errorStringValue2 = errorDetailsValue2["errorString"];
+                                            if (errorStringValue2 != null && errorStringValue2.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance2 = ((string)errorStringValue2);
+                                                mabErrorInfoInstance.ErrorString = errorStringInstance2;
+                                            }
+                                            
+                                            JToken recommendationsArray2 = errorDetailsValue2["recommendations"];
+                                            if (recommendationsArray2 != null && recommendationsArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue2 in ((JArray)recommendationsArray2))
+                                                {
+                                                    mabErrorInfoInstance.Recommendations.Add(((string)recommendationsValue2));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue2 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue2 != null && extendedInfoValue2.Type != JTokenType.Null)
+                                    {
+                                        MabJobExtendedInfo extendedInfoInstance2 = new MabJobExtendedInfo();
+                                        mabJobInstance.ExtendedInfo = extendedInfoInstance2;
+                                        
+                                        JToken tasksListArray2 = extendedInfoValue2["tasksList"];
+                                        if (tasksListArray2 != null && tasksListArray2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken tasksListValue2 in ((JArray)tasksListArray2))
+                                            {
+                                                MabJobTaskDetails mabJobTaskDetailsInstance = new MabJobTaskDetails();
+                                                extendedInfoInstance2.TasksList.Add(mabJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue2 = tasksListValue2["taskId"];
+                                                if (taskIdValue2 != null && taskIdValue2.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance2 = ((string)taskIdValue2);
+                                                    mabJobTaskDetailsInstance.TaskId = taskIdInstance2;
+                                                }
+                                                
+                                                JToken startTimeValue4 = tasksListValue2["startTime"];
+                                                if (startTimeValue4 != null && startTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance4 = ((DateTime)startTimeValue4);
+                                                    mabJobTaskDetailsInstance.StartTime = startTimeInstance4;
+                                                }
+                                                
+                                                JToken endTimeValue4 = tasksListValue2["endTime"];
+                                                if (endTimeValue4 != null && endTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance4 = ((DateTime)endTimeValue4);
+                                                    mabJobTaskDetailsInstance.EndTime = endTimeInstance4;
+                                                }
+                                                
+                                                JToken durationValue4 = tasksListValue2["duration"];
+                                                if (durationValue4 != null && durationValue4.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance4 = TimeSpan.Parse(((string)durationValue4), CultureInfo.InvariantCulture);
+                                                    mabJobTaskDetailsInstance.Duration = durationInstance4;
+                                                }
+                                                
+                                                JToken statusValue4 = tasksListValue2["status"];
+                                                if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance4 = ((string)statusValue4);
+                                                    mabJobTaskDetailsInstance.Status = statusInstance4;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken propertyBagSequenceElement2 = ((JToken)extendedInfoValue2["propertyBag"]);
+                                        if (propertyBagSequenceElement2 != null && propertyBagSequenceElement2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property2 in propertyBagSequenceElement2)
+                                            {
+                                                string propertyBagKey2 = ((string)property2.Name);
+                                                string propertyBagValue2 = ((string)property2.Value);
+                                                extendedInfoInstance2.PropertyBag.Add(propertyBagKey2, propertyBagValue2);
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue2 = extendedInfoValue2["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue2 != null && dynamicErrorMessageValue2.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance2 = ((string)dynamicErrorMessageValue2);
+                                            extendedInfoInstance2.DynamicErrorMessage = dynamicErrorMessageInstance2;
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue3 = propertiesValue["activityId"];
+                                    if (activityIdValue3 != null && activityIdValue3.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance3 = ((string)activityIdValue3);
+                                        mabJobInstance.ActivityId = activityIdInstance3;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue3 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue3 != null && entityFriendlyNameValue3.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance3 = ((string)entityFriendlyNameValue3);
+                                        mabJobInstance.EntityFriendlyName = entityFriendlyNameInstance3;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue3 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue3 != null && backupManagementTypeValue3.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance3 = ((string)backupManagementTypeValue3);
+                                        mabJobInstance.BackupManagementType = backupManagementTypeInstance3;
+                                    }
+                                    
+                                    JToken operationValue3 = propertiesValue["operation"];
+                                    if (operationValue3 != null && operationValue3.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance3 = ((string)operationValue3);
+                                        mabJobInstance.Operation = operationInstance3;
+                                    }
+                                    
+                                    JToken statusValue5 = propertiesValue["status"];
+                                    if (statusValue5 != null && statusValue5.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance5 = ((string)statusValue5);
+                                        mabJobInstance.Status = statusInstance5;
+                                    }
+                                    
+                                    JToken startTimeValue5 = propertiesValue["startTime"];
+                                    if (startTimeValue5 != null && startTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance5 = ((DateTime)startTimeValue5);
+                                        mabJobInstance.StartTime = startTimeInstance5;
+                                    }
+                                    
+                                    JToken endTimeValue5 = propertiesValue["endTime"];
+                                    if (endTimeValue5 != null && endTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance5 = ((DateTime)endTimeValue5);
+                                        mabJobInstance.EndTime = endTimeInstance5;
+                                    }
+                                    itemInstance.Properties = mabJobInstance;
+                                }
+                                if (typeName == "DpmJob")
+                                {
+                                    DpmJob dpmJobInstance = new DpmJob();
+                                    
+                                    JToken durationValue5 = propertiesValue["duration"];
+                                    if (durationValue5 != null && durationValue5.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance5 = TimeSpan.Parse(((string)durationValue5), CultureInfo.InvariantCulture);
+                                        dpmJobInstance.Duration = durationInstance5;
+                                    }
+                                    
+                                    JToken dpmServerNameValue = propertiesValue["dpmServerName"];
+                                    if (dpmServerNameValue != null && dpmServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerNameInstance = ((string)dpmServerNameValue);
+                                        dpmJobInstance.DpmServerName = dpmServerNameInstance;
+                                    }
+                                    
+                                    JToken dpmServerTypeValue = propertiesValue["dpmServerType"];
+                                    if (dpmServerTypeValue != null && dpmServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerTypeInstance = ((string)dpmServerTypeValue);
+                                        dpmJobInstance.DpmServerType = dpmServerTypeInstance;
+                                    }
+                                    
+                                    JToken containerNameValue = propertiesValue["containerName"];
+                                    if (containerNameValue != null && containerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string containerNameInstance = ((string)containerNameValue);
+                                        dpmJobInstance.ContainerName = containerNameInstance;
+                                    }
+                                    
+                                    JToken containerTypeValue = propertiesValue["containerType"];
+                                    if (containerTypeValue != null && containerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string containerTypeInstance = ((string)containerTypeValue);
+                                        dpmJobInstance.ContainerType = containerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue2 = propertiesValue["workloadType"];
+                                    if (workloadTypeValue2 != null && workloadTypeValue2.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance2 = ((string)workloadTypeValue2);
+                                        dpmJobInstance.WorkloadType = workloadTypeInstance2;
+                                    }
+                                    
+                                    JToken actionsInfoArray3 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray3 != null && actionsInfoArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue3 in ((JArray)actionsInfoArray3))
+                                        {
+                                            dpmJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue3), true)));
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue3 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue3 != null && extendedInfoValue3.Type != JTokenType.Null)
+                                    {
+                                        DpmJobExtendedInfo extendedInfoInstance3 = new DpmJobExtendedInfo();
+                                        dpmJobInstance.ExtendedInfo = extendedInfoInstance3;
+                                        
+                                        JToken propertyBagSequenceElement3 = ((JToken)extendedInfoValue3["propertyBag"]);
+                                        if (propertyBagSequenceElement3 != null && propertyBagSequenceElement3.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property3 in propertyBagSequenceElement3)
+                                            {
+                                                string propertyBagKey3 = ((string)property3.Name);
+                                                string propertyBagValue3 = ((string)property3.Value);
+                                                extendedInfoInstance3.PropertyBag.Add(propertyBagKey3, propertyBagValue3);
+                                            }
+                                        }
+                                        
+                                        JToken asksListArray = extendedInfoValue3["asksList"];
+                                        if (asksListArray != null && asksListArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken asksListValue in ((JArray)asksListArray))
+                                            {
+                                                DpmJobTaskDetails dpmJobTaskDetailsInstance = new DpmJobTaskDetails();
+                                                extendedInfoInstance3.TasksList.Add(dpmJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue3 = asksListValue["taskId"];
+                                                if (taskIdValue3 != null && taskIdValue3.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance3 = ((string)taskIdValue3);
+                                                    dpmJobTaskDetailsInstance.TaskId = taskIdInstance3;
+                                                }
+                                                
+                                                JToken startTimeValue6 = asksListValue["startTime"];
+                                                if (startTimeValue6 != null && startTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance6 = ((DateTime)startTimeValue6);
+                                                    dpmJobTaskDetailsInstance.StartTime = startTimeInstance6;
+                                                }
+                                                
+                                                JToken endTimeValue6 = asksListValue["endTime"];
+                                                if (endTimeValue6 != null && endTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance6 = ((DateTime)endTimeValue6);
+                                                    dpmJobTaskDetailsInstance.EndTime = endTimeInstance6;
+                                                }
+                                                
+                                                JToken durationValue6 = asksListValue["duration"];
+                                                if (durationValue6 != null && durationValue6.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance6 = TimeSpan.Parse(((string)durationValue6), CultureInfo.InvariantCulture);
+                                                    dpmJobTaskDetailsInstance.Duration = durationInstance6;
+                                                }
+                                                
+                                                JToken statusValue6 = asksListValue["status"];
+                                                if (statusValue6 != null && statusValue6.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance6 = ((string)statusValue6);
+                                                    dpmJobTaskDetailsInstance.Status = statusInstance6;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue3 = extendedInfoValue3["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue3 != null && dynamicErrorMessageValue3.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance3 = ((string)dynamicErrorMessageValue3);
+                                            extendedInfoInstance3.DynamicErrorMessage = dynamicErrorMessageInstance3;
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray3 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray3 != null && errorDetailsArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue3 in ((JArray)errorDetailsArray3))
+                                        {
+                                            DpmErrorInfo dpmErrorInfoInstance = new DpmErrorInfo();
+                                            dpmJobInstance.ErrorDetails.Add(dpmErrorInfoInstance);
+                                            
+                                            JToken errorStringValue3 = errorDetailsValue3["errorString"];
+                                            if (errorStringValue3 != null && errorStringValue3.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance3 = ((string)errorStringValue3);
+                                                dpmErrorInfoInstance.ErrorString = errorStringInstance3;
+                                            }
+                                            
+                                            JToken recommendationsArray3 = errorDetailsValue3["recommendations"];
+                                            if (recommendationsArray3 != null && recommendationsArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue3 in ((JArray)recommendationsArray3))
+                                                {
+                                                    dpmErrorInfoInstance.Recommendations.Add(((string)recommendationsValue3));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue4 = propertiesValue["activityId"];
+                                    if (activityIdValue4 != null && activityIdValue4.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance4 = ((string)activityIdValue4);
+                                        dpmJobInstance.ActivityId = activityIdInstance4;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue4 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue4 != null && entityFriendlyNameValue4.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance4 = ((string)entityFriendlyNameValue4);
+                                        dpmJobInstance.EntityFriendlyName = entityFriendlyNameInstance4;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue4 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue4 != null && backupManagementTypeValue4.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance4 = ((string)backupManagementTypeValue4);
+                                        dpmJobInstance.BackupManagementType = backupManagementTypeInstance4;
+                                    }
+                                    
+                                    JToken operationValue4 = propertiesValue["operation"];
+                                    if (operationValue4 != null && operationValue4.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance4 = ((string)operationValue4);
+                                        dpmJobInstance.Operation = operationInstance4;
+                                    }
+                                    
+                                    JToken statusValue7 = propertiesValue["status"];
+                                    if (statusValue7 != null && statusValue7.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance7 = ((string)statusValue7);
+                                        dpmJobInstance.Status = statusInstance7;
+                                    }
+                                    
+                                    JToken startTimeValue7 = propertiesValue["startTime"];
+                                    if (startTimeValue7 != null && startTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance7 = ((DateTime)startTimeValue7);
+                                        dpmJobInstance.StartTime = startTimeInstance7;
+                                    }
+                                    
+                                    JToken endTimeValue7 = propertiesValue["endTime"];
+                                    if (endTimeValue7 != null && endTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance7 = ((DateTime)endTimeValue7);
+                                        dpmJobInstance.EndTime = endTimeInstance7;
+                                    }
+                                    itemInstance.Properties = dpmJobInstance;
+                                }
                             }
                             
                             JToken idValue = responseDoc["id"];
@@ -1045,10 +1433,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                             JToken tagsSequenceElement = ((JToken)responseDoc["tags"]);
                             if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
                             {
-                                foreach (JProperty property2 in tagsSequenceElement)
+                                foreach (JProperty property4 in tagsSequenceElement)
                                 {
-                                    string tagsKey = ((string)property2.Name);
-                                    string tagsValue = ((string)property2.Value);
+                                    string tagsKey = ((string)property4.Name);
+                                    string tagsValue = ((string)property4.Value);
                                     itemInstance.Tags.Add(tagsKey, tagsValue);
                                 }
                             }
@@ -1081,11 +1469,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 result.RetryAfter = retryAfterInstance;
                             }
                             
-                            JToken statusValue4 = responseDoc["Status"];
-                            if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                            JToken statusValue8 = responseDoc["Status"];
+                            if (statusValue8 != null && statusValue8.Type != JTokenType.Null)
                             {
-                                OperationStatus statusInstance4 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue4), true));
-                                result.Status = statusInstance4;
+                                OperationStatus statusInstance8 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue8), true));
+                                result.Status = statusInstance8;
                             }
                         }
                         
@@ -1472,6 +1860,394 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                     }
                                     itemInstance.Properties = azureIaaSVMJobInstance;
                                 }
+                                if (typeName == "MabJob")
+                                {
+                                    MabJob mabJobInstance = new MabJob();
+                                    
+                                    JToken durationValue3 = propertiesValue["duration"];
+                                    if (durationValue3 != null && durationValue3.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance3 = TimeSpan.Parse(((string)durationValue3), CultureInfo.InvariantCulture);
+                                        mabJobInstance.Duration = durationInstance3;
+                                    }
+                                    
+                                    JToken mabServerNameValue = propertiesValue["mabServerName"];
+                                    if (mabServerNameValue != null && mabServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerNameInstance = ((string)mabServerNameValue);
+                                        mabJobInstance.MabServerName = mabServerNameInstance;
+                                    }
+                                    
+                                    JToken mabServerTypeValue = propertiesValue["mabServerType"];
+                                    if (mabServerTypeValue != null && mabServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerTypeInstance = ((string)mabServerTypeValue);
+                                        mabJobInstance.MabServerType = mabServerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue = propertiesValue["workloadType"];
+                                    if (workloadTypeValue != null && workloadTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance = ((string)workloadTypeValue);
+                                        mabJobInstance.WorkloadType = workloadTypeInstance;
+                                    }
+                                    
+                                    JToken actionsInfoArray2 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray2 != null && actionsInfoArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue2 in ((JArray)actionsInfoArray2))
+                                        {
+                                            mabJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue2), true)));
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray2 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray2 != null && errorDetailsArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue2 in ((JArray)errorDetailsArray2))
+                                        {
+                                            MabErrorInfo mabErrorInfoInstance = new MabErrorInfo();
+                                            mabJobInstance.ErrorDetails.Add(mabErrorInfoInstance);
+                                            
+                                            JToken errorStringValue2 = errorDetailsValue2["errorString"];
+                                            if (errorStringValue2 != null && errorStringValue2.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance2 = ((string)errorStringValue2);
+                                                mabErrorInfoInstance.ErrorString = errorStringInstance2;
+                                            }
+                                            
+                                            JToken recommendationsArray2 = errorDetailsValue2["recommendations"];
+                                            if (recommendationsArray2 != null && recommendationsArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue2 in ((JArray)recommendationsArray2))
+                                                {
+                                                    mabErrorInfoInstance.Recommendations.Add(((string)recommendationsValue2));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue2 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue2 != null && extendedInfoValue2.Type != JTokenType.Null)
+                                    {
+                                        MabJobExtendedInfo extendedInfoInstance2 = new MabJobExtendedInfo();
+                                        mabJobInstance.ExtendedInfo = extendedInfoInstance2;
+                                        
+                                        JToken tasksListArray2 = extendedInfoValue2["tasksList"];
+                                        if (tasksListArray2 != null && tasksListArray2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken tasksListValue2 in ((JArray)tasksListArray2))
+                                            {
+                                                MabJobTaskDetails mabJobTaskDetailsInstance = new MabJobTaskDetails();
+                                                extendedInfoInstance2.TasksList.Add(mabJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue2 = tasksListValue2["taskId"];
+                                                if (taskIdValue2 != null && taskIdValue2.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance2 = ((string)taskIdValue2);
+                                                    mabJobTaskDetailsInstance.TaskId = taskIdInstance2;
+                                                }
+                                                
+                                                JToken startTimeValue4 = tasksListValue2["startTime"];
+                                                if (startTimeValue4 != null && startTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance4 = ((DateTime)startTimeValue4);
+                                                    mabJobTaskDetailsInstance.StartTime = startTimeInstance4;
+                                                }
+                                                
+                                                JToken endTimeValue4 = tasksListValue2["endTime"];
+                                                if (endTimeValue4 != null && endTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance4 = ((DateTime)endTimeValue4);
+                                                    mabJobTaskDetailsInstance.EndTime = endTimeInstance4;
+                                                }
+                                                
+                                                JToken durationValue4 = tasksListValue2["duration"];
+                                                if (durationValue4 != null && durationValue4.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance4 = TimeSpan.Parse(((string)durationValue4), CultureInfo.InvariantCulture);
+                                                    mabJobTaskDetailsInstance.Duration = durationInstance4;
+                                                }
+                                                
+                                                JToken statusValue4 = tasksListValue2["status"];
+                                                if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance4 = ((string)statusValue4);
+                                                    mabJobTaskDetailsInstance.Status = statusInstance4;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken propertyBagSequenceElement2 = ((JToken)extendedInfoValue2["propertyBag"]);
+                                        if (propertyBagSequenceElement2 != null && propertyBagSequenceElement2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property2 in propertyBagSequenceElement2)
+                                            {
+                                                string propertyBagKey2 = ((string)property2.Name);
+                                                string propertyBagValue2 = ((string)property2.Value);
+                                                extendedInfoInstance2.PropertyBag.Add(propertyBagKey2, propertyBagValue2);
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue2 = extendedInfoValue2["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue2 != null && dynamicErrorMessageValue2.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance2 = ((string)dynamicErrorMessageValue2);
+                                            extendedInfoInstance2.DynamicErrorMessage = dynamicErrorMessageInstance2;
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue3 = propertiesValue["activityId"];
+                                    if (activityIdValue3 != null && activityIdValue3.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance3 = ((string)activityIdValue3);
+                                        mabJobInstance.ActivityId = activityIdInstance3;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue3 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue3 != null && entityFriendlyNameValue3.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance3 = ((string)entityFriendlyNameValue3);
+                                        mabJobInstance.EntityFriendlyName = entityFriendlyNameInstance3;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue3 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue3 != null && backupManagementTypeValue3.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance3 = ((string)backupManagementTypeValue3);
+                                        mabJobInstance.BackupManagementType = backupManagementTypeInstance3;
+                                    }
+                                    
+                                    JToken operationValue3 = propertiesValue["operation"];
+                                    if (operationValue3 != null && operationValue3.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance3 = ((string)operationValue3);
+                                        mabJobInstance.Operation = operationInstance3;
+                                    }
+                                    
+                                    JToken statusValue5 = propertiesValue["status"];
+                                    if (statusValue5 != null && statusValue5.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance5 = ((string)statusValue5);
+                                        mabJobInstance.Status = statusInstance5;
+                                    }
+                                    
+                                    JToken startTimeValue5 = propertiesValue["startTime"];
+                                    if (startTimeValue5 != null && startTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance5 = ((DateTime)startTimeValue5);
+                                        mabJobInstance.StartTime = startTimeInstance5;
+                                    }
+                                    
+                                    JToken endTimeValue5 = propertiesValue["endTime"];
+                                    if (endTimeValue5 != null && endTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance5 = ((DateTime)endTimeValue5);
+                                        mabJobInstance.EndTime = endTimeInstance5;
+                                    }
+                                    itemInstance.Properties = mabJobInstance;
+                                }
+                                if (typeName == "DpmJob")
+                                {
+                                    DpmJob dpmJobInstance = new DpmJob();
+                                    
+                                    JToken durationValue5 = propertiesValue["duration"];
+                                    if (durationValue5 != null && durationValue5.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance5 = TimeSpan.Parse(((string)durationValue5), CultureInfo.InvariantCulture);
+                                        dpmJobInstance.Duration = durationInstance5;
+                                    }
+                                    
+                                    JToken dpmServerNameValue = propertiesValue["dpmServerName"];
+                                    if (dpmServerNameValue != null && dpmServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerNameInstance = ((string)dpmServerNameValue);
+                                        dpmJobInstance.DpmServerName = dpmServerNameInstance;
+                                    }
+                                    
+                                    JToken dpmServerTypeValue = propertiesValue["dpmServerType"];
+                                    if (dpmServerTypeValue != null && dpmServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerTypeInstance = ((string)dpmServerTypeValue);
+                                        dpmJobInstance.DpmServerType = dpmServerTypeInstance;
+                                    }
+                                    
+                                    JToken containerNameValue = propertiesValue["containerName"];
+                                    if (containerNameValue != null && containerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string containerNameInstance = ((string)containerNameValue);
+                                        dpmJobInstance.ContainerName = containerNameInstance;
+                                    }
+                                    
+                                    JToken containerTypeValue = propertiesValue["containerType"];
+                                    if (containerTypeValue != null && containerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string containerTypeInstance = ((string)containerTypeValue);
+                                        dpmJobInstance.ContainerType = containerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue2 = propertiesValue["workloadType"];
+                                    if (workloadTypeValue2 != null && workloadTypeValue2.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance2 = ((string)workloadTypeValue2);
+                                        dpmJobInstance.WorkloadType = workloadTypeInstance2;
+                                    }
+                                    
+                                    JToken actionsInfoArray3 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray3 != null && actionsInfoArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue3 in ((JArray)actionsInfoArray3))
+                                        {
+                                            dpmJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue3), true)));
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue3 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue3 != null && extendedInfoValue3.Type != JTokenType.Null)
+                                    {
+                                        DpmJobExtendedInfo extendedInfoInstance3 = new DpmJobExtendedInfo();
+                                        dpmJobInstance.ExtendedInfo = extendedInfoInstance3;
+                                        
+                                        JToken propertyBagSequenceElement3 = ((JToken)extendedInfoValue3["propertyBag"]);
+                                        if (propertyBagSequenceElement3 != null && propertyBagSequenceElement3.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property3 in propertyBagSequenceElement3)
+                                            {
+                                                string propertyBagKey3 = ((string)property3.Name);
+                                                string propertyBagValue3 = ((string)property3.Value);
+                                                extendedInfoInstance3.PropertyBag.Add(propertyBagKey3, propertyBagValue3);
+                                            }
+                                        }
+                                        
+                                        JToken asksListArray = extendedInfoValue3["asksList"];
+                                        if (asksListArray != null && asksListArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken asksListValue in ((JArray)asksListArray))
+                                            {
+                                                DpmJobTaskDetails dpmJobTaskDetailsInstance = new DpmJobTaskDetails();
+                                                extendedInfoInstance3.TasksList.Add(dpmJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue3 = asksListValue["taskId"];
+                                                if (taskIdValue3 != null && taskIdValue3.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance3 = ((string)taskIdValue3);
+                                                    dpmJobTaskDetailsInstance.TaskId = taskIdInstance3;
+                                                }
+                                                
+                                                JToken startTimeValue6 = asksListValue["startTime"];
+                                                if (startTimeValue6 != null && startTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance6 = ((DateTime)startTimeValue6);
+                                                    dpmJobTaskDetailsInstance.StartTime = startTimeInstance6;
+                                                }
+                                                
+                                                JToken endTimeValue6 = asksListValue["endTime"];
+                                                if (endTimeValue6 != null && endTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance6 = ((DateTime)endTimeValue6);
+                                                    dpmJobTaskDetailsInstance.EndTime = endTimeInstance6;
+                                                }
+                                                
+                                                JToken durationValue6 = asksListValue["duration"];
+                                                if (durationValue6 != null && durationValue6.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance6 = TimeSpan.Parse(((string)durationValue6), CultureInfo.InvariantCulture);
+                                                    dpmJobTaskDetailsInstance.Duration = durationInstance6;
+                                                }
+                                                
+                                                JToken statusValue6 = asksListValue["status"];
+                                                if (statusValue6 != null && statusValue6.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance6 = ((string)statusValue6);
+                                                    dpmJobTaskDetailsInstance.Status = statusInstance6;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue3 = extendedInfoValue3["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue3 != null && dynamicErrorMessageValue3.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance3 = ((string)dynamicErrorMessageValue3);
+                                            extendedInfoInstance3.DynamicErrorMessage = dynamicErrorMessageInstance3;
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray3 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray3 != null && errorDetailsArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue3 in ((JArray)errorDetailsArray3))
+                                        {
+                                            DpmErrorInfo dpmErrorInfoInstance = new DpmErrorInfo();
+                                            dpmJobInstance.ErrorDetails.Add(dpmErrorInfoInstance);
+                                            
+                                            JToken errorStringValue3 = errorDetailsValue3["errorString"];
+                                            if (errorStringValue3 != null && errorStringValue3.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance3 = ((string)errorStringValue3);
+                                                dpmErrorInfoInstance.ErrorString = errorStringInstance3;
+                                            }
+                                            
+                                            JToken recommendationsArray3 = errorDetailsValue3["recommendations"];
+                                            if (recommendationsArray3 != null && recommendationsArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue3 in ((JArray)recommendationsArray3))
+                                                {
+                                                    dpmErrorInfoInstance.Recommendations.Add(((string)recommendationsValue3));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue4 = propertiesValue["activityId"];
+                                    if (activityIdValue4 != null && activityIdValue4.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance4 = ((string)activityIdValue4);
+                                        dpmJobInstance.ActivityId = activityIdInstance4;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue4 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue4 != null && entityFriendlyNameValue4.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance4 = ((string)entityFriendlyNameValue4);
+                                        dpmJobInstance.EntityFriendlyName = entityFriendlyNameInstance4;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue4 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue4 != null && backupManagementTypeValue4.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance4 = ((string)backupManagementTypeValue4);
+                                        dpmJobInstance.BackupManagementType = backupManagementTypeInstance4;
+                                    }
+                                    
+                                    JToken operationValue4 = propertiesValue["operation"];
+                                    if (operationValue4 != null && operationValue4.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance4 = ((string)operationValue4);
+                                        dpmJobInstance.Operation = operationInstance4;
+                                    }
+                                    
+                                    JToken statusValue7 = propertiesValue["status"];
+                                    if (statusValue7 != null && statusValue7.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance7 = ((string)statusValue7);
+                                        dpmJobInstance.Status = statusInstance7;
+                                    }
+                                    
+                                    JToken startTimeValue7 = propertiesValue["startTime"];
+                                    if (startTimeValue7 != null && startTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance7 = ((DateTime)startTimeValue7);
+                                        dpmJobInstance.StartTime = startTimeInstance7;
+                                    }
+                                    
+                                    JToken endTimeValue7 = propertiesValue["endTime"];
+                                    if (endTimeValue7 != null && endTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance7 = ((DateTime)endTimeValue7);
+                                        dpmJobInstance.EndTime = endTimeInstance7;
+                                    }
+                                    itemInstance.Properties = dpmJobInstance;
+                                }
                             }
                             
                             JToken idValue = responseDoc["id"];
@@ -1505,10 +2281,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                             JToken tagsSequenceElement = ((JToken)responseDoc["tags"]);
                             if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
                             {
-                                foreach (JProperty property2 in tagsSequenceElement)
+                                foreach (JProperty property4 in tagsSequenceElement)
                                 {
-                                    string tagsKey = ((string)property2.Name);
-                                    string tagsValue = ((string)property2.Value);
+                                    string tagsKey = ((string)property4.Name);
+                                    string tagsValue = ((string)property4.Value);
                                     itemInstance.Tags.Add(tagsKey, tagsValue);
                                 }
                             }
@@ -1541,11 +2317,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 result.RetryAfter = retryAfterInstance;
                             }
                             
-                            JToken statusValue4 = responseDoc["Status"];
-                            if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                            JToken statusValue8 = responseDoc["Status"];
+                            if (statusValue8 != null && statusValue8.Type != JTokenType.Null)
                             {
-                                OperationStatus statusInstance4 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue4), true));
-                                result.Status = statusInstance4;
+                                OperationStatus statusInstance8 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue8), true));
+                                result.Status = statusInstance8;
                             }
                         }
                         
@@ -1672,7 +2448,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/backupJobs/operationResults/";
             url = url + Uri.EscapeDataString(operationId);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1926,7 +2702,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/operationResults/";
             url = url + Uri.EscapeDataString(operationId);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -2264,6 +3040,394 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                     }
                                     itemInstance.Properties = azureIaaSVMJobInstance;
                                 }
+                                if (typeName == "MabJob")
+                                {
+                                    MabJob mabJobInstance = new MabJob();
+                                    
+                                    JToken durationValue3 = propertiesValue["duration"];
+                                    if (durationValue3 != null && durationValue3.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance3 = TimeSpan.Parse(((string)durationValue3), CultureInfo.InvariantCulture);
+                                        mabJobInstance.Duration = durationInstance3;
+                                    }
+                                    
+                                    JToken mabServerNameValue = propertiesValue["mabServerName"];
+                                    if (mabServerNameValue != null && mabServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerNameInstance = ((string)mabServerNameValue);
+                                        mabJobInstance.MabServerName = mabServerNameInstance;
+                                    }
+                                    
+                                    JToken mabServerTypeValue = propertiesValue["mabServerType"];
+                                    if (mabServerTypeValue != null && mabServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string mabServerTypeInstance = ((string)mabServerTypeValue);
+                                        mabJobInstance.MabServerType = mabServerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue = propertiesValue["workloadType"];
+                                    if (workloadTypeValue != null && workloadTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance = ((string)workloadTypeValue);
+                                        mabJobInstance.WorkloadType = workloadTypeInstance;
+                                    }
+                                    
+                                    JToken actionsInfoArray2 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray2 != null && actionsInfoArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue2 in ((JArray)actionsInfoArray2))
+                                        {
+                                            mabJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue2), true)));
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray2 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray2 != null && errorDetailsArray2.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue2 in ((JArray)errorDetailsArray2))
+                                        {
+                                            MabErrorInfo mabErrorInfoInstance = new MabErrorInfo();
+                                            mabJobInstance.ErrorDetails.Add(mabErrorInfoInstance);
+                                            
+                                            JToken errorStringValue2 = errorDetailsValue2["errorString"];
+                                            if (errorStringValue2 != null && errorStringValue2.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance2 = ((string)errorStringValue2);
+                                                mabErrorInfoInstance.ErrorString = errorStringInstance2;
+                                            }
+                                            
+                                            JToken recommendationsArray2 = errorDetailsValue2["recommendations"];
+                                            if (recommendationsArray2 != null && recommendationsArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue2 in ((JArray)recommendationsArray2))
+                                                {
+                                                    mabErrorInfoInstance.Recommendations.Add(((string)recommendationsValue2));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue2 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue2 != null && extendedInfoValue2.Type != JTokenType.Null)
+                                    {
+                                        MabJobExtendedInfo extendedInfoInstance2 = new MabJobExtendedInfo();
+                                        mabJobInstance.ExtendedInfo = extendedInfoInstance2;
+                                        
+                                        JToken tasksListArray2 = extendedInfoValue2["tasksList"];
+                                        if (tasksListArray2 != null && tasksListArray2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken tasksListValue2 in ((JArray)tasksListArray2))
+                                            {
+                                                MabJobTaskDetails mabJobTaskDetailsInstance = new MabJobTaskDetails();
+                                                extendedInfoInstance2.TasksList.Add(mabJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue2 = tasksListValue2["taskId"];
+                                                if (taskIdValue2 != null && taskIdValue2.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance2 = ((string)taskIdValue2);
+                                                    mabJobTaskDetailsInstance.TaskId = taskIdInstance2;
+                                                }
+                                                
+                                                JToken startTimeValue4 = tasksListValue2["startTime"];
+                                                if (startTimeValue4 != null && startTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance4 = ((DateTime)startTimeValue4);
+                                                    mabJobTaskDetailsInstance.StartTime = startTimeInstance4;
+                                                }
+                                                
+                                                JToken endTimeValue4 = tasksListValue2["endTime"];
+                                                if (endTimeValue4 != null && endTimeValue4.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance4 = ((DateTime)endTimeValue4);
+                                                    mabJobTaskDetailsInstance.EndTime = endTimeInstance4;
+                                                }
+                                                
+                                                JToken durationValue4 = tasksListValue2["duration"];
+                                                if (durationValue4 != null && durationValue4.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance4 = TimeSpan.Parse(((string)durationValue4), CultureInfo.InvariantCulture);
+                                                    mabJobTaskDetailsInstance.Duration = durationInstance4;
+                                                }
+                                                
+                                                JToken statusValue4 = tasksListValue2["status"];
+                                                if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance4 = ((string)statusValue4);
+                                                    mabJobTaskDetailsInstance.Status = statusInstance4;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken propertyBagSequenceElement2 = ((JToken)extendedInfoValue2["propertyBag"]);
+                                        if (propertyBagSequenceElement2 != null && propertyBagSequenceElement2.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property2 in propertyBagSequenceElement2)
+                                            {
+                                                string propertyBagKey2 = ((string)property2.Name);
+                                                string propertyBagValue2 = ((string)property2.Value);
+                                                extendedInfoInstance2.PropertyBag.Add(propertyBagKey2, propertyBagValue2);
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue2 = extendedInfoValue2["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue2 != null && dynamicErrorMessageValue2.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance2 = ((string)dynamicErrorMessageValue2);
+                                            extendedInfoInstance2.DynamicErrorMessage = dynamicErrorMessageInstance2;
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue3 = propertiesValue["activityId"];
+                                    if (activityIdValue3 != null && activityIdValue3.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance3 = ((string)activityIdValue3);
+                                        mabJobInstance.ActivityId = activityIdInstance3;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue3 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue3 != null && entityFriendlyNameValue3.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance3 = ((string)entityFriendlyNameValue3);
+                                        mabJobInstance.EntityFriendlyName = entityFriendlyNameInstance3;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue3 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue3 != null && backupManagementTypeValue3.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance3 = ((string)backupManagementTypeValue3);
+                                        mabJobInstance.BackupManagementType = backupManagementTypeInstance3;
+                                    }
+                                    
+                                    JToken operationValue3 = propertiesValue["operation"];
+                                    if (operationValue3 != null && operationValue3.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance3 = ((string)operationValue3);
+                                        mabJobInstance.Operation = operationInstance3;
+                                    }
+                                    
+                                    JToken statusValue5 = propertiesValue["status"];
+                                    if (statusValue5 != null && statusValue5.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance5 = ((string)statusValue5);
+                                        mabJobInstance.Status = statusInstance5;
+                                    }
+                                    
+                                    JToken startTimeValue5 = propertiesValue["startTime"];
+                                    if (startTimeValue5 != null && startTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance5 = ((DateTime)startTimeValue5);
+                                        mabJobInstance.StartTime = startTimeInstance5;
+                                    }
+                                    
+                                    JToken endTimeValue5 = propertiesValue["endTime"];
+                                    if (endTimeValue5 != null && endTimeValue5.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance5 = ((DateTime)endTimeValue5);
+                                        mabJobInstance.EndTime = endTimeInstance5;
+                                    }
+                                    itemInstance.Properties = mabJobInstance;
+                                }
+                                if (typeName == "DpmJob")
+                                {
+                                    DpmJob dpmJobInstance = new DpmJob();
+                                    
+                                    JToken durationValue5 = propertiesValue["duration"];
+                                    if (durationValue5 != null && durationValue5.Type != JTokenType.Null)
+                                    {
+                                        TimeSpan durationInstance5 = TimeSpan.Parse(((string)durationValue5), CultureInfo.InvariantCulture);
+                                        dpmJobInstance.Duration = durationInstance5;
+                                    }
+                                    
+                                    JToken dpmServerNameValue = propertiesValue["dpmServerName"];
+                                    if (dpmServerNameValue != null && dpmServerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerNameInstance = ((string)dpmServerNameValue);
+                                        dpmJobInstance.DpmServerName = dpmServerNameInstance;
+                                    }
+                                    
+                                    JToken dpmServerTypeValue = propertiesValue["dpmServerType"];
+                                    if (dpmServerTypeValue != null && dpmServerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string dpmServerTypeInstance = ((string)dpmServerTypeValue);
+                                        dpmJobInstance.DpmServerType = dpmServerTypeInstance;
+                                    }
+                                    
+                                    JToken containerNameValue = propertiesValue["containerName"];
+                                    if (containerNameValue != null && containerNameValue.Type != JTokenType.Null)
+                                    {
+                                        string containerNameInstance = ((string)containerNameValue);
+                                        dpmJobInstance.ContainerName = containerNameInstance;
+                                    }
+                                    
+                                    JToken containerTypeValue = propertiesValue["containerType"];
+                                    if (containerTypeValue != null && containerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string containerTypeInstance = ((string)containerTypeValue);
+                                        dpmJobInstance.ContainerType = containerTypeInstance;
+                                    }
+                                    
+                                    JToken workloadTypeValue2 = propertiesValue["workloadType"];
+                                    if (workloadTypeValue2 != null && workloadTypeValue2.Type != JTokenType.Null)
+                                    {
+                                        string workloadTypeInstance2 = ((string)workloadTypeValue2);
+                                        dpmJobInstance.WorkloadType = workloadTypeInstance2;
+                                    }
+                                    
+                                    JToken actionsInfoArray3 = propertiesValue["actionsInfo"];
+                                    if (actionsInfoArray3 != null && actionsInfoArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken actionsInfoValue3 in ((JArray)actionsInfoArray3))
+                                        {
+                                            dpmJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue3), true)));
+                                        }
+                                    }
+                                    
+                                    JToken extendedInfoValue3 = propertiesValue["extendedInfo"];
+                                    if (extendedInfoValue3 != null && extendedInfoValue3.Type != JTokenType.Null)
+                                    {
+                                        DpmJobExtendedInfo extendedInfoInstance3 = new DpmJobExtendedInfo();
+                                        dpmJobInstance.ExtendedInfo = extendedInfoInstance3;
+                                        
+                                        JToken propertyBagSequenceElement3 = ((JToken)extendedInfoValue3["propertyBag"]);
+                                        if (propertyBagSequenceElement3 != null && propertyBagSequenceElement3.Type != JTokenType.Null)
+                                        {
+                                            foreach (JProperty property3 in propertyBagSequenceElement3)
+                                            {
+                                                string propertyBagKey3 = ((string)property3.Name);
+                                                string propertyBagValue3 = ((string)property3.Value);
+                                                extendedInfoInstance3.PropertyBag.Add(propertyBagKey3, propertyBagValue3);
+                                            }
+                                        }
+                                        
+                                        JToken asksListArray = extendedInfoValue3["asksList"];
+                                        if (asksListArray != null && asksListArray.Type != JTokenType.Null)
+                                        {
+                                            foreach (JToken asksListValue in ((JArray)asksListArray))
+                                            {
+                                                DpmJobTaskDetails dpmJobTaskDetailsInstance = new DpmJobTaskDetails();
+                                                extendedInfoInstance3.TasksList.Add(dpmJobTaskDetailsInstance);
+                                                
+                                                JToken taskIdValue3 = asksListValue["taskId"];
+                                                if (taskIdValue3 != null && taskIdValue3.Type != JTokenType.Null)
+                                                {
+                                                    string taskIdInstance3 = ((string)taskIdValue3);
+                                                    dpmJobTaskDetailsInstance.TaskId = taskIdInstance3;
+                                                }
+                                                
+                                                JToken startTimeValue6 = asksListValue["startTime"];
+                                                if (startTimeValue6 != null && startTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime startTimeInstance6 = ((DateTime)startTimeValue6);
+                                                    dpmJobTaskDetailsInstance.StartTime = startTimeInstance6;
+                                                }
+                                                
+                                                JToken endTimeValue6 = asksListValue["endTime"];
+                                                if (endTimeValue6 != null && endTimeValue6.Type != JTokenType.Null)
+                                                {
+                                                    DateTime endTimeInstance6 = ((DateTime)endTimeValue6);
+                                                    dpmJobTaskDetailsInstance.EndTime = endTimeInstance6;
+                                                }
+                                                
+                                                JToken durationValue6 = asksListValue["duration"];
+                                                if (durationValue6 != null && durationValue6.Type != JTokenType.Null)
+                                                {
+                                                    TimeSpan durationInstance6 = TimeSpan.Parse(((string)durationValue6), CultureInfo.InvariantCulture);
+                                                    dpmJobTaskDetailsInstance.Duration = durationInstance6;
+                                                }
+                                                
+                                                JToken statusValue6 = asksListValue["status"];
+                                                if (statusValue6 != null && statusValue6.Type != JTokenType.Null)
+                                                {
+                                                    string statusInstance6 = ((string)statusValue6);
+                                                    dpmJobTaskDetailsInstance.Status = statusInstance6;
+                                                }
+                                            }
+                                        }
+                                        
+                                        JToken dynamicErrorMessageValue3 = extendedInfoValue3["dynamicErrorMessage"];
+                                        if (dynamicErrorMessageValue3 != null && dynamicErrorMessageValue3.Type != JTokenType.Null)
+                                        {
+                                            string dynamicErrorMessageInstance3 = ((string)dynamicErrorMessageValue3);
+                                            extendedInfoInstance3.DynamicErrorMessage = dynamicErrorMessageInstance3;
+                                        }
+                                    }
+                                    
+                                    JToken errorDetailsArray3 = propertiesValue["errorDetails"];
+                                    if (errorDetailsArray3 != null && errorDetailsArray3.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken errorDetailsValue3 in ((JArray)errorDetailsArray3))
+                                        {
+                                            DpmErrorInfo dpmErrorInfoInstance = new DpmErrorInfo();
+                                            dpmJobInstance.ErrorDetails.Add(dpmErrorInfoInstance);
+                                            
+                                            JToken errorStringValue3 = errorDetailsValue3["errorString"];
+                                            if (errorStringValue3 != null && errorStringValue3.Type != JTokenType.Null)
+                                            {
+                                                string errorStringInstance3 = ((string)errorStringValue3);
+                                                dpmErrorInfoInstance.ErrorString = errorStringInstance3;
+                                            }
+                                            
+                                            JToken recommendationsArray3 = errorDetailsValue3["recommendations"];
+                                            if (recommendationsArray3 != null && recommendationsArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recommendationsValue3 in ((JArray)recommendationsArray3))
+                                                {
+                                                    dpmErrorInfoInstance.Recommendations.Add(((string)recommendationsValue3));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    JToken activityIdValue4 = propertiesValue["activityId"];
+                                    if (activityIdValue4 != null && activityIdValue4.Type != JTokenType.Null)
+                                    {
+                                        string activityIdInstance4 = ((string)activityIdValue4);
+                                        dpmJobInstance.ActivityId = activityIdInstance4;
+                                    }
+                                    
+                                    JToken entityFriendlyNameValue4 = propertiesValue["entityFriendlyName"];
+                                    if (entityFriendlyNameValue4 != null && entityFriendlyNameValue4.Type != JTokenType.Null)
+                                    {
+                                        string entityFriendlyNameInstance4 = ((string)entityFriendlyNameValue4);
+                                        dpmJobInstance.EntityFriendlyName = entityFriendlyNameInstance4;
+                                    }
+                                    
+                                    JToken backupManagementTypeValue4 = propertiesValue["backupManagementType"];
+                                    if (backupManagementTypeValue4 != null && backupManagementTypeValue4.Type != JTokenType.Null)
+                                    {
+                                        string backupManagementTypeInstance4 = ((string)backupManagementTypeValue4);
+                                        dpmJobInstance.BackupManagementType = backupManagementTypeInstance4;
+                                    }
+                                    
+                                    JToken operationValue4 = propertiesValue["operation"];
+                                    if (operationValue4 != null && operationValue4.Type != JTokenType.Null)
+                                    {
+                                        string operationInstance4 = ((string)operationValue4);
+                                        dpmJobInstance.Operation = operationInstance4;
+                                    }
+                                    
+                                    JToken statusValue7 = propertiesValue["status"];
+                                    if (statusValue7 != null && statusValue7.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance7 = ((string)statusValue7);
+                                        dpmJobInstance.Status = statusInstance7;
+                                    }
+                                    
+                                    JToken startTimeValue7 = propertiesValue["startTime"];
+                                    if (startTimeValue7 != null && startTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime startTimeInstance7 = ((DateTime)startTimeValue7);
+                                        dpmJobInstance.StartTime = startTimeInstance7;
+                                    }
+                                    
+                                    JToken endTimeValue7 = propertiesValue["endTime"];
+                                    if (endTimeValue7 != null && endTimeValue7.Type != JTokenType.Null)
+                                    {
+                                        DateTime endTimeInstance7 = ((DateTime)endTimeValue7);
+                                        dpmJobInstance.EndTime = endTimeInstance7;
+                                    }
+                                    itemInstance.Properties = dpmJobInstance;
+                                }
                             }
                             
                             JToken idValue = responseDoc["id"];
@@ -2297,10 +3461,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                             JToken tagsSequenceElement = ((JToken)responseDoc["tags"]);
                             if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
                             {
-                                foreach (JProperty property2 in tagsSequenceElement)
+                                foreach (JProperty property4 in tagsSequenceElement)
                                 {
-                                    string tagsKey = ((string)property2.Name);
-                                    string tagsValue = ((string)property2.Value);
+                                    string tagsKey = ((string)property4.Name);
+                                    string tagsValue = ((string)property4.Value);
                                     itemInstance.Tags.Add(tagsKey, tagsValue);
                                 }
                             }
@@ -2333,11 +3497,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 result.RetryAfter = retryAfterInstance;
                             }
                             
-                            JToken statusValue4 = responseDoc["Status"];
-                            if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                            JToken statusValue8 = responseDoc["Status"];
+                            if (statusValue8 != null && statusValue8.Type != JTokenType.Null)
                             {
-                                OperationStatus statusInstance4 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue4), true));
-                                result.Status = statusInstance4;
+                                OperationStatus statusInstance8 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue8), true));
+                                result.Status = statusInstance8;
                             }
                         }
                         
@@ -2439,7 +3603,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupJobs";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.Status != null)
             {
@@ -2822,6 +3986,394 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                             }
                                             jobResourceInstance.Properties = azureIaaSVMJobInstance;
                                         }
+                                        if (typeName == "MabJob")
+                                        {
+                                            MabJob mabJobInstance = new MabJob();
+                                            
+                                            JToken durationValue3 = propertiesValue["duration"];
+                                            if (durationValue3 != null && durationValue3.Type != JTokenType.Null)
+                                            {
+                                                TimeSpan durationInstance3 = TimeSpan.Parse(((string)durationValue3), CultureInfo.InvariantCulture);
+                                                mabJobInstance.Duration = durationInstance3;
+                                            }
+                                            
+                                            JToken mabServerNameValue = propertiesValue["mabServerName"];
+                                            if (mabServerNameValue != null && mabServerNameValue.Type != JTokenType.Null)
+                                            {
+                                                string mabServerNameInstance = ((string)mabServerNameValue);
+                                                mabJobInstance.MabServerName = mabServerNameInstance;
+                                            }
+                                            
+                                            JToken mabServerTypeValue = propertiesValue["mabServerType"];
+                                            if (mabServerTypeValue != null && mabServerTypeValue.Type != JTokenType.Null)
+                                            {
+                                                string mabServerTypeInstance = ((string)mabServerTypeValue);
+                                                mabJobInstance.MabServerType = mabServerTypeInstance;
+                                            }
+                                            
+                                            JToken workloadTypeValue = propertiesValue["workloadType"];
+                                            if (workloadTypeValue != null && workloadTypeValue.Type != JTokenType.Null)
+                                            {
+                                                string workloadTypeInstance = ((string)workloadTypeValue);
+                                                mabJobInstance.WorkloadType = workloadTypeInstance;
+                                            }
+                                            
+                                            JToken actionsInfoArray2 = propertiesValue["actionsInfo"];
+                                            if (actionsInfoArray2 != null && actionsInfoArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken actionsInfoValue2 in ((JArray)actionsInfoArray2))
+                                                {
+                                                    mabJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue2), true)));
+                                                }
+                                            }
+                                            
+                                            JToken errorDetailsArray2 = propertiesValue["errorDetails"];
+                                            if (errorDetailsArray2 != null && errorDetailsArray2.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken errorDetailsValue2 in ((JArray)errorDetailsArray2))
+                                                {
+                                                    MabErrorInfo mabErrorInfoInstance = new MabErrorInfo();
+                                                    mabJobInstance.ErrorDetails.Add(mabErrorInfoInstance);
+                                                    
+                                                    JToken errorStringValue2 = errorDetailsValue2["errorString"];
+                                                    if (errorStringValue2 != null && errorStringValue2.Type != JTokenType.Null)
+                                                    {
+                                                        string errorStringInstance2 = ((string)errorStringValue2);
+                                                        mabErrorInfoInstance.ErrorString = errorStringInstance2;
+                                                    }
+                                                    
+                                                    JToken recommendationsArray2 = errorDetailsValue2["recommendations"];
+                                                    if (recommendationsArray2 != null && recommendationsArray2.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JToken recommendationsValue2 in ((JArray)recommendationsArray2))
+                                                        {
+                                                            mabErrorInfoInstance.Recommendations.Add(((string)recommendationsValue2));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                            JToken extendedInfoValue2 = propertiesValue["extendedInfo"];
+                                            if (extendedInfoValue2 != null && extendedInfoValue2.Type != JTokenType.Null)
+                                            {
+                                                MabJobExtendedInfo extendedInfoInstance2 = new MabJobExtendedInfo();
+                                                mabJobInstance.ExtendedInfo = extendedInfoInstance2;
+                                                
+                                                JToken tasksListArray2 = extendedInfoValue2["tasksList"];
+                                                if (tasksListArray2 != null && tasksListArray2.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JToken tasksListValue2 in ((JArray)tasksListArray2))
+                                                    {
+                                                        MabJobTaskDetails mabJobTaskDetailsInstance = new MabJobTaskDetails();
+                                                        extendedInfoInstance2.TasksList.Add(mabJobTaskDetailsInstance);
+                                                        
+                                                        JToken taskIdValue2 = tasksListValue2["taskId"];
+                                                        if (taskIdValue2 != null && taskIdValue2.Type != JTokenType.Null)
+                                                        {
+                                                            string taskIdInstance2 = ((string)taskIdValue2);
+                                                            mabJobTaskDetailsInstance.TaskId = taskIdInstance2;
+                                                        }
+                                                        
+                                                        JToken startTimeValue4 = tasksListValue2["startTime"];
+                                                        if (startTimeValue4 != null && startTimeValue4.Type != JTokenType.Null)
+                                                        {
+                                                            DateTime startTimeInstance4 = ((DateTime)startTimeValue4);
+                                                            mabJobTaskDetailsInstance.StartTime = startTimeInstance4;
+                                                        }
+                                                        
+                                                        JToken endTimeValue4 = tasksListValue2["endTime"];
+                                                        if (endTimeValue4 != null && endTimeValue4.Type != JTokenType.Null)
+                                                        {
+                                                            DateTime endTimeInstance4 = ((DateTime)endTimeValue4);
+                                                            mabJobTaskDetailsInstance.EndTime = endTimeInstance4;
+                                                        }
+                                                        
+                                                        JToken durationValue4 = tasksListValue2["duration"];
+                                                        if (durationValue4 != null && durationValue4.Type != JTokenType.Null)
+                                                        {
+                                                            TimeSpan durationInstance4 = TimeSpan.Parse(((string)durationValue4), CultureInfo.InvariantCulture);
+                                                            mabJobTaskDetailsInstance.Duration = durationInstance4;
+                                                        }
+                                                        
+                                                        JToken statusValue4 = tasksListValue2["status"];
+                                                        if (statusValue4 != null && statusValue4.Type != JTokenType.Null)
+                                                        {
+                                                            string statusInstance4 = ((string)statusValue4);
+                                                            mabJobTaskDetailsInstance.Status = statusInstance4;
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                JToken propertyBagSequenceElement2 = ((JToken)extendedInfoValue2["propertyBag"]);
+                                                if (propertyBagSequenceElement2 != null && propertyBagSequenceElement2.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JProperty property2 in propertyBagSequenceElement2)
+                                                    {
+                                                        string propertyBagKey2 = ((string)property2.Name);
+                                                        string propertyBagValue2 = ((string)property2.Value);
+                                                        extendedInfoInstance2.PropertyBag.Add(propertyBagKey2, propertyBagValue2);
+                                                    }
+                                                }
+                                                
+                                                JToken dynamicErrorMessageValue2 = extendedInfoValue2["dynamicErrorMessage"];
+                                                if (dynamicErrorMessageValue2 != null && dynamicErrorMessageValue2.Type != JTokenType.Null)
+                                                {
+                                                    string dynamicErrorMessageInstance2 = ((string)dynamicErrorMessageValue2);
+                                                    extendedInfoInstance2.DynamicErrorMessage = dynamicErrorMessageInstance2;
+                                                }
+                                            }
+                                            
+                                            JToken activityIdValue3 = propertiesValue["activityId"];
+                                            if (activityIdValue3 != null && activityIdValue3.Type != JTokenType.Null)
+                                            {
+                                                string activityIdInstance3 = ((string)activityIdValue3);
+                                                mabJobInstance.ActivityId = activityIdInstance3;
+                                            }
+                                            
+                                            JToken entityFriendlyNameValue3 = propertiesValue["entityFriendlyName"];
+                                            if (entityFriendlyNameValue3 != null && entityFriendlyNameValue3.Type != JTokenType.Null)
+                                            {
+                                                string entityFriendlyNameInstance3 = ((string)entityFriendlyNameValue3);
+                                                mabJobInstance.EntityFriendlyName = entityFriendlyNameInstance3;
+                                            }
+                                            
+                                            JToken backupManagementTypeValue3 = propertiesValue["backupManagementType"];
+                                            if (backupManagementTypeValue3 != null && backupManagementTypeValue3.Type != JTokenType.Null)
+                                            {
+                                                string backupManagementTypeInstance3 = ((string)backupManagementTypeValue3);
+                                                mabJobInstance.BackupManagementType = backupManagementTypeInstance3;
+                                            }
+                                            
+                                            JToken operationValue3 = propertiesValue["operation"];
+                                            if (operationValue3 != null && operationValue3.Type != JTokenType.Null)
+                                            {
+                                                string operationInstance3 = ((string)operationValue3);
+                                                mabJobInstance.Operation = operationInstance3;
+                                            }
+                                            
+                                            JToken statusValue5 = propertiesValue["status"];
+                                            if (statusValue5 != null && statusValue5.Type != JTokenType.Null)
+                                            {
+                                                string statusInstance5 = ((string)statusValue5);
+                                                mabJobInstance.Status = statusInstance5;
+                                            }
+                                            
+                                            JToken startTimeValue5 = propertiesValue["startTime"];
+                                            if (startTimeValue5 != null && startTimeValue5.Type != JTokenType.Null)
+                                            {
+                                                DateTime startTimeInstance5 = ((DateTime)startTimeValue5);
+                                                mabJobInstance.StartTime = startTimeInstance5;
+                                            }
+                                            
+                                            JToken endTimeValue5 = propertiesValue["endTime"];
+                                            if (endTimeValue5 != null && endTimeValue5.Type != JTokenType.Null)
+                                            {
+                                                DateTime endTimeInstance5 = ((DateTime)endTimeValue5);
+                                                mabJobInstance.EndTime = endTimeInstance5;
+                                            }
+                                            jobResourceInstance.Properties = mabJobInstance;
+                                        }
+                                        if (typeName == "DpmJob")
+                                        {
+                                            DpmJob dpmJobInstance = new DpmJob();
+                                            
+                                            JToken durationValue5 = propertiesValue["duration"];
+                                            if (durationValue5 != null && durationValue5.Type != JTokenType.Null)
+                                            {
+                                                TimeSpan durationInstance5 = TimeSpan.Parse(((string)durationValue5), CultureInfo.InvariantCulture);
+                                                dpmJobInstance.Duration = durationInstance5;
+                                            }
+                                            
+                                            JToken dpmServerNameValue = propertiesValue["dpmServerName"];
+                                            if (dpmServerNameValue != null && dpmServerNameValue.Type != JTokenType.Null)
+                                            {
+                                                string dpmServerNameInstance = ((string)dpmServerNameValue);
+                                                dpmJobInstance.DpmServerName = dpmServerNameInstance;
+                                            }
+                                            
+                                            JToken dpmServerTypeValue = propertiesValue["dpmServerType"];
+                                            if (dpmServerTypeValue != null && dpmServerTypeValue.Type != JTokenType.Null)
+                                            {
+                                                string dpmServerTypeInstance = ((string)dpmServerTypeValue);
+                                                dpmJobInstance.DpmServerType = dpmServerTypeInstance;
+                                            }
+                                            
+                                            JToken containerNameValue = propertiesValue["containerName"];
+                                            if (containerNameValue != null && containerNameValue.Type != JTokenType.Null)
+                                            {
+                                                string containerNameInstance = ((string)containerNameValue);
+                                                dpmJobInstance.ContainerName = containerNameInstance;
+                                            }
+                                            
+                                            JToken containerTypeValue = propertiesValue["containerType"];
+                                            if (containerTypeValue != null && containerTypeValue.Type != JTokenType.Null)
+                                            {
+                                                string containerTypeInstance = ((string)containerTypeValue);
+                                                dpmJobInstance.ContainerType = containerTypeInstance;
+                                            }
+                                            
+                                            JToken workloadTypeValue2 = propertiesValue["workloadType"];
+                                            if (workloadTypeValue2 != null && workloadTypeValue2.Type != JTokenType.Null)
+                                            {
+                                                string workloadTypeInstance2 = ((string)workloadTypeValue2);
+                                                dpmJobInstance.WorkloadType = workloadTypeInstance2;
+                                            }
+                                            
+                                            JToken actionsInfoArray3 = propertiesValue["actionsInfo"];
+                                            if (actionsInfoArray3 != null && actionsInfoArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken actionsInfoValue3 in ((JArray)actionsInfoArray3))
+                                                {
+                                                    dpmJobInstance.ActionsInfo.Add(((JobSupportedAction)Enum.Parse(typeof(JobSupportedAction), ((string)actionsInfoValue3), true)));
+                                                }
+                                            }
+                                            
+                                            JToken extendedInfoValue3 = propertiesValue["extendedInfo"];
+                                            if (extendedInfoValue3 != null && extendedInfoValue3.Type != JTokenType.Null)
+                                            {
+                                                DpmJobExtendedInfo extendedInfoInstance3 = new DpmJobExtendedInfo();
+                                                dpmJobInstance.ExtendedInfo = extendedInfoInstance3;
+                                                
+                                                JToken propertyBagSequenceElement3 = ((JToken)extendedInfoValue3["propertyBag"]);
+                                                if (propertyBagSequenceElement3 != null && propertyBagSequenceElement3.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JProperty property3 in propertyBagSequenceElement3)
+                                                    {
+                                                        string propertyBagKey3 = ((string)property3.Name);
+                                                        string propertyBagValue3 = ((string)property3.Value);
+                                                        extendedInfoInstance3.PropertyBag.Add(propertyBagKey3, propertyBagValue3);
+                                                    }
+                                                }
+                                                
+                                                JToken asksListArray = extendedInfoValue3["asksList"];
+                                                if (asksListArray != null && asksListArray.Type != JTokenType.Null)
+                                                {
+                                                    foreach (JToken asksListValue in ((JArray)asksListArray))
+                                                    {
+                                                        DpmJobTaskDetails dpmJobTaskDetailsInstance = new DpmJobTaskDetails();
+                                                        extendedInfoInstance3.TasksList.Add(dpmJobTaskDetailsInstance);
+                                                        
+                                                        JToken taskIdValue3 = asksListValue["taskId"];
+                                                        if (taskIdValue3 != null && taskIdValue3.Type != JTokenType.Null)
+                                                        {
+                                                            string taskIdInstance3 = ((string)taskIdValue3);
+                                                            dpmJobTaskDetailsInstance.TaskId = taskIdInstance3;
+                                                        }
+                                                        
+                                                        JToken startTimeValue6 = asksListValue["startTime"];
+                                                        if (startTimeValue6 != null && startTimeValue6.Type != JTokenType.Null)
+                                                        {
+                                                            DateTime startTimeInstance6 = ((DateTime)startTimeValue6);
+                                                            dpmJobTaskDetailsInstance.StartTime = startTimeInstance6;
+                                                        }
+                                                        
+                                                        JToken endTimeValue6 = asksListValue["endTime"];
+                                                        if (endTimeValue6 != null && endTimeValue6.Type != JTokenType.Null)
+                                                        {
+                                                            DateTime endTimeInstance6 = ((DateTime)endTimeValue6);
+                                                            dpmJobTaskDetailsInstance.EndTime = endTimeInstance6;
+                                                        }
+                                                        
+                                                        JToken durationValue6 = asksListValue["duration"];
+                                                        if (durationValue6 != null && durationValue6.Type != JTokenType.Null)
+                                                        {
+                                                            TimeSpan durationInstance6 = TimeSpan.Parse(((string)durationValue6), CultureInfo.InvariantCulture);
+                                                            dpmJobTaskDetailsInstance.Duration = durationInstance6;
+                                                        }
+                                                        
+                                                        JToken statusValue6 = asksListValue["status"];
+                                                        if (statusValue6 != null && statusValue6.Type != JTokenType.Null)
+                                                        {
+                                                            string statusInstance6 = ((string)statusValue6);
+                                                            dpmJobTaskDetailsInstance.Status = statusInstance6;
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                JToken dynamicErrorMessageValue3 = extendedInfoValue3["dynamicErrorMessage"];
+                                                if (dynamicErrorMessageValue3 != null && dynamicErrorMessageValue3.Type != JTokenType.Null)
+                                                {
+                                                    string dynamicErrorMessageInstance3 = ((string)dynamicErrorMessageValue3);
+                                                    extendedInfoInstance3.DynamicErrorMessage = dynamicErrorMessageInstance3;
+                                                }
+                                            }
+                                            
+                                            JToken errorDetailsArray3 = propertiesValue["errorDetails"];
+                                            if (errorDetailsArray3 != null && errorDetailsArray3.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken errorDetailsValue3 in ((JArray)errorDetailsArray3))
+                                                {
+                                                    DpmErrorInfo dpmErrorInfoInstance = new DpmErrorInfo();
+                                                    dpmJobInstance.ErrorDetails.Add(dpmErrorInfoInstance);
+                                                    
+                                                    JToken errorStringValue3 = errorDetailsValue3["errorString"];
+                                                    if (errorStringValue3 != null && errorStringValue3.Type != JTokenType.Null)
+                                                    {
+                                                        string errorStringInstance3 = ((string)errorStringValue3);
+                                                        dpmErrorInfoInstance.ErrorString = errorStringInstance3;
+                                                    }
+                                                    
+                                                    JToken recommendationsArray3 = errorDetailsValue3["recommendations"];
+                                                    if (recommendationsArray3 != null && recommendationsArray3.Type != JTokenType.Null)
+                                                    {
+                                                        foreach (JToken recommendationsValue3 in ((JArray)recommendationsArray3))
+                                                        {
+                                                            dpmErrorInfoInstance.Recommendations.Add(((string)recommendationsValue3));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                            JToken activityIdValue4 = propertiesValue["activityId"];
+                                            if (activityIdValue4 != null && activityIdValue4.Type != JTokenType.Null)
+                                            {
+                                                string activityIdInstance4 = ((string)activityIdValue4);
+                                                dpmJobInstance.ActivityId = activityIdInstance4;
+                                            }
+                                            
+                                            JToken entityFriendlyNameValue4 = propertiesValue["entityFriendlyName"];
+                                            if (entityFriendlyNameValue4 != null && entityFriendlyNameValue4.Type != JTokenType.Null)
+                                            {
+                                                string entityFriendlyNameInstance4 = ((string)entityFriendlyNameValue4);
+                                                dpmJobInstance.EntityFriendlyName = entityFriendlyNameInstance4;
+                                            }
+                                            
+                                            JToken backupManagementTypeValue4 = propertiesValue["backupManagementType"];
+                                            if (backupManagementTypeValue4 != null && backupManagementTypeValue4.Type != JTokenType.Null)
+                                            {
+                                                string backupManagementTypeInstance4 = ((string)backupManagementTypeValue4);
+                                                dpmJobInstance.BackupManagementType = backupManagementTypeInstance4;
+                                            }
+                                            
+                                            JToken operationValue4 = propertiesValue["operation"];
+                                            if (operationValue4 != null && operationValue4.Type != JTokenType.Null)
+                                            {
+                                                string operationInstance4 = ((string)operationValue4);
+                                                dpmJobInstance.Operation = operationInstance4;
+                                            }
+                                            
+                                            JToken statusValue7 = propertiesValue["status"];
+                                            if (statusValue7 != null && statusValue7.Type != JTokenType.Null)
+                                            {
+                                                string statusInstance7 = ((string)statusValue7);
+                                                dpmJobInstance.Status = statusInstance7;
+                                            }
+                                            
+                                            JToken startTimeValue7 = propertiesValue["startTime"];
+                                            if (startTimeValue7 != null && startTimeValue7.Type != JTokenType.Null)
+                                            {
+                                                DateTime startTimeInstance7 = ((DateTime)startTimeValue7);
+                                                dpmJobInstance.StartTime = startTimeInstance7;
+                                            }
+                                            
+                                            JToken endTimeValue7 = propertiesValue["endTime"];
+                                            if (endTimeValue7 != null && endTimeValue7.Type != JTokenType.Null)
+                                            {
+                                                DateTime endTimeInstance7 = ((DateTime)endTimeValue7);
+                                                dpmJobInstance.EndTime = endTimeInstance7;
+                                            }
+                                            jobResourceInstance.Properties = dpmJobInstance;
+                                        }
                                     }
                                     
                                     JToken idValue = valueValue["id"];
@@ -2855,10 +4407,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                     JToken tagsSequenceElement = ((JToken)valueValue["tags"]);
                                     if (tagsSequenceElement != null && tagsSequenceElement.Type != JTokenType.Null)
                                     {
-                                        foreach (JProperty property2 in tagsSequenceElement)
+                                        foreach (JProperty property4 in tagsSequenceElement)
                                         {
-                                            string tagsKey = ((string)property2.Name);
-                                            string tagsValue = ((string)property2.Value);
+                                            string tagsKey = ((string)property4.Name);
+                                            string tagsValue = ((string)property4.Value);
                                             jobResourceInstance.Tags.Add(tagsKey, tagsValue);
                                         }
                                     }

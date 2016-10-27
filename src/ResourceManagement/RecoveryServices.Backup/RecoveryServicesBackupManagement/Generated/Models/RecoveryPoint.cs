@@ -20,7 +20,9 @@
 // code is regenerated.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hyak.Common;
 using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
@@ -101,6 +103,18 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._recoveryPointType = value; }
         }
         
+        private IList<RecoveryPointTierDetails> _rPTier;
+        
+        /// <summary>
+        /// Optional. Identifies whether the restore operation on recovery
+        /// point is instant.
+        /// </summary>
+        public IList<RecoveryPointTierDetails> RPTier
+        {
+            get { return this._rPTier; }
+            set { this._rPTier = value; }
+        }
+        
         private string _sourceVMStorageType;
         
         /// <summary>
@@ -118,6 +132,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
         /// </summary>
         public RecoveryPoint()
         {
+            this.RPTier = new LazyList<RecoveryPointTierDetails>();
         }
     }
 }

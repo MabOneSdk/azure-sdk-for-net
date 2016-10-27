@@ -83,6 +83,23 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         }
         
         /// <summary>
+        /// Definition of AlertConfiguration operations for the Azure Backup
+        /// extension.
+        /// </summary>
+        IAlertConfigurationOperations AlertConfigurations
+        {
+            get; 
+        }
+        
+        /// <summary>
+        /// Definition of Alert operations for the Azure Backup extension.
+        /// </summary>
+        IAlertOperations Alerts
+        {
+            get; 
+        }
+        
+        /// <summary>
         /// The Resource Manager API includes operations for managing the
         /// backup engines registered to your Recovery Services Vault.
         /// </summary>

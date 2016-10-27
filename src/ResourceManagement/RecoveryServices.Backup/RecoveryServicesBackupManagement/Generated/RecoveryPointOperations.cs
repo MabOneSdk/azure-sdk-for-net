@@ -167,7 +167,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                 url = url + Uri.EscapeDataString(recoveryPointId);
             }
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -358,6 +358,30 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         bool isInstantILRSessionActiveInstance = ((bool)isInstantILRSessionActiveValue);
                                         recoveryPointInstance.IsInstantILRSessionActive = isInstantILRSessionActiveInstance;
                                     }
+                                    
+                                    JToken recoveryPointTierDetailsArray = propertiesValue["recoveryPointTierDetails"];
+                                    if (recoveryPointTierDetailsArray != null && recoveryPointTierDetailsArray.Type != JTokenType.Null)
+                                    {
+                                        foreach (JToken recoveryPointTierDetailsValue in ((JArray)recoveryPointTierDetailsArray))
+                                        {
+                                            RecoveryPointTierDetails recoveryPointTierDetailsInstance = new RecoveryPointTierDetails();
+                                            recoveryPointInstance.RPTier.Add(recoveryPointTierDetailsInstance);
+                                            
+                                            JToken typeValue = recoveryPointTierDetailsValue["type"];
+                                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                            {
+                                                RecoveryPointTierType typeInstance = ((RecoveryPointTierType)Enum.Parse(typeof(RecoveryPointTierType), ((string)typeValue), true));
+                                                recoveryPointTierDetailsInstance.Type = typeInstance;
+                                            }
+                                            
+                                            JToken statusValue = recoveryPointTierDetailsValue["status"];
+                                            if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                            {
+                                                RecoveryPointTierStatus statusInstance = ((RecoveryPointTierStatus)Enum.Parse(typeof(RecoveryPointTierStatus), ((string)statusValue), true));
+                                                recoveryPointTierDetailsInstance.Status = statusInstance;
+                                            }
+                                        }
+                                    }
                                     recPointInstance.Properties = recoveryPointInstance;
                                 }
                                 if (typeName == "GenericRecoveryPoint")
@@ -409,11 +433,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 recPointInstance.Name = nameInstance;
                             }
                             
-                            JToken typeValue = responseDoc["type"];
-                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                            JToken typeValue2 = responseDoc["type"];
+                            if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                             {
-                                string typeInstance = ((string)typeValue);
-                                recPointInstance.Type = typeInstance;
+                                string typeInstance2 = ((string)typeValue2);
+                                recPointInstance.Type = typeInstance2;
                             }
                             
                             JToken locationValue = responseDoc["location"];
@@ -462,11 +486,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 result.RetryAfter = retryAfterInstance;
                             }
                             
-                            JToken statusValue = responseDoc["Status"];
-                            if (statusValue != null && statusValue.Type != JTokenType.Null)
+                            JToken statusValue2 = responseDoc["Status"];
+                            if (statusValue2 != null && statusValue2.Type != JTokenType.Null)
                             {
-                                OperationStatus statusInstance = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue), true));
-                                result.Status = statusInstance;
+                                OperationStatus statusInstance2 = ((OperationStatus)Enum.Parse(typeof(OperationStatus), ((string)statusValue2), true));
+                                result.Status = statusInstance2;
                             }
                         }
                         
@@ -594,7 +618,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             }
             url = url + "/recoveryPoints";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.StartDate != null)
             {
@@ -806,6 +830,30 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                                 bool isInstantILRSessionActiveInstance = ((bool)isInstantILRSessionActiveValue);
                                                 recoveryPointInstance.IsInstantILRSessionActive = isInstantILRSessionActiveInstance;
                                             }
+                                            
+                                            JToken recoveryPointTierDetailsArray = propertiesValue["recoveryPointTierDetails"];
+                                            if (recoveryPointTierDetailsArray != null && recoveryPointTierDetailsArray.Type != JTokenType.Null)
+                                            {
+                                                foreach (JToken recoveryPointTierDetailsValue in ((JArray)recoveryPointTierDetailsArray))
+                                                {
+                                                    RecoveryPointTierDetails recoveryPointTierDetailsInstance = new RecoveryPointTierDetails();
+                                                    recoveryPointInstance.RPTier.Add(recoveryPointTierDetailsInstance);
+                                                    
+                                                    JToken typeValue = recoveryPointTierDetailsValue["type"];
+                                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                                    {
+                                                        RecoveryPointTierType typeInstance = ((RecoveryPointTierType)Enum.Parse(typeof(RecoveryPointTierType), ((string)typeValue), true));
+                                                        recoveryPointTierDetailsInstance.Type = typeInstance;
+                                                    }
+                                                    
+                                                    JToken statusValue = recoveryPointTierDetailsValue["status"];
+                                                    if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                                    {
+                                                        RecoveryPointTierStatus statusInstance = ((RecoveryPointTierStatus)Enum.Parse(typeof(RecoveryPointTierStatus), ((string)statusValue), true));
+                                                        recoveryPointTierDetailsInstance.Status = statusInstance;
+                                                    }
+                                                }
+                                            }
                                             recoveryPointResourceInstance.Properties = recoveryPointInstance;
                                         }
                                         if (typeName == "GenericRecoveryPoint")
@@ -857,11 +905,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         recoveryPointResourceInstance.Name = nameInstance;
                                     }
                                     
-                                    JToken typeValue = valueValue["type"];
-                                    if (typeValue != null && typeValue.Type != JTokenType.Null)
+                                    JToken typeValue2 = valueValue["type"];
+                                    if (typeValue2 != null && typeValue2.Type != JTokenType.Null)
                                     {
-                                        string typeInstance = ((string)typeValue);
-                                        recoveryPointResourceInstance.Type = typeInstance;
+                                        string typeInstance2 = ((string)typeValue2);
+                                        recoveryPointResourceInstance.Type = typeInstance2;
                                     }
                                     
                                     JToken locationValue = valueValue["location"];

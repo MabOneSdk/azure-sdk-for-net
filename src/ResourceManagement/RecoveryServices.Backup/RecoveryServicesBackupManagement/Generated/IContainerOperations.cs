@@ -63,6 +63,34 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         Task<BaseRecoveryServicesJobResponse> BeginRefreshAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, string fabricName, CancellationToken cancellationToken);
         
         /// <summary>
+        /// Gets details of the specific container registered to your Recovery
+        /// Services Vault.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Resource group name of your recovery services vault.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Name of your recovery services vault.
+        /// </param>
+        /// <param name='fabricName'>
+        /// Fabric name of the protected item.
+        /// </param>
+        /// <param name='containerName'>
+        /// Name of the container.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// Protection container returned as a response by the get protection
+        /// container API.
+        /// </returns>
+        Task<ProtectionContainerResponse> GetAsync(string resourceGroupName, string resourceName, string fabricName, string containerName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// Fetches the result of any operation on the container given the ID
         /// of operation.
         /// </summary>
@@ -88,7 +116,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         Task<ProtectionContainerResponse> GetContainerOperationResultAsync(string resourceGroupName, string resourceName, string fabricName, string containerName, string operationId, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         
@@ -107,7 +136,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Cancellation token.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         Task<ProtectionContainerResponse> GetContainerOperationResultByURLAsync(string operationResultLink, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         

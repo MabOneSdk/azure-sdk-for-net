@@ -31,6 +31,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
     /// </summary>
     public partial class MabFileFolderProtectedItemExtendedInfo : ProtectedItemExtendedInfo
     {
+        private System.DateTime? _lastRefreshedAt;
+        
+        /// <summary>
+        /// Optional. The latest DateTime when Agent data got synced.
+        /// </summary>
+        public System.DateTime? LastRefreshedAt
+        {
+            get { return this._lastRefreshedAt; }
+            set { this._lastRefreshedAt = value; }
+        }
+        
         private System.DateTime? _oldestRecoveryPoint;
         
         /// <summary>

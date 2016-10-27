@@ -161,9 +161,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             {
                 url = url + Uri.EscapeDataString(parameters.RecoveryPointId);
             }
-            url = url + "/provisionilr";
+            url = url + "/provisionInstantItemRecovery";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -430,9 +430,9 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             {
                 url = url + Uri.EscapeDataString(parameters.RecoveryPointId);
             }
-            url = url + "/revokeilr";
+            url = url + "/revokeInstantItemRecovery";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);

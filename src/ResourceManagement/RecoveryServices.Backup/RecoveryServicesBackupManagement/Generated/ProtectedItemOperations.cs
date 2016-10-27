@@ -172,7 +172,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/protectedItems/";
             url = url + Uri.EscapeDataString(protectedItemName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -489,6 +489,21 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 propertiesValue["computerName"] = derived5.ComputerName;
                             }
                             
+                            if (derived5.LastBackupStatus != null)
+                            {
+                                propertiesValue["lastBackupStatus"] = derived5.LastBackupStatus;
+                            }
+                            
+                            if (derived5.ProtectionState != null)
+                            {
+                                propertiesValue["protectionState"] = derived5.ProtectionState;
+                            }
+                            
+                            if (derived5.IsScheduledForDeferredDelete != null)
+                            {
+                                propertiesValue["isScheduledForDeferredDelete"] = derived5.IsScheduledForDeferredDelete.Value;
+                            }
+                            
                             if (derived5.ExtendedInfo != null)
                             {
                                 JObject extendedInfoValue4 = new JObject();
@@ -500,6 +515,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                 }
                                 
                                 extendedInfoValue4["recoveryPointCount"] = derived5.ExtendedInfo.RecoveryPointCount;
+                                
+                                if (derived5.ExtendedInfo.LastRefreshedAt != null)
+                                {
+                                    extendedInfoValue4["lastRefreshedAt"] = derived5.ExtendedInfo.LastRefreshedAt.Value;
+                                }
                             }
                             
                             if (derived5.BackupManagementType != null)
@@ -842,7 +862,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/protectedItems/";
             url = url + Uri.EscapeDataString(protectedItemName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1087,7 +1107,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/protectedItems/";
             url = url + Uri.EscapeDataString(protectedItemName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.Expand != null)
             {
@@ -1567,6 +1587,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         mabFileFolderProtectedItemInstance.ComputerName = computerNameInstance;
                                     }
                                     
+                                    JToken lastBackupStatusValue4 = propertiesValue["lastBackupStatus"];
+                                    if (lastBackupStatusValue4 != null && lastBackupStatusValue4.Type != JTokenType.Null)
+                                    {
+                                        string lastBackupStatusInstance4 = ((string)lastBackupStatusValue4);
+                                        mabFileFolderProtectedItemInstance.LastBackupStatus = lastBackupStatusInstance4;
+                                    }
+                                    
+                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
+                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    {
+                                        string protectionStateInstance4 = ((string)protectionStateValue4);
+                                        mabFileFolderProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                    }
+                                    
+                                    JToken isScheduledForDeferredDeleteValue = propertiesValue["isScheduledForDeferredDelete"];
+                                    if (isScheduledForDeferredDeleteValue != null && isScheduledForDeferredDeleteValue.Type != JTokenType.Null)
+                                    {
+                                        bool isScheduledForDeferredDeleteInstance = ((bool)isScheduledForDeferredDeleteValue);
+                                        mabFileFolderProtectedItemInstance.IsScheduledForDeferredDelete = isScheduledForDeferredDeleteInstance;
+                                    }
+                                    
                                     JToken extendedInfoValue4 = propertiesValue["extendedInfo"];
                                     if (extendedInfoValue4 != null && extendedInfoValue4.Type != JTokenType.Null)
                                     {
@@ -1585,6 +1626,13 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         {
                                             int recoveryPointCountInstance4 = ((int)recoveryPointCountValue4);
                                             extendedInfoInstance4.RecoveryPointCount = recoveryPointCountInstance4;
+                                        }
+                                        
+                                        JToken lastRefreshedAtValue = extendedInfoValue4["lastRefreshedAt"];
+                                        if (lastRefreshedAtValue != null && lastRefreshedAtValue.Type != JTokenType.Null)
+                                        {
+                                            DateTime lastRefreshedAtInstance = ((DateTime)lastRefreshedAtValue);
+                                            extendedInfoInstance4.LastRefreshedAt = lastRefreshedAtInstance;
                                         }
                                     }
                                     
@@ -1635,11 +1683,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         azureSqlProtectedItemInstance.ProtectedItemDataId = protectedItemDataIdInstance;
                                     }
                                     
-                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
-                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    JToken protectionStateValue5 = propertiesValue["protectionState"];
+                                    if (protectionStateValue5 != null && protectionStateValue5.Type != JTokenType.Null)
                                     {
-                                        string protectionStateInstance4 = ((string)protectionStateValue4);
-                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                        string protectionStateInstance5 = ((string)protectionStateValue5);
+                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance5;
                                     }
                                     
                                     JToken extendedInfoValue5 = propertiesValue["extendedInfo"];
@@ -1912,7 +1960,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/operationResults/";
             url = url + Uri.EscapeDataString(operationId);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -2383,6 +2431,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         mabFileFolderProtectedItemInstance.ComputerName = computerNameInstance;
                                     }
                                     
+                                    JToken lastBackupStatusValue4 = propertiesValue["lastBackupStatus"];
+                                    if (lastBackupStatusValue4 != null && lastBackupStatusValue4.Type != JTokenType.Null)
+                                    {
+                                        string lastBackupStatusInstance4 = ((string)lastBackupStatusValue4);
+                                        mabFileFolderProtectedItemInstance.LastBackupStatus = lastBackupStatusInstance4;
+                                    }
+                                    
+                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
+                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    {
+                                        string protectionStateInstance4 = ((string)protectionStateValue4);
+                                        mabFileFolderProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                    }
+                                    
+                                    JToken isScheduledForDeferredDeleteValue = propertiesValue["isScheduledForDeferredDelete"];
+                                    if (isScheduledForDeferredDeleteValue != null && isScheduledForDeferredDeleteValue.Type != JTokenType.Null)
+                                    {
+                                        bool isScheduledForDeferredDeleteInstance = ((bool)isScheduledForDeferredDeleteValue);
+                                        mabFileFolderProtectedItemInstance.IsScheduledForDeferredDelete = isScheduledForDeferredDeleteInstance;
+                                    }
+                                    
                                     JToken extendedInfoValue4 = propertiesValue["extendedInfo"];
                                     if (extendedInfoValue4 != null && extendedInfoValue4.Type != JTokenType.Null)
                                     {
@@ -2401,6 +2470,13 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         {
                                             int recoveryPointCountInstance4 = ((int)recoveryPointCountValue4);
                                             extendedInfoInstance4.RecoveryPointCount = recoveryPointCountInstance4;
+                                        }
+                                        
+                                        JToken lastRefreshedAtValue = extendedInfoValue4["lastRefreshedAt"];
+                                        if (lastRefreshedAtValue != null && lastRefreshedAtValue.Type != JTokenType.Null)
+                                        {
+                                            DateTime lastRefreshedAtInstance = ((DateTime)lastRefreshedAtValue);
+                                            extendedInfoInstance4.LastRefreshedAt = lastRefreshedAtInstance;
                                         }
                                     }
                                     
@@ -2451,11 +2527,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         azureSqlProtectedItemInstance.ProtectedItemDataId = protectedItemDataIdInstance;
                                     }
                                     
-                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
-                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    JToken protectionStateValue5 = propertiesValue["protectionState"];
+                                    if (protectionStateValue5 != null && protectionStateValue5.Type != JTokenType.Null)
                                     {
-                                        string protectionStateInstance4 = ((string)protectionStateValue4);
-                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                        string protectionStateInstance5 = ((string)protectionStateValue5);
+                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance5;
                                     }
                                     
                                     JToken extendedInfoValue5 = propertiesValue["extendedInfo"];
@@ -3132,6 +3208,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         mabFileFolderProtectedItemInstance.ComputerName = computerNameInstance;
                                     }
                                     
+                                    JToken lastBackupStatusValue4 = propertiesValue["lastBackupStatus"];
+                                    if (lastBackupStatusValue4 != null && lastBackupStatusValue4.Type != JTokenType.Null)
+                                    {
+                                        string lastBackupStatusInstance4 = ((string)lastBackupStatusValue4);
+                                        mabFileFolderProtectedItemInstance.LastBackupStatus = lastBackupStatusInstance4;
+                                    }
+                                    
+                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
+                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    {
+                                        string protectionStateInstance4 = ((string)protectionStateValue4);
+                                        mabFileFolderProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                    }
+                                    
+                                    JToken isScheduledForDeferredDeleteValue = propertiesValue["isScheduledForDeferredDelete"];
+                                    if (isScheduledForDeferredDeleteValue != null && isScheduledForDeferredDeleteValue.Type != JTokenType.Null)
+                                    {
+                                        bool isScheduledForDeferredDeleteInstance = ((bool)isScheduledForDeferredDeleteValue);
+                                        mabFileFolderProtectedItemInstance.IsScheduledForDeferredDelete = isScheduledForDeferredDeleteInstance;
+                                    }
+                                    
                                     JToken extendedInfoValue4 = propertiesValue["extendedInfo"];
                                     if (extendedInfoValue4 != null && extendedInfoValue4.Type != JTokenType.Null)
                                     {
@@ -3150,6 +3247,13 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         {
                                             int recoveryPointCountInstance4 = ((int)recoveryPointCountValue4);
                                             extendedInfoInstance4.RecoveryPointCount = recoveryPointCountInstance4;
+                                        }
+                                        
+                                        JToken lastRefreshedAtValue = extendedInfoValue4["lastRefreshedAt"];
+                                        if (lastRefreshedAtValue != null && lastRefreshedAtValue.Type != JTokenType.Null)
+                                        {
+                                            DateTime lastRefreshedAtInstance = ((DateTime)lastRefreshedAtValue);
+                                            extendedInfoInstance4.LastRefreshedAt = lastRefreshedAtInstance;
                                         }
                                     }
                                     
@@ -3200,11 +3304,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                         azureSqlProtectedItemInstance.ProtectedItemDataId = protectedItemDataIdInstance;
                                     }
                                     
-                                    JToken protectionStateValue4 = propertiesValue["protectionState"];
-                                    if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                    JToken protectionStateValue5 = propertiesValue["protectionState"];
+                                    if (protectionStateValue5 != null && protectionStateValue5.Type != JTokenType.Null)
                                     {
-                                        string protectionStateInstance4 = ((string)protectionStateValue4);
-                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                        string protectionStateInstance5 = ((string)protectionStateValue5);
+                                        azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance5;
                                     }
                                     
                                     JToken extendedInfoValue5 = propertiesValue["extendedInfo"];
@@ -3460,7 +3564,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupProtectedItems";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.BackupManagementType != null)
             {
@@ -3473,6 +3577,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             if (queryFilter != null && queryFilter.PolicyName != null)
             {
                 odataFilter.Add("policyName eq '" + Uri.EscapeDataString(queryFilter.PolicyName) + "'");
+            }
+            if (queryFilter != null && queryFilter.ContainerName != null)
+            {
+                odataFilter.Add("containerName eq '" + Uri.EscapeDataString(queryFilter.ContainerName) + "'");
             }
             if (odataFilter.Count > 0)
             {
@@ -3964,6 +4072,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                                 mabFileFolderProtectedItemInstance.ComputerName = computerNameInstance;
                                             }
                                             
+                                            JToken lastBackupStatusValue4 = propertiesValue["lastBackupStatus"];
+                                            if (lastBackupStatusValue4 != null && lastBackupStatusValue4.Type != JTokenType.Null)
+                                            {
+                                                string lastBackupStatusInstance4 = ((string)lastBackupStatusValue4);
+                                                mabFileFolderProtectedItemInstance.LastBackupStatus = lastBackupStatusInstance4;
+                                            }
+                                            
+                                            JToken protectionStateValue4 = propertiesValue["protectionState"];
+                                            if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                            {
+                                                string protectionStateInstance4 = ((string)protectionStateValue4);
+                                                mabFileFolderProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                            }
+                                            
+                                            JToken isScheduledForDeferredDeleteValue = propertiesValue["isScheduledForDeferredDelete"];
+                                            if (isScheduledForDeferredDeleteValue != null && isScheduledForDeferredDeleteValue.Type != JTokenType.Null)
+                                            {
+                                                bool isScheduledForDeferredDeleteInstance = ((bool)isScheduledForDeferredDeleteValue);
+                                                mabFileFolderProtectedItemInstance.IsScheduledForDeferredDelete = isScheduledForDeferredDeleteInstance;
+                                            }
+                                            
                                             JToken extendedInfoValue4 = propertiesValue["extendedInfo"];
                                             if (extendedInfoValue4 != null && extendedInfoValue4.Type != JTokenType.Null)
                                             {
@@ -3982,6 +4111,13 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                                 {
                                                     int recoveryPointCountInstance4 = ((int)recoveryPointCountValue4);
                                                     extendedInfoInstance4.RecoveryPointCount = recoveryPointCountInstance4;
+                                                }
+                                                
+                                                JToken lastRefreshedAtValue = extendedInfoValue4["lastRefreshedAt"];
+                                                if (lastRefreshedAtValue != null && lastRefreshedAtValue.Type != JTokenType.Null)
+                                                {
+                                                    DateTime lastRefreshedAtInstance = ((DateTime)lastRefreshedAtValue);
+                                                    extendedInfoInstance4.LastRefreshedAt = lastRefreshedAtInstance;
                                                 }
                                             }
                                             
@@ -4032,11 +4168,11 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
                                                 azureSqlProtectedItemInstance.ProtectedItemDataId = protectedItemDataIdInstance;
                                             }
                                             
-                                            JToken protectionStateValue4 = propertiesValue["protectionState"];
-                                            if (protectionStateValue4 != null && protectionStateValue4.Type != JTokenType.Null)
+                                            JToken protectionStateValue5 = propertiesValue["protectionState"];
+                                            if (protectionStateValue5 != null && protectionStateValue5.Type != JTokenType.Null)
                                             {
-                                                string protectionStateInstance4 = ((string)protectionStateValue4);
-                                                azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance4;
+                                                string protectionStateInstance5 = ((string)protectionStateValue5);
+                                                azureSqlProtectedItemInstance.ProtectionState = protectionStateInstance5;
                                             }
                                             
                                             JToken extendedInfoValue5 = propertiesValue["extendedInfo"];

@@ -35,5 +35,10 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
         /// Backup management type for Azure Virtual Machine jobs.
         /// </summary>
         AzureIaasVM = 1,
+        
+        /// <summary>
+        /// Backup management type for File Folder jobs.
+        /// </summary>
+        MAB = 2,
     }
 }

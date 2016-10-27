@@ -65,6 +65,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._scheduleRunTimes = value; }
         }
         
+        private int? _scheduleWeeklyFrequency;
+        
+        /// <summary>
+        /// Optional. At every number weeks this schedule has to be run.
+        /// </summary>
+        public int? ScheduleWeeklyFrequency
+        {
+            get { return this._scheduleWeeklyFrequency; }
+            set { this._scheduleWeeklyFrequency = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the SimpleSchedulePolicy class.
         /// </summary>

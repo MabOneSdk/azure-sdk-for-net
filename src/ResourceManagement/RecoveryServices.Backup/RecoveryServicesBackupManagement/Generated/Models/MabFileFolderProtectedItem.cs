@@ -63,6 +63,40 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._friendlyName = value; }
         }
         
+        private bool? _isScheduledForDeferredDelete;
+        
+        /// <summary>
+        /// Optional. flag to decide reovery points scheduling for deferred
+        /// delete.
+        /// </summary>
+        public bool? IsScheduledForDeferredDelete
+        {
+            get { return this._isScheduledForDeferredDelete; }
+            set { this._isScheduledForDeferredDelete = value; }
+        }
+        
+        private string _lastBackupStatus;
+        
+        /// <summary>
+        /// Optional. Status of last backup taken.
+        /// </summary>
+        public string LastBackupStatus
+        {
+            get { return this._lastBackupStatus; }
+            set { this._lastBackupStatus = value; }
+        }
+        
+        private string _protectionState;
+        
+        /// <summary>
+        /// Optional. Protection State of this protected item.
+        /// </summary>
+        public string ProtectionState
+        {
+            get { return this._protectionState; }
+            set { this._protectionState = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the MabFileFolderProtectedItem class.
         /// </summary>

@@ -102,6 +102,27 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             set { this._resourceNamespace = value; }
         }
         
+        private IAlertConfigurationOperations _alertConfigurations;
+        
+        /// <summary>
+        /// Definition of AlertConfiguration operations for the Azure Backup
+        /// extension.
+        /// </summary>
+        public virtual IAlertConfigurationOperations AlertConfigurations
+        {
+            get { return this._alertConfigurations; }
+        }
+        
+        private IAlertOperations _alerts;
+        
+        /// <summary>
+        /// Definition of Alert operations for the Azure Backup extension.
+        /// </summary>
+        public virtual IAlertOperations Alerts
+        {
+            get { return this._alerts; }
+        }
+        
         private IBackupEngineOperations _backupEngines;
         
         /// <summary>
@@ -224,6 +245,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient()
             : base()
         {
+            this._alertConfigurations = new AlertConfigurationOperations(this);
+            this._alerts = new AlertOperations(this);
             this._backupEngines = new BackupEngineOperations(this);
             this._backups = new BackupOperations(this);
             this._containers = new ContainerOperations(this);
@@ -303,6 +326,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         public RecoveryServicesBackupManagementClient(HttpClient httpClient)
             : base(httpClient)
         {
+            this._alertConfigurations = new AlertConfigurationOperations(this);
+            this._alerts = new AlertOperations(this);
             this._backupEngines = new BackupEngineOperations(this);
             this._backups = new BackupOperations(this);
             this._containers = new ContainerOperations(this);
@@ -483,7 +508,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + "/backupOperationResults/";
             url = url + Uri.EscapeDataString(operationId);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);

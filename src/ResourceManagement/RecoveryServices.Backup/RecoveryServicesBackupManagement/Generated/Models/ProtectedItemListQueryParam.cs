@@ -41,6 +41,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
             set { this._backupManagementType = value; }
         }
         
+        private string _containerName;
+        
+        /// <summary>
+        /// Optional. Name of the container.
+        /// </summary>
+        public string ContainerName
+        {
+            get { return this._containerName; }
+            set { this._containerName = value; }
+        }
+        
         private string _datasourceType;
         
         /// <summary>

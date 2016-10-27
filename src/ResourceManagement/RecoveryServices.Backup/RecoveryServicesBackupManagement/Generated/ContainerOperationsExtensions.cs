@@ -100,6 +100,74 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         }
         
         /// <summary>
+        /// Gets details of the specific container registered to your Recovery
+        /// Services Vault.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.Backup.IContainerOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. Resource group name of your recovery services vault.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. Name of your recovery services vault.
+        /// </param>
+        /// <param name='fabricName'>
+        /// Required. Fabric name of the protected item.
+        /// </param>
+        /// <param name='containerName'>
+        /// Required. Name of the container.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Required. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// Protection container returned as a response by the get protection
+        /// container API.
+        /// </returns>
+        public static ProtectionContainerResponse Get(this IContainerOperations operations, string resourceGroupName, string resourceName, string fabricName, string containerName, CustomRequestHeaders customRequestHeaders)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IContainerOperations)s).GetAsync(resourceGroupName, resourceName, fabricName, containerName, customRequestHeaders);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Gets details of the specific container registered to your Recovery
+        /// Services Vault.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.Backup.IContainerOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. Resource group name of your recovery services vault.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. Name of your recovery services vault.
+        /// </param>
+        /// <param name='fabricName'>
+        /// Required. Fabric name of the protected item.
+        /// </param>
+        /// <param name='containerName'>
+        /// Required. Name of the container.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Required. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// Protection container returned as a response by the get protection
+        /// container API.
+        /// </returns>
+        public static Task<ProtectionContainerResponse> GetAsync(this IContainerOperations operations, string resourceGroupName, string resourceName, string fabricName, string containerName, CustomRequestHeaders customRequestHeaders)
+        {
+            return operations.GetAsync(resourceGroupName, resourceName, fabricName, containerName, customRequestHeaders, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// Fetches the result of any operation on the container given the ID
         /// of operation.
         /// </summary>
@@ -127,7 +195,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Request header parameters.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         public static ProtectionContainerResponse GetContainerOperationResult(this IContainerOperations operations, string resourceGroupName, string resourceName, string fabricName, string containerName, string operationId, CustomRequestHeaders customRequestHeaders)
         {
@@ -166,7 +235,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Request header parameters.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         public static Task<ProtectionContainerResponse> GetContainerOperationResultAsync(this IContainerOperations operations, string resourceGroupName, string resourceName, string fabricName, string containerName, string operationId, CustomRequestHeaders customRequestHeaders)
         {
@@ -189,7 +259,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Request header parameters.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         public static ProtectionContainerResponse GetContainerOperationResultByURL(this IContainerOperations operations, string operationResultLink, CustomRequestHeaders customRequestHeaders)
         {
@@ -216,7 +287,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// Optional. Request header parameters.
         /// </param>
         /// <returns>
-        /// Protection container response.
+        /// Protection container returned as a response by the get protection
+        /// container API.
         /// </returns>
         public static Task<ProtectionContainerResponse> GetContainerOperationResultByURLAsync(this IContainerOperations operations, string operationResultLink, CustomRequestHeaders customRequestHeaders)
         {

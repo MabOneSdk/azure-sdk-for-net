@@ -30,6 +30,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
     /// </summary>
     public partial class MabProtectionContainer : ProtectionContainer
     {
+        private string _agentVersion;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public string AgentVersion
+        {
+            get { return this._agentVersion; }
+            set { this._agentVersion = value; }
+        }
+        
         private bool _canReRegister;
         
         /// <summary>
@@ -50,6 +61,28 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup.Models
         {
             get { return this._containerId; }
             set { this._containerId = value; }
+        }
+        
+        private MabContainerExtendedInfo _extendedInfo;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public MabContainerExtendedInfo ExtendedInfo
+        {
+            get { return this._extendedInfo; }
+            set { this._extendedInfo = value; }
+        }
+        
+        private long _protectedItemCount;
+        
+        /// <summary>
+        /// Optional.
+        /// </summary>
+        public long ProtectedItemCount
+        {
+            get { return this._protectedItemCount; }
+            set { this._protectedItemCount = value; }
         }
         
         /// <summary>

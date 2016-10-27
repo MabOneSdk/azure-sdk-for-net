@@ -134,7 +134,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupProtectableItems";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             List<string> odataFilter = new List<string>();
             if (queryFilter != null && queryFilter.BackupManagementType != null)
             {
