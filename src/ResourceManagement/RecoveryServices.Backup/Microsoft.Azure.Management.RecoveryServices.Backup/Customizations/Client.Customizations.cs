@@ -1,16 +1,29 @@
-﻿using Microsoft.Azure.Management.RecoveryServices.Backup.Models;
-using Microsoft.Rest;
+﻿using System.Linq;
+using System.Net.Http;
 using Microsoft.Rest.Serialization;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Backup
 {
     public partial class RecoveryServicesBackupClient
     {
+        /// <summary>
+        /// Don't allow dispose in case the http client is shared.
+        /// </summary>
+        public bool DontAllowDispose { get; set; }
+
+        public void SetHttpClient(HttpClient client)
+        {
+            HttpClient = client;
+        }
+
+        public new void Dispose()
+        {
+            if (!DontAllowDispose)
+            {
+                base.Dispose();
+            }
+        }
+
         partial void CustomInitialize()
         {
             var iso8601TimeSpanConverter = DeserializationSettings.Converters.First(conv => conv is Iso8601TimeSpanConverter);
