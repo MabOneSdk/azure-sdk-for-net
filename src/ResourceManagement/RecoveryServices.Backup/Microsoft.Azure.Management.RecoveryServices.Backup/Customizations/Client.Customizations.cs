@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
         /// <summary>
         /// Don't allow dispose in case the http client is shared.
         /// </summary>
-        public bool DontAllowDispose { get; set; }
+        public bool DisableDispose { get; set; }
 
         public void SetHttpClient(HttpClient client)
         {
@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
 
         public new void Dispose()
         {
-            if (!DontAllowDispose)
+            if (!DisableDispose)
             {
                 base.Dispose();
             }
