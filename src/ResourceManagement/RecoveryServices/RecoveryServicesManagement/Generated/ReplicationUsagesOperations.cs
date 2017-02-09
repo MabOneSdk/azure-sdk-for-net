@@ -228,6 +228,27 @@ namespace Microsoft.Azure.Management.RecoveryServices
                                     int eventsCountInstance = ((int)eventsCountValue);
                                     monitoringSummaryInstance.EventsCount = eventsCountInstance;
                                 }
+                                
+                                JToken deprecatedProviderCountValue = monitoringSummaryValue["deprecatedProviderCount"];
+                                if (deprecatedProviderCountValue != null && deprecatedProviderCountValue.Type != JTokenType.Null)
+                                {
+                                    int deprecatedProviderCountInstance = ((int)deprecatedProviderCountValue);
+                                    monitoringSummaryInstance.DeprecatedProviderCount = deprecatedProviderCountInstance;
+                                }
+                                
+                                JToken supportedProviderCountValue = monitoringSummaryValue["supportedProviderCount"];
+                                if (supportedProviderCountValue != null && supportedProviderCountValue.Type != JTokenType.Null)
+                                {
+                                    int supportedProviderCountInstance = ((int)supportedProviderCountValue);
+                                    monitoringSummaryInstance.SupportedProviderCount = supportedProviderCountInstance;
+                                }
+                                
+                                JToken unsupportedProviderCountValue = monitoringSummaryValue["unsupportedProviderCount"];
+                                if (unsupportedProviderCountValue != null && unsupportedProviderCountValue.Type != JTokenType.Null)
+                                {
+                                    int unsupportedProviderCountInstance = ((int)unsupportedProviderCountValue);
+                                    monitoringSummaryInstance.UnsupportedProviderCount = unsupportedProviderCountInstance;
+                                }
                             }
                             
                             JToken jobsSummaryValue = responseDoc["jobsSummary"];
@@ -270,6 +291,13 @@ namespace Microsoft.Azure.Management.RecoveryServices
                             {
                                 int recoveryPlanCountInstance = ((int)recoveryPlanCountValue);
                                 replicationUsagesInstance.RecoveryPlanCount = recoveryPlanCountInstance;
+                            }
+                            
+                            JToken registeredServersCountValue = responseDoc["registeredServersCount"];
+                            if (registeredServersCountValue != null && registeredServersCountValue.Type != JTokenType.Null)
+                            {
+                                int registeredServersCountInstance = ((int)registeredServersCountValue);
+                                replicationUsagesInstance.RegisteredServersCount = registeredServersCountInstance;
                             }
                         }
                         

@@ -26,37 +26,42 @@ using Microsoft.Azure.Management.RecoveryServices.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Models
 {
     /// <summary>
-    /// The definition of a vault properties object.
+    /// The request model for the update backup resource vault config operation.
     /// </summary>
-    public partial class VaultProperties
+    public partial class UpdateBackupResourceVaultConfigRequest
     {
-        private string _provisioningState;
+        private BackupResourceVaultConfig _properties;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Required. Backup resource vault config.
         /// </summary>
-        public string ProvisioningState
+        public BackupResourceVaultConfig Properties
         {
-            get { return this._provisioningState; }
-            set { this._provisioningState = value; }
-        }
-        
-        private UpgradeDetails _upgradeDetails;
-        
-        /// <summary>
-        /// Optional. Provisioning State
-        /// </summary>
-        public UpgradeDetails UpgradeDetails
-        {
-            get { return this._upgradeDetails; }
-            set { this._upgradeDetails = value; }
+            get { return this._properties; }
+            set { this._properties = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the VaultProperties class.
+        /// Initializes a new instance of the
+        /// UpdateBackupResourceVaultConfigRequest class.
         /// </summary>
-        public VaultProperties()
+        public UpdateBackupResourceVaultConfigRequest()
         {
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// UpdateBackupResourceVaultConfigRequest class with required
+        /// arguments.
+        /// </summary>
+        public UpdateBackupResourceVaultConfigRequest(BackupResourceVaultConfig properties)
+            : this()
+        {
+            if (properties == null)
+            {
+                throw new ArgumentNullException("properties");
+            }
+            this.Properties = properties;
         }
     }
 }

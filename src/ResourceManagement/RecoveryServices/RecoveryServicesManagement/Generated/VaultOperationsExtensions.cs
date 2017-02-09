@@ -338,6 +338,58 @@ namespace Microsoft.Azure.Management.RecoveryServices
         }
         
         /// <summary>
+        /// Fetches backup resource vault config.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of resource group to which vault belongs
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. The name of the vault
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public static GetBackupResourceVaultConfigResponse GetBackupResourceVaultConfig(this IVaultOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVaultOperations)s).GetBackupResourceVaultConfigAsync(resourceGroupName, resourceName, customRequestHeaders);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Fetches backup resource vault config.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of resource group to which vault belongs
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. The name of the vault
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public static Task<GetBackupResourceVaultConfigResponse> GetBackupResourceVaultConfigAsync(this IVaultOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders)
+        {
+            return operations.GetBackupResourceVaultConfigAsync(resourceGroupName, resourceName, customRequestHeaders, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// Fetches resource storage config.
         /// </summary>
         /// <param name='operations'>
@@ -390,6 +442,58 @@ namespace Microsoft.Azure.Management.RecoveryServices
         }
         
         /// <summary>
+        /// Get the token info.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get token info response.
+        /// </returns>
+        public static GetTokenInfoResponse GetTokenInfo(this IVaultOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVaultOperations)s).GetTokenInfoAsync(resourceGroupName, resourceName, customRequestHeaders);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Get the token info.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get token info response.
+        /// </returns>
+        public static Task<GetTokenInfoResponse> GetTokenInfoAsync(this IVaultOperations operations, string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders)
+        {
+            return operations.GetTokenInfoAsync(resourceGroupName, resourceName, customRequestHeaders, CancellationToken.None);
+        }
+        
+        /// <summary>
         /// Retrieve a list of Vaults.
         /// </summary>
         /// <param name='operations'>
@@ -435,6 +539,64 @@ namespace Microsoft.Azure.Management.RecoveryServices
         public static Task<VaultListResponse> ListAsync(this IVaultOperations operations, string resourceGroupName, CustomRequestHeaders customRequestHeaders)
         {
             return operations.ListAsync(resourceGroupName, customRequestHeaders, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Updates backup resource vault config.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='updateBackupResourceVaultConfigRequest'>
+        /// Required. Update Vault Storage Type Request
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public static UpdateBackupResourceVaultConfigResponse UpdateBackupResourceVaultConfig(this IVaultOperations operations, string resourceGroupName, string resourceName, UpdateBackupResourceVaultConfigRequest updateBackupResourceVaultConfigRequest, CustomRequestHeaders customRequestHeaders)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVaultOperations)s).UpdateBackupResourceVaultConfigAsync(resourceGroupName, resourceName, updateBackupResourceVaultConfigRequest, customRequestHeaders);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Updates backup resource vault config.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='updateBackupResourceVaultConfigRequest'>
+        /// Required. Update Vault Storage Type Request
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public static Task<UpdateBackupResourceVaultConfigResponse> UpdateBackupResourceVaultConfigAsync(this IVaultOperations operations, string resourceGroupName, string resourceName, UpdateBackupResourceVaultConfigRequest updateBackupResourceVaultConfigRequest, CustomRequestHeaders customRequestHeaders)
+        {
+            return operations.UpdateBackupResourceVaultConfigAsync(resourceGroupName, resourceName, updateBackupResourceVaultConfigRequest, customRequestHeaders, CancellationToken.None);
         }
         
         /// <summary>

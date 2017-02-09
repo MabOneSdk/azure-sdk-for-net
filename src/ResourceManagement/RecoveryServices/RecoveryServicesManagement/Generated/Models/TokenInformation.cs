@@ -21,41 +21,40 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.RecoveryServices.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Models
 {
     /// <summary>
-    /// The definition of a vault properties object.
+    /// The token information details.
     /// </summary>
-    public partial class VaultProperties
+    public partial class TokenInformation
     {
-        private string _provisioningState;
+        private long _expiryTimeInUTCTicks;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. expiry time of token in Utc Ticks.
         /// </summary>
-        public string ProvisioningState
+        public long ExpiryTimeInUTCTicks
         {
-            get { return this._provisioningState; }
-            set { this._provisioningState = value; }
+            get { return this._expiryTimeInUTCTicks; }
+            set { this._expiryTimeInUTCTicks = value; }
         }
         
-        private UpgradeDetails _upgradeDetails;
+        private string _token;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Gets token value.
         /// </summary>
-        public UpgradeDetails UpgradeDetails
+        public string Token
         {
-            get { return this._upgradeDetails; }
-            set { this._upgradeDetails = value; }
+            get { return this._token; }
+            set { this._token = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the VaultProperties class.
+        /// Initializes a new instance of the TokenInformation class.
         /// </summary>
-        public VaultProperties()
+        public TokenInformation()
         {
         }
     }

@@ -97,6 +97,48 @@ namespace Microsoft.Azure.Management.RecoveryServices
             {
                 throw new ArgumentNullException("vaultCreationInput");
             }
+            if (vaultCreationInput.Properties != null)
+            {
+                if (vaultCreationInput.Properties.UpgradeDetails != null)
+                {
+                    if (vaultCreationInput.Properties.UpgradeDetails.EndTimeUtc == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.EndTimeUtc");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.LastUpdatedTimeUtc == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.LastUpdatedTimeUtc");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.Message == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.Message");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.OperationId == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.OperationId");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.PreviousResourceId == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.PreviousResourceId");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.StartTimeUtc == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.StartTimeUtc");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.Status == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.Status");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.TriggerType == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.TriggerType");
+                    }
+                    if (vaultCreationInput.Properties.UpgradeDetails.UpgradedResourceId == null)
+                    {
+                        throw new ArgumentNullException("vaultCreationInput.Properties.UpgradeDetails.UpgradedResourceId");
+                    }
+                }
+            }
             
             // Tracing
             bool shouldTrace = TracingAdapter.IsEnabled;
@@ -127,7 +169,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + "/";
             url = url + Uri.EscapeDataString(vaultName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -192,6 +234,30 @@ namespace Microsoft.Azure.Management.RecoveryServices
                     if (vaultCreationInput.Properties.ProvisioningState != null)
                     {
                         propertiesValue["provisioningState"] = vaultCreationInput.Properties.ProvisioningState;
+                    }
+                    
+                    if (vaultCreationInput.Properties.UpgradeDetails != null)
+                    {
+                        JObject upgradeDetailsValue = new JObject();
+                        propertiesValue["upgradeDetails"] = upgradeDetailsValue;
+                        
+                        upgradeDetailsValue["operationId"] = vaultCreationInput.Properties.UpgradeDetails.OperationId;
+                        
+                        upgradeDetailsValue["startTimeUtc"] = vaultCreationInput.Properties.UpgradeDetails.StartTimeUtc;
+                        
+                        upgradeDetailsValue["lastUpdatedTimeUtc"] = vaultCreationInput.Properties.UpgradeDetails.LastUpdatedTimeUtc;
+                        
+                        upgradeDetailsValue["endTimeUtc"] = vaultCreationInput.Properties.UpgradeDetails.EndTimeUtc;
+                        
+                        upgradeDetailsValue["status"] = vaultCreationInput.Properties.UpgradeDetails.Status;
+                        
+                        upgradeDetailsValue["message"] = vaultCreationInput.Properties.UpgradeDetails.Message;
+                        
+                        upgradeDetailsValue["triggerType"] = vaultCreationInput.Properties.UpgradeDetails.TriggerType;
+                        
+                        upgradeDetailsValue["upgradedResourceId"] = vaultCreationInput.Properties.UpgradeDetails.UpgradedResourceId;
+                        
+                        upgradeDetailsValue["previousResourceId"] = vaultCreationInput.Properties.UpgradeDetails.PreviousResourceId;
                     }
                 }
                 
@@ -291,6 +357,76 @@ namespace Microsoft.Azure.Management.RecoveryServices
                                 {
                                     string provisioningStateInstance = ((string)provisioningStateValue);
                                     propertiesInstance.ProvisioningState = provisioningStateInstance;
+                                }
+                                
+                                JToken upgradeDetailsValue2 = propertiesValue2["upgradeDetails"];
+                                if (upgradeDetailsValue2 != null && upgradeDetailsValue2.Type != JTokenType.Null)
+                                {
+                                    UpgradeDetails upgradeDetailsInstance = new UpgradeDetails();
+                                    propertiesInstance.UpgradeDetails = upgradeDetailsInstance;
+                                    
+                                    JToken operationIdValue = upgradeDetailsValue2["operationId"];
+                                    if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
+                                    {
+                                        string operationIdInstance = ((string)operationIdValue);
+                                        upgradeDetailsInstance.OperationId = operationIdInstance;
+                                    }
+                                    
+                                    JToken startTimeUtcValue = upgradeDetailsValue2["startTimeUtc"];
+                                    if (startTimeUtcValue != null && startTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string startTimeUtcInstance = ((string)startTimeUtcValue);
+                                        upgradeDetailsInstance.StartTimeUtc = startTimeUtcInstance;
+                                    }
+                                    
+                                    JToken lastUpdatedTimeUtcValue = upgradeDetailsValue2["lastUpdatedTimeUtc"];
+                                    if (lastUpdatedTimeUtcValue != null && lastUpdatedTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string lastUpdatedTimeUtcInstance = ((string)lastUpdatedTimeUtcValue);
+                                        upgradeDetailsInstance.LastUpdatedTimeUtc = lastUpdatedTimeUtcInstance;
+                                    }
+                                    
+                                    JToken endTimeUtcValue = upgradeDetailsValue2["endTimeUtc"];
+                                    if (endTimeUtcValue != null && endTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string endTimeUtcInstance = ((string)endTimeUtcValue);
+                                        upgradeDetailsInstance.EndTimeUtc = endTimeUtcInstance;
+                                    }
+                                    
+                                    JToken statusValue = upgradeDetailsValue2["status"];
+                                    if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance = ((string)statusValue);
+                                        upgradeDetailsInstance.Status = statusInstance;
+                                    }
+                                    
+                                    JToken messageValue = upgradeDetailsValue2["message"];
+                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
+                                    {
+                                        string messageInstance = ((string)messageValue);
+                                        upgradeDetailsInstance.Message = messageInstance;
+                                    }
+                                    
+                                    JToken triggerTypeValue = upgradeDetailsValue2["triggerType"];
+                                    if (triggerTypeValue != null && triggerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string triggerTypeInstance = ((string)triggerTypeValue);
+                                        upgradeDetailsInstance.TriggerType = triggerTypeInstance;
+                                    }
+                                    
+                                    JToken upgradedResourceIdValue = upgradeDetailsValue2["upgradedResourceId"];
+                                    if (upgradedResourceIdValue != null && upgradedResourceIdValue.Type != JTokenType.Null)
+                                    {
+                                        string upgradedResourceIdInstance = ((string)upgradedResourceIdValue);
+                                        upgradeDetailsInstance.UpgradedResourceId = upgradedResourceIdInstance;
+                                    }
+                                    
+                                    JToken previousResourceIdValue = upgradeDetailsValue2["previousResourceId"];
+                                    if (previousResourceIdValue != null && previousResourceIdValue.Type != JTokenType.Null)
+                                    {
+                                        string previousResourceIdInstance = ((string)previousResourceIdValue);
+                                        upgradeDetailsInstance.PreviousResourceId = previousResourceIdInstance;
+                                    }
                                 }
                             }
                             
@@ -400,7 +536,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + "/";
             url = url + Uri.EscapeDataString(vaultName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -748,7 +884,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + "/";
             url = url + Uri.EscapeDataString(resourceName);
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -879,6 +1015,76 @@ namespace Microsoft.Azure.Management.RecoveryServices
                                     string provisioningStateInstance = ((string)provisioningStateValue);
                                     propertiesInstance.ProvisioningState = provisioningStateInstance;
                                 }
+                                
+                                JToken upgradeDetailsValue = propertiesValue["upgradeDetails"];
+                                if (upgradeDetailsValue != null && upgradeDetailsValue.Type != JTokenType.Null)
+                                {
+                                    UpgradeDetails upgradeDetailsInstance = new UpgradeDetails();
+                                    propertiesInstance.UpgradeDetails = upgradeDetailsInstance;
+                                    
+                                    JToken operationIdValue = upgradeDetailsValue["operationId"];
+                                    if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
+                                    {
+                                        string operationIdInstance = ((string)operationIdValue);
+                                        upgradeDetailsInstance.OperationId = operationIdInstance;
+                                    }
+                                    
+                                    JToken startTimeUtcValue = upgradeDetailsValue["startTimeUtc"];
+                                    if (startTimeUtcValue != null && startTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string startTimeUtcInstance = ((string)startTimeUtcValue);
+                                        upgradeDetailsInstance.StartTimeUtc = startTimeUtcInstance;
+                                    }
+                                    
+                                    JToken lastUpdatedTimeUtcValue = upgradeDetailsValue["lastUpdatedTimeUtc"];
+                                    if (lastUpdatedTimeUtcValue != null && lastUpdatedTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string lastUpdatedTimeUtcInstance = ((string)lastUpdatedTimeUtcValue);
+                                        upgradeDetailsInstance.LastUpdatedTimeUtc = lastUpdatedTimeUtcInstance;
+                                    }
+                                    
+                                    JToken endTimeUtcValue = upgradeDetailsValue["endTimeUtc"];
+                                    if (endTimeUtcValue != null && endTimeUtcValue.Type != JTokenType.Null)
+                                    {
+                                        string endTimeUtcInstance = ((string)endTimeUtcValue);
+                                        upgradeDetailsInstance.EndTimeUtc = endTimeUtcInstance;
+                                    }
+                                    
+                                    JToken statusValue = upgradeDetailsValue["status"];
+                                    if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                    {
+                                        string statusInstance = ((string)statusValue);
+                                        upgradeDetailsInstance.Status = statusInstance;
+                                    }
+                                    
+                                    JToken messageValue = upgradeDetailsValue["message"];
+                                    if (messageValue != null && messageValue.Type != JTokenType.Null)
+                                    {
+                                        string messageInstance = ((string)messageValue);
+                                        upgradeDetailsInstance.Message = messageInstance;
+                                    }
+                                    
+                                    JToken triggerTypeValue = upgradeDetailsValue["triggerType"];
+                                    if (triggerTypeValue != null && triggerTypeValue.Type != JTokenType.Null)
+                                    {
+                                        string triggerTypeInstance = ((string)triggerTypeValue);
+                                        upgradeDetailsInstance.TriggerType = triggerTypeInstance;
+                                    }
+                                    
+                                    JToken upgradedResourceIdValue = upgradeDetailsValue["upgradedResourceId"];
+                                    if (upgradedResourceIdValue != null && upgradedResourceIdValue.Type != JTokenType.Null)
+                                    {
+                                        string upgradedResourceIdInstance = ((string)upgradedResourceIdValue);
+                                        upgradeDetailsInstance.UpgradedResourceId = upgradedResourceIdInstance;
+                                    }
+                                    
+                                    JToken previousResourceIdValue = upgradeDetailsValue["previousResourceId"];
+                                    if (previousResourceIdValue != null && previousResourceIdValue.Type != JTokenType.Null)
+                                    {
+                                        string previousResourceIdInstance = ((string)previousResourceIdValue);
+                                        upgradeDetailsInstance.PreviousResourceId = previousResourceIdInstance;
+                                    }
+                                }
                             }
                             
                             JToken eTagValue = responseDoc["eTag"];
@@ -886,6 +1092,218 @@ namespace Microsoft.Azure.Management.RecoveryServices
                             {
                                 string eTagInstance = ((string)eTagValue);
                                 vaultInstance.ETag = eTagInstance;
+                            }
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Fetches backup resource vault config.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of resource group to which vault belongs
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. The name of the vault
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public async Task<GetBackupResourceVaultConfigResponse> GetBackupResourceVaultConfigAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
+                tracingParameters.Add("customRequestHeaders", customRequestHeaders);
+                TracingAdapter.Enter(invocationId, this, "GetBackupResourceVaultConfigAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/Subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + Uri.EscapeDataString(this.Client.ResourceNamespace);
+            url = url + "/";
+            url = url + "vaults";
+            url = url + "/";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/backupconfig/vaultconfig";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2016-06-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    GetBackupResourceVaultConfigResponse result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new GetBackupResourceVaultConfigResponse();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            JToken idValue = responseDoc["id"];
+                            if (idValue != null && idValue.Type != JTokenType.Null)
+                            {
+                                string idInstance = ((string)idValue);
+                                result.Id = idInstance;
+                            }
+                            
+                            JToken nameValue = responseDoc["name"];
+                            if (nameValue != null && nameValue.Type != JTokenType.Null)
+                            {
+                                string nameInstance = ((string)nameValue);
+                                result.Name = nameInstance;
+                            }
+                            
+                            JToken typeValue = responseDoc["type"];
+                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                            {
+                                string typeInstance = ((string)typeValue);
+                                result.Type = typeInstance;
+                            }
+                            
+                            JToken propertiesValue = responseDoc["properties"];
+                            if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
+                            {
+                                BackupResourceVaultConfig propertiesInstance = new BackupResourceVaultConfig();
+                                result.Properties = propertiesInstance;
+                                
+                                JToken storageTypeValue = propertiesValue["storageType"];
+                                if (storageTypeValue != null && storageTypeValue.Type != JTokenType.Null)
+                                {
+                                    string storageTypeInstance = ((string)storageTypeValue);
+                                    propertiesInstance.StorageType = storageTypeInstance;
+                                }
+                                
+                                JToken storageTypeStateValue = propertiesValue["storageTypeState"];
+                                if (storageTypeStateValue != null && storageTypeStateValue.Type != JTokenType.Null)
+                                {
+                                    string storageTypeStateInstance = ((string)storageTypeStateValue);
+                                    propertiesInstance.StorageTypeState = storageTypeStateInstance;
+                                }
+                                
+                                JToken enhancedSecurityStateValue = propertiesValue["enhancedSecurityState"];
+                                if (enhancedSecurityStateValue != null && enhancedSecurityStateValue.Type != JTokenType.Null)
+                                {
+                                    string enhancedSecurityStateInstance = ((string)enhancedSecurityStateValue);
+                                    propertiesInstance.EnhancedSecurityState = enhancedSecurityStateInstance;
+                                }
                             }
                         }
                         
@@ -975,7 +1393,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupstorageconfig/vaultstorageconfig";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1121,6 +1539,212 @@ namespace Microsoft.Azure.Management.RecoveryServices
         }
         
         /// <summary>
+        /// Get the token info.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get token info response.
+        /// </returns>
+        public async Task<GetTokenInfoResponse> GetTokenInfoAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
+                tracingParameters.Add("customRequestHeaders", customRequestHeaders);
+                TracingAdapter.Enter(invocationId, this, "GetTokenInfoAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/Subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + Uri.EscapeDataString(this.Client.ResourceNamespace);
+            url = url + "/";
+            url = url + "vaults";
+            url = url + "/";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/backupTokenInfo/vaultTokenInfo";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2016-06-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = HttpMethod.Get;
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept-Language", customRequestHeaders.Culture);
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
+                httpRequest.Headers.Add("x-ms-version", "2015-01-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, null, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    GetTokenInfoResponse result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.OK)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new GetTokenInfoResponse();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            JToken idValue = responseDoc["id"];
+                            if (idValue != null && idValue.Type != JTokenType.Null)
+                            {
+                                string idInstance = ((string)idValue);
+                                result.Id = idInstance;
+                            }
+                            
+                            JToken nameValue = responseDoc["name"];
+                            if (nameValue != null && nameValue.Type != JTokenType.Null)
+                            {
+                                string nameInstance = ((string)nameValue);
+                                result.Name = nameInstance;
+                            }
+                            
+                            JToken typeValue = responseDoc["type"];
+                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                            {
+                                string typeInstance = ((string)typeValue);
+                                result.Type = typeInstance;
+                            }
+                            
+                            JToken propertiesValue = responseDoc["properties"];
+                            if (propertiesValue != null && propertiesValue.Type != JTokenType.Null)
+                            {
+                                TokenInformation propertiesInstance = new TokenInformation();
+                                result.Properties = propertiesInstance;
+                                
+                                JToken tokenValue = propertiesValue["token"];
+                                if (tokenValue != null && tokenValue.Type != JTokenType.Null)
+                                {
+                                    string tokenInstance = ((string)tokenValue);
+                                    propertiesInstance.Token = tokenInstance;
+                                }
+                                
+                                JToken expiryTimeInUtcTicksValue = propertiesValue["expiryTimeInUtcTicks"];
+                                if (expiryTimeInUtcTicksValue != null && expiryTimeInUtcTicksValue.Type != JTokenType.Null)
+                                {
+                                    long expiryTimeInUtcTicksInstance = ((long)expiryTimeInUtcTicksValue);
+                                    propertiesInstance.ExpiryTimeInUTCTicks = expiryTimeInUtcTicksInstance;
+                                }
+                            }
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
         /// Retrieve a list of Vaults.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -1170,7 +1794,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + "/";
             url = url + "vaults";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);
@@ -1306,6 +1930,76 @@ namespace Microsoft.Azure.Management.RecoveryServices
                                             string provisioningStateInstance = ((string)provisioningStateValue);
                                             propertiesInstance.ProvisioningState = provisioningStateInstance;
                                         }
+                                        
+                                        JToken upgradeDetailsValue = propertiesValue["upgradeDetails"];
+                                        if (upgradeDetailsValue != null && upgradeDetailsValue.Type != JTokenType.Null)
+                                        {
+                                            UpgradeDetails upgradeDetailsInstance = new UpgradeDetails();
+                                            propertiesInstance.UpgradeDetails = upgradeDetailsInstance;
+                                            
+                                            JToken operationIdValue = upgradeDetailsValue["operationId"];
+                                            if (operationIdValue != null && operationIdValue.Type != JTokenType.Null)
+                                            {
+                                                string operationIdInstance = ((string)operationIdValue);
+                                                upgradeDetailsInstance.OperationId = operationIdInstance;
+                                            }
+                                            
+                                            JToken startTimeUtcValue = upgradeDetailsValue["startTimeUtc"];
+                                            if (startTimeUtcValue != null && startTimeUtcValue.Type != JTokenType.Null)
+                                            {
+                                                string startTimeUtcInstance = ((string)startTimeUtcValue);
+                                                upgradeDetailsInstance.StartTimeUtc = startTimeUtcInstance;
+                                            }
+                                            
+                                            JToken lastUpdatedTimeUtcValue = upgradeDetailsValue["lastUpdatedTimeUtc"];
+                                            if (lastUpdatedTimeUtcValue != null && lastUpdatedTimeUtcValue.Type != JTokenType.Null)
+                                            {
+                                                string lastUpdatedTimeUtcInstance = ((string)lastUpdatedTimeUtcValue);
+                                                upgradeDetailsInstance.LastUpdatedTimeUtc = lastUpdatedTimeUtcInstance;
+                                            }
+                                            
+                                            JToken endTimeUtcValue = upgradeDetailsValue["endTimeUtc"];
+                                            if (endTimeUtcValue != null && endTimeUtcValue.Type != JTokenType.Null)
+                                            {
+                                                string endTimeUtcInstance = ((string)endTimeUtcValue);
+                                                upgradeDetailsInstance.EndTimeUtc = endTimeUtcInstance;
+                                            }
+                                            
+                                            JToken statusValue = upgradeDetailsValue["status"];
+                                            if (statusValue != null && statusValue.Type != JTokenType.Null)
+                                            {
+                                                string statusInstance = ((string)statusValue);
+                                                upgradeDetailsInstance.Status = statusInstance;
+                                            }
+                                            
+                                            JToken messageValue = upgradeDetailsValue["message"];
+                                            if (messageValue != null && messageValue.Type != JTokenType.Null)
+                                            {
+                                                string messageInstance = ((string)messageValue);
+                                                upgradeDetailsInstance.Message = messageInstance;
+                                            }
+                                            
+                                            JToken triggerTypeValue = upgradeDetailsValue["triggerType"];
+                                            if (triggerTypeValue != null && triggerTypeValue.Type != JTokenType.Null)
+                                            {
+                                                string triggerTypeInstance = ((string)triggerTypeValue);
+                                                upgradeDetailsInstance.TriggerType = triggerTypeInstance;
+                                            }
+                                            
+                                            JToken upgradedResourceIdValue = upgradeDetailsValue["upgradedResourceId"];
+                                            if (upgradedResourceIdValue != null && upgradedResourceIdValue.Type != JTokenType.Null)
+                                            {
+                                                string upgradedResourceIdInstance = ((string)upgradedResourceIdValue);
+                                                upgradeDetailsInstance.UpgradedResourceId = upgradedResourceIdInstance;
+                                            }
+                                            
+                                            JToken previousResourceIdValue = upgradeDetailsValue["previousResourceId"];
+                                            if (previousResourceIdValue != null && previousResourceIdValue.Type != JTokenType.Null)
+                                            {
+                                                string previousResourceIdInstance = ((string)previousResourceIdValue);
+                                                upgradeDetailsInstance.PreviousResourceId = previousResourceIdInstance;
+                                            }
+                                        }
                                     }
                                     
                                     JToken eTagValue = valueValue["eTag"];
@@ -1314,6 +2008,260 @@ namespace Microsoft.Azure.Management.RecoveryServices
                                         string eTagInstance = ((string)eTagValue);
                                         vaultInstance.ETag = eTagInstance;
                                     }
+                                }
+                            }
+                        }
+                        
+                    }
+                    result.StatusCode = statusCode;
+                    
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.Exit(invocationId, result);
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (httpResponse != null)
+                    {
+                        httpResponse.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (httpRequest != null)
+                {
+                    httpRequest.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Updates backup resource vault config.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// Required.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required.
+        /// </param>
+        /// <param name='updateBackupResourceVaultConfigRequest'>
+        /// Required. Update Vault Storage Type Request
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        public async Task<UpdateBackupResourceVaultConfigResponse> UpdateBackupResourceVaultConfigAsync(string resourceGroupName, string resourceName, UpdateBackupResourceVaultConfigRequest updateBackupResourceVaultConfigRequest, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken)
+        {
+            // Validate
+            if (resourceGroupName == null)
+            {
+                throw new ArgumentNullException("resourceGroupName");
+            }
+            if (resourceName == null)
+            {
+                throw new ArgumentNullException("resourceName");
+            }
+            if (updateBackupResourceVaultConfigRequest == null)
+            {
+                throw new ArgumentNullException("updateBackupResourceVaultConfigRequest");
+            }
+            if (updateBackupResourceVaultConfigRequest.Properties == null)
+            {
+                throw new ArgumentNullException("updateBackupResourceVaultConfigRequest.Properties");
+            }
+            
+            // Tracing
+            bool shouldTrace = TracingAdapter.IsEnabled;
+            string invocationId = null;
+            if (shouldTrace)
+            {
+                invocationId = TracingAdapter.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("resourceGroupName", resourceGroupName);
+                tracingParameters.Add("resourceName", resourceName);
+                tracingParameters.Add("updateBackupResourceVaultConfigRequest", updateBackupResourceVaultConfigRequest);
+                tracingParameters.Add("customRequestHeaders", customRequestHeaders);
+                TracingAdapter.Enter(invocationId, this, "UpdateBackupResourceVaultConfigAsync", tracingParameters);
+            }
+            
+            // Construct URL
+            string url = "";
+            url = url + "/Subscriptions/";
+            if (this.Client.Credentials.SubscriptionId != null)
+            {
+                url = url + Uri.EscapeDataString(this.Client.Credentials.SubscriptionId);
+            }
+            url = url + "/resourceGroups/";
+            url = url + Uri.EscapeDataString(resourceGroupName);
+            url = url + "/providers/";
+            url = url + Uri.EscapeDataString(this.Client.ResourceNamespace);
+            url = url + "/";
+            url = url + "vaults";
+            url = url + "/";
+            url = url + Uri.EscapeDataString(resourceName);
+            url = url + "/backupconfig/vaultconfig";
+            List<string> queryParameters = new List<string>();
+            queryParameters.Add("api-version=2016-06-01");
+            if (queryParameters.Count > 0)
+            {
+                url = url + "?" + string.Join("&", queryParameters);
+            }
+            string baseUrl = this.Client.BaseUri.AbsoluteUri;
+            // Trim '/' character from the end of baseUrl and beginning of url.
+            if (baseUrl[baseUrl.Length - 1] == '/')
+            {
+                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+            }
+            if (url[0] == '/')
+            {
+                url = url.Substring(1);
+            }
+            url = baseUrl + "/" + url;
+            url = url.Replace(" ", "%20");
+            
+            // Create HTTP transport objects
+            HttpRequestMessage httpRequest = null;
+            try
+            {
+                httpRequest = new HttpRequestMessage();
+                httpRequest.Method = new HttpMethod("PATCH");
+                httpRequest.RequestUri = new Uri(url);
+                
+                // Set Headers
+                httpRequest.Headers.Add("Accept-Language", "en-us");
+                httpRequest.Headers.Add("x-ms-client-request-id", customRequestHeaders.ClientRequestId);
+                httpRequest.Headers.Add("x-ms-version", "2015-01-01");
+                
+                // Set Credentials
+                cancellationToken.ThrowIfCancellationRequested();
+                await this.Client.Credentials.ProcessHttpRequestAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                
+                // Serialize Request
+                string requestContent = null;
+                JToken requestDoc = null;
+                
+                JObject updateBackupResourceVaultConfigRequestValue = new JObject();
+                requestDoc = updateBackupResourceVaultConfigRequestValue;
+                
+                JObject propertiesValue = new JObject();
+                updateBackupResourceVaultConfigRequestValue["properties"] = propertiesValue;
+                
+                if (updateBackupResourceVaultConfigRequest.Properties.StorageType != null)
+                {
+                    propertiesValue["storageType"] = updateBackupResourceVaultConfigRequest.Properties.StorageType;
+                }
+                
+                if (updateBackupResourceVaultConfigRequest.Properties.StorageTypeState != null)
+                {
+                    propertiesValue["storageTypeState"] = updateBackupResourceVaultConfigRequest.Properties.StorageTypeState;
+                }
+                
+                if (updateBackupResourceVaultConfigRequest.Properties.EnhancedSecurityState != null)
+                {
+                    propertiesValue["enhancedSecurityState"] = updateBackupResourceVaultConfigRequest.Properties.EnhancedSecurityState;
+                }
+                
+                requestContent = requestDoc.ToString(Newtonsoft.Json.Formatting.Indented);
+                httpRequest.Content = new StringContent(requestContent, Encoding.UTF8);
+                httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+                
+                // Send Request
+                HttpResponseMessage httpResponse = null;
+                try
+                {
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.SendRequest(invocationId, httpRequest);
+                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+                    httpResponse = await this.Client.HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                    if (shouldTrace)
+                    {
+                        TracingAdapter.ReceiveResponse(invocationId, httpResponse);
+                    }
+                    HttpStatusCode statusCode = httpResponse.StatusCode;
+                    if (statusCode != HttpStatusCode.OK && statusCode != HttpStatusCode.NoContent)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        CloudException ex = CloudException.Create(httpRequest, requestContent, httpResponse, await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false));
+                        if (shouldTrace)
+                        {
+                            TracingAdapter.Error(invocationId, ex);
+                        }
+                        throw ex;
+                    }
+                    
+                    // Create Result
+                    UpdateBackupResourceVaultConfigResponse result = null;
+                    // Deserialize Response
+                    if (statusCode == HttpStatusCode.OK || statusCode == HttpStatusCode.NoContent)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        result = new UpdateBackupResourceVaultConfigResponse();
+                        JToken responseDoc = null;
+                        if (string.IsNullOrEmpty(responseContent) == false)
+                        {
+                            responseDoc = JToken.Parse(responseContent);
+                        }
+                        
+                        if (responseDoc != null && responseDoc.Type != JTokenType.Null)
+                        {
+                            JToken idValue = responseDoc["id"];
+                            if (idValue != null && idValue.Type != JTokenType.Null)
+                            {
+                                string idInstance = ((string)idValue);
+                                result.Id = idInstance;
+                            }
+                            
+                            JToken nameValue = responseDoc["name"];
+                            if (nameValue != null && nameValue.Type != JTokenType.Null)
+                            {
+                                string nameInstance = ((string)nameValue);
+                                result.Name = nameInstance;
+                            }
+                            
+                            JToken typeValue = responseDoc["type"];
+                            if (typeValue != null && typeValue.Type != JTokenType.Null)
+                            {
+                                string typeInstance = ((string)typeValue);
+                                result.Type = typeInstance;
+                            }
+                            
+                            JToken propertiesValue2 = responseDoc["properties"];
+                            if (propertiesValue2 != null && propertiesValue2.Type != JTokenType.Null)
+                            {
+                                BackupResourceVaultConfig propertiesInstance = new BackupResourceVaultConfig();
+                                result.Properties = propertiesInstance;
+                                
+                                JToken storageTypeValue = propertiesValue2["storageType"];
+                                if (storageTypeValue != null && storageTypeValue.Type != JTokenType.Null)
+                                {
+                                    string storageTypeInstance = ((string)storageTypeValue);
+                                    propertiesInstance.StorageType = storageTypeInstance;
+                                }
+                                
+                                JToken storageTypeStateValue = propertiesValue2["storageTypeState"];
+                                if (storageTypeStateValue != null && storageTypeStateValue.Type != JTokenType.Null)
+                                {
+                                    string storageTypeStateInstance = ((string)storageTypeStateValue);
+                                    propertiesInstance.StorageTypeState = storageTypeStateInstance;
+                                }
+                                
+                                JToken enhancedSecurityStateValue = propertiesValue2["enhancedSecurityState"];
+                                if (enhancedSecurityStateValue != null && enhancedSecurityStateValue.Type != JTokenType.Null)
+                                {
+                                    string enhancedSecurityStateInstance = ((string)enhancedSecurityStateValue);
+                                    propertiesInstance.EnhancedSecurityState = enhancedSecurityStateInstance;
                                 }
                             }
                         }
@@ -1417,7 +2365,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             url = url + Uri.EscapeDataString(resourceName);
             url = url + "/backupstorageconfig/vaultstorageconfig";
             List<string> queryParameters = new List<string>();
-            queryParameters.Add("api-version=2016-05-01");
+            queryParameters.Add("api-version=2016-06-01");
             if (queryParameters.Count > 0)
             {
                 url = url + "?" + string.Join("&", queryParameters);

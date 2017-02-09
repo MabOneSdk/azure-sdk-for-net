@@ -74,6 +74,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Models
             set { this._recoveryPlanCount = value; }
         }
         
+        private int _registeredServersCount;
+        
+        /// <summary>
+        /// Optional. The registered servers count.
+        /// </summary>
+        public int RegisteredServersCount
+        {
+            get { return this._registeredServersCount; }
+            set { this._registeredServersCount = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the ReplicationUsages class.
         /// </summary>

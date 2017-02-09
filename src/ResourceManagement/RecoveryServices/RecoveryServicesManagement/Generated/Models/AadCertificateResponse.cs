@@ -21,41 +21,64 @@
 
 using System;
 using System.Linq;
+using Microsoft.Azure;
 using Microsoft.Azure.Management.RecoveryServices.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Models
 {
     /// <summary>
-    /// The definition of a vault properties object.
+    /// The response model for the upload certificate response for AAD
     /// </summary>
-    public partial class VaultProperties
+    public partial class AadCertificateResponse : AzureOperationResponse
     {
-        private string _provisioningState;
+        private string _id;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Id.
         /// </summary>
-        public string ProvisioningState
+        public string Id
         {
-            get { return this._provisioningState; }
-            set { this._provisioningState = value; }
+            get { return this._id; }
+            set { this._id = value; }
         }
         
-        private UpgradeDetails _upgradeDetails;
+        private string _name;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Name.
         /// </summary>
-        public UpgradeDetails UpgradeDetails
+        public string Name
         {
-            get { return this._upgradeDetails; }
-            set { this._upgradeDetails = value; }
+            get { return this._name; }
+            set { this._name = value; }
+        }
+        
+        private ResourceCertificateAndAadDetails _properties;
+        
+        /// <summary>
+        /// Optional. Certificate Properties.
+        /// </summary>
+        public ResourceCertificateAndAadDetails Properties
+        {
+            get { return this._properties; }
+            set { this._properties = value; }
+        }
+        
+        private string _type;
+        
+        /// <summary>
+        /// Optional. type.
+        /// </summary>
+        public string Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the VaultProperties class.
+        /// Initializes a new instance of the AadCertificateResponse class.
         /// </summary>
-        public VaultProperties()
+        public AadCertificateResponse()
         {
         }
     }

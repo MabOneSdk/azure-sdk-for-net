@@ -26,36 +26,36 @@ using Microsoft.Azure.Management.RecoveryServices.Models;
 namespace Microsoft.Azure.Management.RecoveryServices.Models
 {
     /// <summary>
-    /// The definition of a vault properties object.
+    /// Certificate details to be uploaded to the vault.
     /// </summary>
-    public partial class VaultProperties
+    public partial class RawCertificateData
     {
-        private string _provisioningState;
+        private AuthType _authtype;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Authentication type to be used with the certificate.
         /// </summary>
-        public string ProvisioningState
+        public AuthType Authtype
         {
-            get { return this._provisioningState; }
-            set { this._provisioningState = value; }
+            get { return this._authtype; }
+            set { this._authtype = value; }
         }
         
-        private UpgradeDetails _upgradeDetails;
+        private string _certificate;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Base 64 encoded raw data string of the certificate.
         /// </summary>
-        public UpgradeDetails UpgradeDetails
+        public string Certificate
         {
-            get { return this._upgradeDetails; }
-            set { this._upgradeDetails = value; }
+            get { return this._certificate; }
+            set { this._certificate = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the VaultProperties class.
+        /// Initializes a new instance of the RawCertificateData class.
         /// </summary>
-        public VaultProperties()
+        public RawCertificateData()
         {
         }
     }

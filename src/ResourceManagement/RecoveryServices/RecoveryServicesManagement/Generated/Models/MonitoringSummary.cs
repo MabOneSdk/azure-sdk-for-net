@@ -29,6 +29,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Models
     /// </summary>
     public partial class MonitoringSummary
     {
+        private int _deprecatedProviderCount;
+        
+        /// <summary>
+        /// Required. Count of all deprecates recovery service providers.
+        /// </summary>
+        public int DeprecatedProviderCount
+        {
+            get { return this._deprecatedProviderCount; }
+            set { this._deprecatedProviderCount = value; }
+        }
+        
         private int _eventsCount;
         
         /// <summary>
@@ -38,6 +49,17 @@ namespace Microsoft.Azure.Management.RecoveryServices.Models
         {
             get { return this._eventsCount; }
             set { this._eventsCount = value; }
+        }
+        
+        private int _supportedProviderCount;
+        
+        /// <summary>
+        /// Required. Count of all supported recovery service providers.
+        /// </summary>
+        public int SupportedProviderCount
+        {
+            get { return this._supportedProviderCount; }
+            set { this._supportedProviderCount = value; }
         }
         
         private int _unHealthyProviderCount;
@@ -62,23 +84,22 @@ namespace Microsoft.Azure.Management.RecoveryServices.Models
             set { this._unHealthyVmCount = value; }
         }
         
+        private int _unsupportedProviderCount;
+        
+        /// <summary>
+        /// Required. Count of all unsupported recovery service providers.
+        /// </summary>
+        public int UnsupportedProviderCount
+        {
+            get { return this._unsupportedProviderCount; }
+            set { this._unsupportedProviderCount = value; }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the MonitoringSummary class.
         /// </summary>
         public MonitoringSummary()
         {
-        }
-        
-        /// <summary>
-        /// Initializes a new instance of the MonitoringSummary class with
-        /// required arguments.
-        /// </summary>
-        public MonitoringSummary(int unHealthyVmCount, int unHealthyProviderCount, int eventsCount)
-            : this()
-        {
-            this.UnHealthyVmCount = unHealthyVmCount;
-            this.UnHealthyProviderCount = unHealthyProviderCount;
-            this.EventsCount = eventsCount;
         }
     }
 }

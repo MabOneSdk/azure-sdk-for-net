@@ -103,7 +103,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
         Task<ResourceExtendedInformationResponse> UpdateExtendedInfoAsync(string resourceGroupName, string resourceName, ResourceExtendedInformationArgs extendedInfoArgs, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         
         /// <summary>
-        /// Get the vault extended info.
+        /// Upload certificate to ACS namespace.
         /// </summary>
         /// <param name='resourceGroupName'>
         /// The name of the resource group containing the job collection.
@@ -127,5 +127,31 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// The response model for the upload certificate response
         /// </returns>
         Task<UploadCertificateResponse> UploadCertificateAsync(string resourceGroupName, string resourceName, CertificateArgs parameters, string certFriendlyName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Upload certificate to AAD Tenant.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// The name of the resource group containing the job collection.
+        /// </param>
+        /// <param name='resourceName'>
+        /// The name of the resource.
+        /// </param>
+        /// <param name='parameters'>
+        /// Upload Vault Certificate input parameters.
+        /// </param>
+        /// <param name='certFriendlyName'>
+        /// Certificate friendly name
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response model for the upload certificate response for AAD
+        /// </returns>
+        Task<AadCertificateResponse> UploadCertificateToAadAsync(string resourceGroupName, string resourceName, CertificateRequest parameters, string certFriendlyName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
     }
 }

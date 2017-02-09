@@ -157,6 +157,26 @@ namespace Microsoft.Azure.Management.RecoveryServices
         Task<VaultResponse> GetAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         
         /// <summary>
+        /// Fetches backup resource vault config.
+        /// </summary>
+        /// <param name='resourceGroupName'>
+        /// The name of resource group to which vault belongs
+        /// </param>
+        /// <param name='resourceName'>
+        /// The name of the vault
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        Task<GetBackupResourceVaultConfigResponse> GetBackupResourceVaultConfigAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// Fetches resource storage config.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -177,6 +197,20 @@ namespace Microsoft.Azure.Management.RecoveryServices
         Task<GetResourceStorageConfigResponse> GetResourceStorageConfigAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         
         /// <summary>
+        /// Get the token info.
+        /// </summary>
+        /// <param name='customRequestHeaders'>
+        /// Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get token info response.
+        /// </returns>
+        Task<GetTokenInfoResponse> GetTokenInfoAsync(string resourceGroupName, string resourceName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
+        
+        /// <summary>
         /// Retrieve a list of Vaults.
         /// </summary>
         /// <param name='resourceGroupName'>
@@ -193,6 +227,23 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// The response model for Vault.
         /// </returns>
         Task<VaultListResponse> ListAsync(string resourceGroupName, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
+        
+        /// <summary>
+        /// Updates backup resource vault config.
+        /// </summary>
+        /// <param name='updateBackupResourceVaultConfigRequest'>
+        /// Update Vault Storage Type Request
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Request header parameters.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// Cancellation token.
+        /// </param>
+        /// <returns>
+        /// The definition of a get backup resource vault config response.
+        /// </returns>
+        Task<UpdateBackupResourceVaultConfigResponse> UpdateBackupResourceVaultConfigAsync(string resourceGroupName, string resourceName, UpdateBackupResourceVaultConfigRequest updateBackupResourceVaultConfigRequest, CustomRequestHeaders customRequestHeaders, CancellationToken cancellationToken);
         
         /// <summary>
         /// Updates vault storage model type.

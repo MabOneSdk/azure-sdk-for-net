@@ -206,7 +206,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
         }
         
         /// <summary>
-        /// Get the vault extended info.
+        /// Upload certificate to ACS namespace.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -241,7 +241,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
         }
         
         /// <summary>
-        /// Get the vault extended info.
+        /// Upload certificate to ACS namespace.
         /// </summary>
         /// <param name='operations'>
         /// Reference to the
@@ -269,6 +269,72 @@ namespace Microsoft.Azure.Management.RecoveryServices
         public static Task<UploadCertificateResponse> UploadCertificateAsync(this IVaultExtendedInfoOperations operations, string resourceGroupName, string resourceName, CertificateArgs parameters, string certFriendlyName, CustomRequestHeaders customRequestHeaders)
         {
             return operations.UploadCertificateAsync(resourceGroupName, resourceName, parameters, certFriendlyName, customRequestHeaders, CancellationToken.None);
+        }
+        
+        /// <summary>
+        /// Upload certificate to AAD Tenant.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultExtendedInfoOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group containing the job
+        /// collection.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. The name of the resource.
+        /// </param>
+        /// <param name='parameters'>
+        /// Required. Upload Vault Certificate input parameters.
+        /// </param>
+        /// <param name='certFriendlyName'>
+        /// Required. Certificate friendly name
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The response model for the upload certificate response for AAD
+        /// </returns>
+        public static AadCertificateResponse UploadCertificateToAad(this IVaultExtendedInfoOperations operations, string resourceGroupName, string resourceName, CertificateRequest parameters, string certFriendlyName, CustomRequestHeaders customRequestHeaders)
+        {
+            return Task.Factory.StartNew((object s) => 
+            {
+                return ((IVaultExtendedInfoOperations)s).UploadCertificateToAadAsync(resourceGroupName, resourceName, parameters, certFriendlyName, customRequestHeaders);
+            }
+            , operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+        
+        /// <summary>
+        /// Upload certificate to AAD Tenant.
+        /// </summary>
+        /// <param name='operations'>
+        /// Reference to the
+        /// Microsoft.Azure.Management.RecoveryServices.IVaultExtendedInfoOperations.
+        /// </param>
+        /// <param name='resourceGroupName'>
+        /// Required. The name of the resource group containing the job
+        /// collection.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Required. The name of the resource.
+        /// </param>
+        /// <param name='parameters'>
+        /// Required. Upload Vault Certificate input parameters.
+        /// </param>
+        /// <param name='certFriendlyName'>
+        /// Required. Certificate friendly name
+        /// </param>
+        /// <param name='customRequestHeaders'>
+        /// Optional. Request header parameters.
+        /// </param>
+        /// <returns>
+        /// The response model for the upload certificate response for AAD
+        /// </returns>
+        public static Task<AadCertificateResponse> UploadCertificateToAadAsync(this IVaultExtendedInfoOperations operations, string resourceGroupName, string resourceName, CertificateRequest parameters, string certFriendlyName, CustomRequestHeaders customRequestHeaders)
+        {
+            return operations.UploadCertificateToAadAsync(resourceGroupName, resourceName, parameters, certFriendlyName, customRequestHeaders, CancellationToken.None);
         }
     }
 }

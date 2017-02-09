@@ -21,41 +21,51 @@
 
 using System;
 using System.Linq;
-using Microsoft.Azure.Management.RecoveryServices.Models;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Models
 {
     /// <summary>
-    /// The definition of a vault properties object.
+    /// The backup resource vault config details.
     /// </summary>
-    public partial class VaultProperties
+    public partial class BackupResourceVaultConfig
     {
-        private string _provisioningState;
+        private string _enhancedSecurityState;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Gets or sets the enhanced security state.
         /// </summary>
-        public string ProvisioningState
+        public string EnhancedSecurityState
         {
-            get { return this._provisioningState; }
-            set { this._provisioningState = value; }
+            get { return this._enhancedSecurityState; }
+            set { this._enhancedSecurityState = value; }
         }
         
-        private UpgradeDetails _upgradeDetails;
+        private string _storageType;
         
         /// <summary>
-        /// Optional. Provisioning State
+        /// Optional. Gets or sets the storage type.
         /// </summary>
-        public UpgradeDetails UpgradeDetails
+        public string StorageType
         {
-            get { return this._upgradeDetails; }
-            set { this._upgradeDetails = value; }
+            get { return this._storageType; }
+            set { this._storageType = value; }
+        }
+        
+        private string _storageTypeState;
+        
+        /// <summary>
+        /// Optional. Gets or sets the storage type state.
+        /// </summary>
+        public string StorageTypeState
+        {
+            get { return this._storageTypeState; }
+            set { this._storageTypeState = value; }
         }
         
         /// <summary>
-        /// Initializes a new instance of the VaultProperties class.
+        /// Initializes a new instance of the BackupResourceVaultConfig class.
         /// </summary>
-        public VaultProperties()
+        public BackupResourceVaultConfig()
         {
         }
     }
