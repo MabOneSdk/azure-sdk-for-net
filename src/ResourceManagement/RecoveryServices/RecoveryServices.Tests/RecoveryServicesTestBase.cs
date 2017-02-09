@@ -20,6 +20,7 @@ using Microsoft.Rest.Azure;
 using Microsoft.Rest.ClientRuntime.Azure.TestFramework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace Microsoft.Azure.Management.RecoveryServices.Tests
@@ -53,27 +54,7 @@ namespace Microsoft.Azure.Management.RecoveryServices.Tests
 
         public List<Vault> ListVaults()
         {
-            var vaults = new List<Vault>();
-            string nextLink = null;
-
-            var pagedVaults = VaultClient.Vaults.ListByResourceGroup(resourceGroup);
-
-            foreach (var pagedVault in pagedVaults)
-            {
-                vaults.Add(pagedVault);
-            }
-
-            while (!string.IsNullOrEmpty(nextLink))
-            {
-                nextLink = pagedVaults.NextPageLink;
-
-                foreach (var pagedVault in VaultClient.Vaults.ListByResourceGroupNext(nextLink))
-                {
-                    vaults.Add(pagedVault);
-                }
-            }
-
-            return vaults;
+            return VaultClient.Vaults.ListByResourceGroup(resourceGroup).ToList();
         }
 
         public void DeleteVault(string vaultName)

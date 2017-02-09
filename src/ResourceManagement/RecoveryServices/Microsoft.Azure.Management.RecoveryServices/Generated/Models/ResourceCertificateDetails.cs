@@ -7,14 +7,19 @@ namespace Microsoft.Azure.Management.RecoveryServices.Models
     using Azure;
     using Management;
     using RecoveryServices;
+    using System.Linq;
 
     /// <summary>
-    /// Defines values for SkuName.
+    /// Certificate details representing the Vault credentials.
     /// </summary>
-    public static class SkuName
+    public partial class ResourceCertificateDetails
     {
-        public const string Standard = "Standard";
-        public const string RS0 = "RS0";
+        /// <summary>
+        /// Initializes a new instance of the ResourceCertificateDetails class.
+        /// </summary>
+        public ResourceCertificateDetails() { }
+
+
     }
 }
 

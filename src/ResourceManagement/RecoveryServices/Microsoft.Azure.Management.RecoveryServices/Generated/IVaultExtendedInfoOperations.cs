@@ -15,35 +15,12 @@ namespace Microsoft.Azure.Management.RecoveryServices
     using System.Threading.Tasks;
 
     /// <summary>
-    /// VaultsOperations operations.
+    /// VaultExtendedInfoOperations operations.
     /// </summary>
-    public partial interface IVaultsOperations
+    public partial interface IVaultExtendedInfoOperations
     {
         /// <summary>
-        /// Retrieve a list of Vaults.
-        /// </summary>
-        /// <param name='resourceGroupName'>
-        /// The name of the resource group where the recovery services vault is
-        /// present.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        /// <exception cref="Microsoft.Rest.Azure.CloudException">
-        /// Thrown when the operation returned an invalid status code
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.SerializationException">
-        /// Thrown when unable to deserialize the response
-        /// </exception>
-        /// <exception cref="Microsoft.Rest.ValidationException">
-        /// Thrown when a required parameter is null
-        /// </exception>
-        Task<AzureOperationResponse<IEnumerable<Vault>>> ListByResourceGroupWithHttpMessagesAsync(string resourceGroupName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-        /// <summary>
-        /// Get the Vault details.
+        /// Get the vault extended info.
         /// </summary>
         /// <param name='resourceGroupName'>
         /// The name of the resource group where the recovery services vault is
@@ -67,9 +44,9 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<AzureOperationResponse<Vault>> GetWithHttpMessagesAsync(string resourceGroupName, string vaultName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AzureOperationResponse<VaultExtendedInfoResource>> GetWithHttpMessagesAsync(string resourceGroupName, string vaultName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Creates or updates a Recovery Services vault.
+        /// Create vault extended info.
         /// </summary>
         /// <param name='resourceGroupName'>
         /// The name of the resource group where the recovery services vault is
@@ -78,8 +55,8 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// <param name='vaultName'>
         /// The name of the recovery services vault.
         /// </param>
-        /// <param name='vault'>
-        /// Recovery Services Vault to be created.
+        /// <param name='resourceResourceExtendedInfoDetails'>
+        /// resourceResourceExtendedInfoDetails
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -96,9 +73,9 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<AzureOperationResponse<Vault>> CreateOrUpdateWithHttpMessagesAsync(string resourceGroupName, string vaultName, Vault vault, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AzureOperationResponse<VaultExtendedInfoResource>> CreateOrUpdateWithHttpMessagesAsync(string resourceGroupName, string vaultName, VaultExtendedInfoResource resourceResourceExtendedInfoDetails, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
-        /// Deletes a vault.
+        /// Update vault extended info.
         /// </summary>
         /// <param name='resourceGroupName'>
         /// The name of the resource group where the recovery services vault is
@@ -106,6 +83,9 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// </param>
         /// <param name='vaultName'>
         /// The name of the recovery services vault.
+        /// </param>
+        /// <param name='resourceResourceExtendedInfoDetails'>
+        /// resourceResourceExtendedInfoDetails
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -116,10 +96,13 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// <exception cref="Microsoft.Rest.Azure.CloudException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="Microsoft.Rest.SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <exception cref="Microsoft.Rest.ValidationException">
         /// Thrown when a required parameter is null
         /// </exception>
-        Task<AzureOperationResponse> DeleteWithHttpMessagesAsync(string resourceGroupName, string vaultName, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AzureOperationResponse<VaultExtendedInfoResource>> PatchWithHttpMessagesAsync(string resourceGroupName, string vaultName, VaultExtendedInfoResource resourceResourceExtendedInfoDetails, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
 
