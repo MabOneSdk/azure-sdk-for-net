@@ -90,6 +90,11 @@ namespace Microsoft.Azure.Management.RecoveryServices
         public virtual IVaultUsagesOperations VaultUsages { get; private set; }
 
         /// <summary>
+        /// Gets the IReplicationUsagesOperations.
+        /// </summary>
+        public virtual IReplicationUsagesOperations ReplicationUsages { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the RecoveryServicesClient class.
         /// </summary>
         /// <param name='handlers'>
@@ -295,6 +300,7 @@ namespace Microsoft.Azure.Management.RecoveryServices
             VaultCertificates = new VaultCertificatesOperations(this);
             RegisteredIdentities = new RegisteredIdentitiesOperations(this);
             VaultUsages = new VaultUsagesOperations(this);
+            ReplicationUsages = new ReplicationUsagesOperations(this);
             BaseUri = new System.Uri("https://management.azure.com");
             AcceptLanguage = "en-US";
             LongRunningOperationRetryTimeout = 30;

@@ -84,6 +84,11 @@ namespace Microsoft.Azure.Management.RecoveryServices
         /// </summary>
         IVaultUsagesOperations VaultUsages { get; }
 
+        /// <summary>
+        /// Gets the IReplicationUsagesOperations.
+        /// </summary>
+        IReplicationUsagesOperations ReplicationUsages { get; }
+
     }
 }
 
