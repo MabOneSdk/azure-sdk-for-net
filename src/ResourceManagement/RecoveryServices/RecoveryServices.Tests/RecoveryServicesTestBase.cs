@@ -90,6 +90,19 @@ namespace Microsoft.Azure.Management.RecoveryServices.Tests
             }
         }
 
+        #region VaultUsages
+
+        /// <summary>
+        /// List vault usages.
+        /// </summary>
+        /// <returns>List of vault usages.</returns>
+        public List<VaultUsage> ListVaultUsages(string vaultName)
+        {
+            return VaultClient.VaultUsages.List(vaultName, resourceGroup).ToList();
+        }
+
+        #endregion VaultUsages
+
         public void Dispose()
         {
             DisposeVaults();

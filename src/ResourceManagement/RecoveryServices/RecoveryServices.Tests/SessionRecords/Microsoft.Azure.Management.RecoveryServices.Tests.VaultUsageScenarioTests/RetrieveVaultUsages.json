@@ -1,0 +1,447 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourcegroups/RecoveryServicesTestRg?api-version=2015-11-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlZ3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0Umc/YXBpLXZlcnNpb249MjAxNS0xMS0wMQ==",
+      "RequestMethod": "PUT",
+      "RequestBody": "{\r\n  \"location\": \"westus\"\r\n}",
+      "RequestHeaders": {
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "28"
+        ],
+        "x-ms-client-request-id": [
+          "b9aa4d81-14a8-4769-8cd9-cb44a2bc3a6a"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.Resources.ResourceManagementClient/1.0.0-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg\",\r\n  \"name\": \"RecoveryServicesTestRg\",\r\n  \"location\": \"westus\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\"\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "197"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:10 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1199"
+        ],
+        "x-ms-request-id": [
+          "81d564ea-b948-4397-8ffb-1bd6b2182e4f"
+        ],
+        "x-ms-correlation-request-id": [
+          "81d564ea-b948-4397-8ffb-1bd6b2182e4f"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094710Z:81d564ea-b948-4397-8ffb-1bd6b2182e4f"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ]
+      },
+      "StatusCode": 201
+    },
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cy9TREtUZXN0UnNWYXVsdD9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "PUT",
+      "RequestBody": "{\r\n  \"properties\": {},\r\n  \"sku\": {\r\n    \"name\": \"Standard\"\r\n  },\r\n  \"location\": \"westus\"\r\n}",
+      "RequestHeaders": {
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "91"
+        ],
+        "x-ms-client-request-id": [
+          "8e0a8ce0-6a0a-42b7-bb65-0558cecb81b4"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"location\": \"westus\",\r\n  \"name\": \"SDKTestRsVault\",\r\n  \"etag\": \"W/\\\"datetime'2017-02-16T09%3A47%3A18.6878404Z'\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\"\r\n  },\r\n  \"id\": \"/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n  \"sku\": {\r\n    \"name\": \"Standard\"\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "375"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:19 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.0"
+        ],
+        "x-ms-request-id": [
+          "c45df785-f43e-453f-9f8a-a3b05344b698"
+        ],
+        "x-ms-client-request-id": [
+          "8e0a8ce0-6a0a-42b7-bb65-0558cecb81b4"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1199"
+        ],
+        "x-ms-correlation-request-id": [
+          "c45df785-f43e-453f-9f8a-a3b05344b698"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094720Z:c45df785-f43e-453f-9f8a-a3b05344b698"
+        ]
+      },
+      "StatusCode": 201
+    },
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cy9TREtUZXN0UnNWYXVsdD9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "6b12d78c-f49e-42be-ad0a-96a78de1427c"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"location\": \"westus\",\r\n  \"name\": \"SDKTestRsVault\",\r\n  \"etag\": \"W/\\\"datetime'2017-02-16T09%3A47%3A18.6878404Z'\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\"\r\n  },\r\n  \"id\": \"/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n  \"sku\": {\r\n    \"name\": \"Standard\"\r\n  }\r\n}",
+      "ResponseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:19 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Transfer-Encoding": [
+          "chunked"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.0"
+        ],
+        "Vary": [
+          "Accept-Encoding"
+        ],
+        "x-ms-request-id": [
+          "5113dac5-3159-44a4-badc-10e68af43118"
+        ],
+        "x-ms-client-request-id": [
+          "6b12d78c-f49e-42be-ad0a-96a78de1427c"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "14283"
+        ],
+        "x-ms-correlation-request-id": [
+          "5113dac5-3159-44a4-badc-10e68af43118"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094720Z:5113dac5-3159-44a4-badc-10e68af43118"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cz9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "963e7be6-cfd0-45f8-9673-b3c35bfe513b"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"location\": \"westus\",\r\n      \"name\": \"SDKTestRsVault\",\r\n      \"etag\": \"W/\\\"datetime'2017-02-16T09%3A47%3A18.6878404Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      },\r\n      \"id\": \"/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"Standard\"\r\n      }\r\n    }\r\n  ]\r\n}",
+      "ResponseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:20 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Transfer-Encoding": [
+          "chunked"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.0"
+        ],
+        "Vary": [
+          "Accept-Encoding"
+        ],
+        "x-ms-request-id": [
+          "f3e96448-440c-4c4c-950b-c3007c5b16e4"
+        ],
+        "x-ms-client-request-id": [
+          "963e7be6-cfd0-45f8-9673-b3c35bfe513b"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "14282"
+        ],
+        "x-ms-correlation-request-id": [
+          "f3e96448-440c-4c4c-950b-c3007c5b16e4"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094720Z:f3e96448-440c-4c4c-950b-c3007c5b16e4"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cz9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "80acd5d6-c18d-4219-af88-eec612858674"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"location\": \"westus\",\r\n      \"name\": \"SDKTestRsVault\",\r\n      \"etag\": \"W/\\\"datetime'2017-02-16T09%3A47%3A18.6878404Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\"\r\n      },\r\n      \"id\": \"/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"Standard\"\r\n      }\r\n    }\r\n  ]\r\n}",
+      "ResponseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:21 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Transfer-Encoding": [
+          "chunked"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.0"
+        ],
+        "Vary": [
+          "Accept-Encoding"
+        ],
+        "x-ms-request-id": [
+          "6cfbab09-63c7-4e94-9b22-65da0dccc8e9"
+        ],
+        "x-ms-client-request-id": [
+          "80acd5d6-c18d-4219-af88-eec612858674"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "14280"
+        ],
+        "x-ms-correlation-request-id": [
+          "6cfbab09-63c7-4e94-9b22-65da0dccc8e9"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094722Z:6cfbab09-63c7-4e94-9b22-65da0dccc8e9"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault/usages?api-version=2016-06-01",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cy9TREtUZXN0UnNWYXVsdC91c2FnZXM/YXBpLXZlcnNpb249MjAxNi0wNi0wMQ==",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "e4bcb8a7-b2f5-4661-935c-95ff096a9333"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"MABContainersCount\",\r\n        \"localizedValue\": \"Backup management servers\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"ProtectedItemCount\",\r\n        \"localizedValue\": \"Backup items/Azure virtual machine backup\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"IaaSVMProtectedItemCount\",\r\n        \"localizedValue\": \"Azure Virtual Machines\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"MABProtectedItemCount\",\r\n        \"localizedValue\": \"File-Folders\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"DPMProtectedItemCount\",\r\n        \"localizedValue\": \"DPM Protected Items Count\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"AzureBackupServerProtectedItemCount\",\r\n        \"localizedValue\": \"Azure Backup Server Protected Items Count\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"quotaPeriod\": \"P1D\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"InProgressJobsCount\",\r\n        \"localizedValue\": \"In progress\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"quotaPeriod\": \"P1D\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"FailedJobsCount\",\r\n        \"localizedValue\": \"Failed\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Bytes\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"GRSStorageUsage\",\r\n        \"localizedValue\": \"Cloud - GRS\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Bytes\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"LRSStorageUsage\",\r\n        \"localizedValue\": \"Cloud - LRS\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"ManagedInstances\",\r\n        \"localizedValue\": \"Protected Instances\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Bytes\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"GRSDedupStorageUsage\",\r\n        \"localizedValue\": \"Dedup - GRS\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Bytes\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"LRSDedupStorageUsage\",\r\n        \"localizedValue\": \"Dedup - LRS\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": \"Bytes\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"UsedDiskSize\",\r\n        \"localizedValue\": \"Backup Engines' Disk Used\"\r\n      }\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"ProtectedItem\",\r\n        \"localizedValue\": \"Replicated Items\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"RecoveryPlan\",\r\n        \"localizedValue\": \"Recovery Plans\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"UnHealthyProvider\",\r\n        \"localizedValue\": \"Server health critical\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"DeprecatedProvider\",\r\n        \"localizedValue\": null\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"UnSupportedProvider\",\r\n        \"localizedValue\": null\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"SupportedProvider\",\r\n        \"localizedValue\": null\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"Event\",\r\n        \"localizedValue\": \"Events\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"FailedJob\",\r\n        \"localizedValue\": \"Failed\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"InProgressJob\",\r\n        \"localizedValue\": \"In progress\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"SuspendedJob\",\r\n        \"localizedValue\": \"User input required\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"name\": {\r\n        \"value\": \"RegisteredServersCount\",\r\n        \"localizedValue\": \"Registered servers count\"\r\n      },\r\n      \"unit\": \"Count\",\r\n      \"currentValue\": 0,\r\n      \"limit\": -1\r\n    },\r\n    {\r\n      \"unit\": 0,\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"Critical\",\r\n        \"localizedValue\": \"Critical\"\r\n      }\r\n    },\r\n    {\r\n      \"unit\": 0,\r\n      \"currentValue\": 0,\r\n      \"limit\": -1,\r\n      \"name\": {\r\n        \"value\": \"Warning\",\r\n        \"localizedValue\": \"Warning\"\r\n      }\r\n    }\r\n  ]\r\n}",
+      "ResponseHeaders": {
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:21 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Transfer-Encoding": [
+          "chunked"
+        ],
+        "Server": [
+          "Microsoft-IIS/8.0"
+        ],
+        "Vary": [
+          "Accept-Encoding"
+        ],
+        "x-ms-request-id": [
+          "8f632e6a-c49f-4133-82f6-a6c2b783f6ea"
+        ],
+        "x-ms-client-request-id": [
+          "e4bcb8a7-b2f5-4661-935c-95ff096a9333"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "14281"
+        ],
+        "x-ms-correlation-request-id": [
+          "8f632e6a-c49f-4133-82f6-a6c2b783f6ea"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094722Z:8f632e6a-c49f-4133-82f6-a6c2b783f6ea"
+        ]
+      },
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/RecoveryServicesTestRg/providers/Microsoft.RecoveryServices/vaults/SDKTestRsVault?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvYzE4Mzg2NWUtNjA3Ny00NmYyLWEzYjEtZGViMGY0ZjQ2NTBhL3Jlc291cmNlR3JvdXBzL1JlY292ZXJ5U2VydmljZXNUZXN0UmcvcHJvdmlkZXJzL01pY3Jvc29mdC5SZWNvdmVyeVNlcnZpY2VzL3ZhdWx0cy9TREtUZXN0UnNWYXVsdD9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "DELETE",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "bcd99166-3863-4103-aba2-7ff77cc2a066"
+        ],
+        "accept-language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.24410.01",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.0.1-preview"
+        ]
+      },
+      "ResponseBody": "",
+      "ResponseHeaders": {
+        "Content-Length": [
+          "0"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Date": [
+          "Thu, 16 Feb 2017 09:47:25 GMT"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-request-id": [
+          "241dd0db-184a-4cf4-adbb-ac9f539f290a"
+        ],
+        "x-ms-client-request-id": [
+          "bcd99166-3863-4103-aba2-7ff77cc2a066"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1198"
+        ],
+        "x-ms-correlation-request-id": [
+          "241dd0db-184a-4cf4-adbb-ac9f539f290a"
+        ],
+        "x-ms-routing-request-id": [
+          "SOUTHINDIA:20170216T094726Z:241dd0db-184a-4cf4-adbb-ac9f539f290a"
+        ]
+      },
+      "StatusCode": 200
+    }
+  ],
+  "Names": {},
+  "Variables": {
+    "SubscriptionId": "c183865e-6077-46f2-a3b1-deb0f4f4650a"
+  }
+}
