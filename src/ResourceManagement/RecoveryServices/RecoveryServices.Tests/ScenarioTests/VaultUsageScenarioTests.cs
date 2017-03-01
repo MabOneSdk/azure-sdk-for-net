@@ -54,5 +54,36 @@ namespace Microsoft.Azure.Management.RecoveryServices.Tests
                 }
             }
         }
+
+        [Fact]
+        public void RetrieveVaultReplicationUsages()
+        {
+            using (var context = MockContext.Start(this.GetType().FullName))
+            {
+                using (RecoveryServicesTestBase _testFixture = new RecoveryServicesTestBase(context))
+                {
+                    string vaultName = VaultDefinition.TestCrud.VaultName;
+
+                    _testFixture.CreateVault(vaultName);
+                    var vault = _testFixture.GetVault(vaultName);
+                    Assert.NotNull(vault);
+
+                    var vaults = _testFixture.ListVaults();
+                    Assert.NotNull(vaults);
+                    Assert.NotEmpty(vaults);
+                    Assert.True(vaults.Any(v => v.Name == vaultName));
+
+                    var response = _testFixture.ListVaultReplicationUsages(vaultName);
+
+                    Assert.NotNull(response);
+                    foreach (var replicationUsage in response)
+                    {
+                        Assert.NotNull(replicationUsage.JobsSummary);
+                        Assert.NotNull(replicationUsage.MonitoringSummary);
+                        Assert.True(replicationUsage.ProtectedItemCount >=0 );
+                    }
+                }
+            }
+        }
     }
 }
