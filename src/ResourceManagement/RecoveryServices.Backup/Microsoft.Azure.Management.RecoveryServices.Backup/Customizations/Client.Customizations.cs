@@ -26,11 +26,6 @@ namespace Microsoft.Azure.Management.RecoveryServices.Backup
 
         partial void CustomInitialize()
         {
-            var iso8601TimeSpanConverter = DeserializationSettings.Converters.First(conv => conv is Iso8601TimeSpanConverter);
-            if (iso8601TimeSpanConverter != null)
-            {
-                DeserializationSettings.Converters.Remove(iso8601TimeSpanConverter);
-            }
         }
     }
 }
